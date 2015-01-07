@@ -4,8 +4,8 @@ Helper provides easy way to render search form based on search parameters.
 
 ### Search Helper methods
 
-* **inputs(PlumSearch\FormParameter\ParameterRegistry $parameters, $options = []):** Returns all registered parameters options in Form::inputs format.
-* **input(PlumSearch\FormParameter\BaseParameter $parameter, $options = []):** Returns single parameter options in Form::input format. Default parameter settings could be overwritten by second parameter.
+* ```inputs(PlumSearch\FormParameter\ParameterRegistry $parameters, $options = []):``` Returns all registered parameters options in Form::inputs format.
+* ```input(PlumSearch\FormParameter\BaseParameter $parameter, $options = []):``` Returns single parameter options in Form::input format. Default parameter settings could be overwritten by second parameter.
 
 ### Search element
 
