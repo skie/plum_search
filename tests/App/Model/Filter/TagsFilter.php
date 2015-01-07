@@ -36,9 +36,11 @@ class TagsFilter extends AbstractFilter
         ->matching('Tags', function ($q) use ($value, $alias) {
             return $q->where([
                 'Tags.name' => $value,
-                "ArticlesTags.article_id = $alias.id",
             ]);
-        });
+        })
+        ->where([
+            "ArticlesTags.article_id = $alias.id"
+        ]);
 
         return $query
         ->where([new UnaryExpression('EXISTS', $tags)]);
