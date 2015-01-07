@@ -14,8 +14,8 @@ namespace PlumSearch\Test\TestCase\Model\Filter;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use PlumSearch\Model;
-use PlumSearch\Model\Filter\LikeFilter;
 use PlumSearch\Model\FilterRegistry;
+use PlumSearch\Model\Filter\LikeFilter;
 
 /**
  * PlumSearch\Model\Filter\LikeFilter Test Case

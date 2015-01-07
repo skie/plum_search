@@ -14,8 +14,8 @@ namespace PlumSearch\Test\TestCase\FormParameter;
 use Cake\Network\Request;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\FormParameter\SelectParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
+use PlumSearch\FormParameter\SelectParameter;
 
 /**
  * Class SelectParameterTest
