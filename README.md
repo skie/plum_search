@@ -1,5 +1,10 @@
 # CakePHP PlumSearch Plugin
 
+[![Travis Status](https://api.travis-ci.org/skie/plum_search.png?branch=master)](http://travis-ci.org/skie/plum_search)
+[![Downloads](https://poser.pugx.org/skie/cakephp-search/d/total.png)](https://packagist.org/packages/skie/cakephp-search)
+[![Current Version](https://poser.pugx.org/skie/cakephp-search/v/stable.png)](https://packagist.org/packages/skie/cakephp-search)
+
+
 Plugin implements highly configurable search strategy.
 
 ### Planned Release Cycle:
