@@ -108,7 +108,7 @@ class FilterBehaviorTest extends TestCase
         $this->assertEquals(count($result), 3);
 
         $filterParameters = [
-            'title' => 'first',
+            'title' => 'First',
             'tag' => 'tag1',
         ];
         $result = $this->Articles->find('filters', $filterParameters)->hydrate(false)->toArray();
@@ -122,7 +122,7 @@ class FilterBehaviorTest extends TestCase
         $this->assertEquals($expected, $result);
 
         $filterParameters = [
-            'title' => 'first',
+            'title' => 'First',
             'tag' => 'tag3',
         ];
         $result = $this->Articles->find('filters', $filterParameters)->hydrate(false)->toArray();
