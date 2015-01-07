@@ -29,8 +29,8 @@ class FilterBehaviorTest extends TestCase
      */
     public $fixtures = [
         'plugin.plum_search.articles',
-        'plugin.plum_search.articles_tags',
         'plugin.plum_search.tags',
+        'plugin.plum_search.articles_tags',
         'plugin.plum_search.authors',
     ];
 
