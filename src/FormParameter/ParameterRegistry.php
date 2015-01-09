@@ -47,8 +47,6 @@ class ParameterRegistry extends ObjectRegistry
     {
         if ($Controller) {
             $this->_Controller = $Controller;
-            $modelClass = $this->_Controller->modelClass;
-            $this->_formName = $this->_Controller->{$modelClass}->alias();
             $this->config($options);
         }
     }
