@@ -74,7 +74,6 @@ class SelectParameter extends BaseParameter
 
         if (!array_key_exists('options', $formConfig)) {
             $options = $this->config('options');
-            /** @var Query $finder */
             $finder = $this->config('finder');
             if (!empty($options) && is_array($options)) {
                 $formConfig['options'] = $options;
