@@ -14,12 +14,12 @@ namespace PlumSearch\Test\TestCase\View\Helper;
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\ORM\Query;
+use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use PlumSearch\Test\App\Controller\ArticlesController;
 use PlumSearch\Test\App\Controller\ExtArticlesController;
 use PlumSearch\View\Helper\SearchHelper;
-use Cake\Routing\Router;
 
 /**
  * PlumSearch\View\Helper\SearchHelper Test Case
@@ -152,16 +152,16 @@ class SearchHelperTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-		Router::scope('/', function ($routes) {
-			$routes->connect(
-				'/articles/autocomplete',
-				['controller' => 'Articles', 'action' => 'autocomplete']
-			);
-		});
-		
+        Router::scope('/', function ($routes) {
+            $routes->connect(
+                '/articles/autocomplete',
+                ['controller' => 'Articles', 'action' => 'autocomplete']
+            );
+        });
+
         $request = $request = new Request([
             'webroot' => '/articles/',
-			'params' => [
+            'params' => [
                 'controller' => 'Articles',
                 'action' => 'index',
                 'pass' => [],

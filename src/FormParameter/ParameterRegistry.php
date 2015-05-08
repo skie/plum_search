@@ -198,13 +198,14 @@ class ParameterRegistry extends ObjectRegistry
 
         return $this->formName . '.' . $name;
     }
-	
+
     /**
      * Returns controller instance.
      *
      * @return Cake\Controller\Controller
      */
-	public function controller() {
-		return $this->_Controller;
-	}
+    public function controller()
+    {
+        return $this->_Controller;
+    }
 }

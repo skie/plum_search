@@ -58,9 +58,9 @@ class AutocompleteParameter extends BaseParameter
      */
     public function autocompleteUrl()
     {
-		$request = $this->_registry->controller()->request;
+        $request = $this->_registry->controller()->request;
         return Router::url([
-			'controller' => $request->controller,
+            'controller' => $request->controller,
             'action' => 'autocomplete',
         ]);
     }
