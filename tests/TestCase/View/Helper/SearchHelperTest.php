@@ -19,6 +19,7 @@ use Cake\View\View;
 use PlumSearch\Test\App\Controller\ArticlesController;
 use PlumSearch\Test\App\Controller\ExtArticlesController;
 use PlumSearch\View\Helper\SearchHelper;
+use Cake\Routing\Router;
 
 /**
  * PlumSearch\View\Helper\SearchHelper Test Case
@@ -68,8 +69,9 @@ class SearchHelperTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = $request = new Request([
-            'webroot' => '/dir/',
+            'webroot' => '/articles/',
             'params' => [
+                'controller' => 'Articles',
                 'action' => 'index',
                 'pass' => [],
             ],
@@ -117,8 +119,9 @@ class SearchHelperTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = $request = new Request([
-            'webroot' => '/dir/',
+            'webroot' => '/articles/',
             'params' => [
+                'controller' => 'Articles',
                 'action' => 'index',
                 'pass' => [],
             ],
@@ -148,9 +151,18 @@ class SearchHelperTest extends TestCase
     public function testInputsExt()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
+
+		Router::scope('/', function ($routes) {
+			$routes->connect(
+				'/articles/autocomplete',
+				['controller' => 'Articles', 'action' => 'autocomplete']
+			);
+		});
+		
         $request = $request = new Request([
-            'webroot' => '/dir/',
-            'params' => [
+            'webroot' => '/articles/',
+			'params' => [
+                'controller' => 'Articles',
                 'action' => 'index',
                 'pass' => [],
             ],
@@ -183,7 +195,7 @@ class SearchHelperTest extends TestCase
                 'type' => 'text',
                 'required' => false,
                 'label' => 'Author',
-                'data-url' => '/autocomplete',
+                'data-url' => '/articles/autocomplete',
                 'class' => 'autocomplete',
                 'data-name' => 'author_id',
             ],
