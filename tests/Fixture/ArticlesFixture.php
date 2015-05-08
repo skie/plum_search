@@ -43,5 +43,4 @@ class ArticlesFixture extends TestFixture
         ['author_id' => 3, 'title' => 'Second Article', 'body' => 'Second Article Body', 'published' => 'Y'],
         ['author_id' => 1, 'title' => 'Third Article', 'body' => 'Third Article Body', 'published' => 'Y'],
     ];
-
 }

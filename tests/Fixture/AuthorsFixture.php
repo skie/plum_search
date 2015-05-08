@@ -40,5 +40,4 @@ class AuthorsFixture extends TestFixture
         ['name' => 'mark'],
         ['name' => 'larry'],
     ];
-
 }
