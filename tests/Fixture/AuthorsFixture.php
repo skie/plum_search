@@ -24,20 +24,21 @@ class AuthorsFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = array(
+    public $fields = [
         'id' => ['type' => 'integer'],
         'name' => ['type' => 'string', 'default' => null],
         '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
-    );
+    ];
 
     /**
      * records property
      *
      * @var array
      */
-    public $records = array(
-        array('name' => 'evgeny'),
-        array('name' => 'mark'),
-        array('name' => 'larry'),
-    );
+    public $records = [
+        ['name' => 'evgeny'],
+        ['name' => 'mark'],
+        ['name' => 'larry'],
+    ];
+
 }
