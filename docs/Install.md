@@ -28,8 +28,8 @@ Plugin::loadAll(...);
 Internally (method access), you don't use the namespace declaration. The plugin name suffices:
 ```php
 // In a Table
-$this->addBehavior('PlumSeach.Filter');
+$this->addBehavior('PlumSearch.Filter');
 
 // In a Controller
-public $helpers = ['PlumSeach.Search'];
+public $helpers = ['PlumSearch.Search'];
 ```
