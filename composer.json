@@ -19,7 +19,7 @@
 		}
 	],
 	"require":{
-		"cakephp/cakephp": "~3.*",
+		"cakephp/cakephp": "3.*",
 		"cakephp/plugin-installer": "*"
 	},
 	"require-dev": {
