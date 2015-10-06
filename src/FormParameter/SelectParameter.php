@@ -44,6 +44,9 @@ class SelectParameter extends BaseParameter
     public function __construct(ParameterRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
+        if ($this->_allowedEmptyOptions()) {
+            return;
+        }
         if (empty($config['options']) || !is_array($config['options'])) {
             if (empty($config['finder'])) {
                 throw new MissingParameterException(
@@ -77,11 +80,24 @@ class SelectParameter extends BaseParameter
             $finder = $this->config('finder');
             if (!empty($options) && is_array($options)) {
                 $formConfig['options'] = $options;
+            } elseif ($this->_allowedEmptyOptions()) {
             } elseif (!empty($finder)) {
                 $formConfig['options'] = $finder;
             }
         }
 
         return $formConfig;
+    }
+
+    /**
+     * Check if empty options allowed
+     *
+     * @return bool
+     */
+    protected function _allowedEmptyOptions()
+    {
+        $options = $this->config('options');
+        $allowEmptyOptions = $this->config('allowEmptyOptions');
+        return is_array($options) && !empty($allowEmptyOptions);
     }
 }
