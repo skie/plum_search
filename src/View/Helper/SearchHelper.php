@@ -37,7 +37,8 @@ class SearchHelper extends Helper
     {
         $result = [];
         $entityName = Inflector::singularize($parameters->formName);
-        foreach ($parameters->collection() as $primaryParameter) {
+        $collection = $parameters->collection(isset($options['collectionMethod']) ? $options['collectionMethod'] : null);
+        foreach ($collection as $primaryParameter) {
             foreach ($primaryParameter->viewValues() as $param) {
                 $name = $param->config('name');
                 $inputOptions = array_key_exists($name, $options) ? $options[$name] : [];
