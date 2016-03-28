@@ -16,7 +16,7 @@ namespace PlumSearch\FormParameter;
  *
  * @package PlumSearch\FormParameter
  */
-class MultipleParam extends SelectParameter
+class MultipleParameter extends SelectParameter
 {
     /**
      * Default configuration
@@ -27,7 +27,7 @@ class MultipleParam extends SelectParameter
         'visible' => true,
         'formConfig' => [
             'type' => 'select',
-            'multiple' => 'checkbox',
+            'multiple' => true,
         ],
     ];
 }
