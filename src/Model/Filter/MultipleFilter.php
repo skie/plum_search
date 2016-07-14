@@ -52,13 +52,22 @@ class MultipleFilter extends AbstractFilter
         $type = $this->config('type');
         $value = '%' . $value . '%';
         $fields = $this->config('fields');
+        $typesMap = $this->config('fieldTypes');
+        $types = [];
+        foreach ($fields as $field) {
+            if (is_array($typesMap) && array_key_exists($field, $typesMap)) {
+                $types[$field] = $typesMap[$field];
+            } else {
+                $types[$field] = null;
+            }
+        }
         if (empty($type)) {
             $type = 'and';
         }
-        return $query->where(function ($exp) use (&$query, $value, $type, $fields) {
-            return $exp->{$type . '_'}(function ($ex) use ($value, $fields) {
-                collection($fields)->each(function ($field) use ($value, &$ex) {
-                    return $ex->like($field, $value);
+        return $query->where(function ($exp) use (&$query, $value, $type, $fields, $types) {
+            return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types) {
+                collection($fields)->each(function ($field) use ($value, &$ex, $types) {
+                    return $ex->like($field, $value, $types[$field]);
                 });
                 return $ex;
             });

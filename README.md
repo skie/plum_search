@@ -8,12 +8,9 @@
 
 Plugin implements highly configurable search strategy.
 
-### Planned Release Cycle:
-Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
-
 ### What is this plugin for?
 
-This plugin implements custom, flexible search with multiple ways of search configuration for cakephp 3.0. 
+This plugin implements custom, flexible search with multiple ways of search configuration for cakephp 3.* 
 Plugin provides search support on tables, controllers and templates layers.
 
 ### Provided features
