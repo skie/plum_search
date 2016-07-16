@@ -64,11 +64,13 @@ class MultipleFilter extends AbstractFilter
         if (empty($type)) {
             $type = 'and';
         }
+
         return $query->where(function ($exp) use (&$query, $value, $type, $fields, $types) {
             return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types) {
                 collection($fields)->each(function ($field) use ($value, &$ex, $types) {
                     return $ex->like($field, $value, $types[$field]);
                 });
+
                 return $ex;
             });
         });

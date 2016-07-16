@@ -98,6 +98,7 @@ class SelectParameter extends BaseParameter
     {
         $options = $this->config('options');
         $allowEmptyOptions = $this->config('allowEmptyOptions');
+
         return is_array($options) && !empty($allowEmptyOptions);
     }
 }

@@ -118,6 +118,7 @@ class ParameterRegistry extends ObjectRegistry
         if (is_callable($collectionMethod)) {
             return $collectionMethod($collection);
         }
+
         return $collection;
     }
 
@@ -142,6 +143,7 @@ class ParameterRegistry extends ObjectRegistry
                 return $this->_Controller->request->data($this->fieldName($name));
             }
         }
+
         return null;
     }
 

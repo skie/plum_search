@@ -50,6 +50,7 @@ class SearchHelper extends Helper
                 $result[$field] = $input;
             }
         }
+
         return $result;
     }
 
@@ -67,6 +68,7 @@ class SearchHelper extends Helper
         $this->_setOptions($input, $param);
         $this->_applyAutocompleteOptions($input, $param);
         $input = Hash::merge($input, $options);
+
         return $input;
     }
 
@@ -88,6 +90,7 @@ class SearchHelper extends Helper
         if (!$param->visible()) {
             $input['type'] = 'hidden';
         }
+
         return $input;
     }
 
@@ -104,6 +107,7 @@ class SearchHelper extends Helper
         if (!empty($value)) {
             $input['value'] = $value;
         }
+
         return $input;
     }
 
@@ -119,6 +123,7 @@ class SearchHelper extends Helper
         if ($param->hasOptions()) {
             $input['empty'] = true;
         }
+
         return $input;
     }
 
@@ -136,6 +141,7 @@ class SearchHelper extends Helper
             $input['class'] = 'autocomplete';
             $input['data-name'] = $param->config('name');
         }
+
         return $input;
     }
 }
