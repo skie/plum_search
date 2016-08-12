@@ -64,8 +64,7 @@ abstract class AbstractFilter
     {
         if ($this->_applicable($data)) {
             $field = $this->config('field');
-            // avoid sql ambiguous field error
-            if (strpos($field, '.') === false) {
+            if (is_string($field) && (strpos($field, '.') === false)) {
                 $field = $query->repository()->alias() . '.' . $field;
             }
 
