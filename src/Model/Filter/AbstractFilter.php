@@ -64,6 +64,9 @@ abstract class AbstractFilter
     {
         if ($this->_applicable($data)) {
             $field = $this->config('field');
+            if (is_string($field) && (strpos($field, '.') === false)) {
+                $field = $query->repository()->alias() . '.' . $field;
+            }
 
             return $this->_buildQuery($query, $field, $this->_value($data), $data);
         }
