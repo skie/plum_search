@@ -1,6 +1,5 @@
 {
 	"name":"skie/cakephp-search",
-	"version": "1.0.0",
 	"description":"CakePHP Plum Search plugin",
 	"type":"cakephp-plugin",
 	"keywords":[
