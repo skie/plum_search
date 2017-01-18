@@ -214,4 +214,6 @@ class ParameterRegistry extends ObjectRegistry
     {
         return $this->_Controller;
     }
+
+    public function __debugInfo() { return []; }
 }
