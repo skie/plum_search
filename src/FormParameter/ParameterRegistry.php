@@ -214,4 +214,14 @@ class ParameterRegistry extends ObjectRegistry
     {
         return $this->_Controller;
     }
+
+    /**
+     * Returns an array that can be used to describe the internal state of this
+     * object.
+     *
+     * @return array
+     */
+    public function __debugInfo() {
+        return [];
+    }
 }
