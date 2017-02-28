@@ -215,13 +215,13 @@ class FilterComponent extends Component
         if ($this->config('filterEmptyParams')) {
             $searchParams = array_filter(
                     $searchParams,
-                    function ($v, $k) {
+                    function ($v) {
                         if (($v === 0) || ($v === '0')) {
                             return true;
                         }
+
                         return (bool)$v;
-                    },
-                    ARRAY_FILTER_USE_BOTH
+                    }
             );
         }
         $params['?'] = $searchParams;
