@@ -221,7 +221,8 @@ class ParameterRegistry extends ObjectRegistry
      *
      * @return array
      */
-    public function __debugInfo() {
+    public function __debugInfo()
+    {
         return [];
     }
 }

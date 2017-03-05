@@ -52,7 +52,6 @@ class ValueFilterTest extends TestCase
         parent::tearDown();
     }
 
-
     /**
      * Test constructor method
      *

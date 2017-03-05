@@ -47,9 +47,9 @@ class MultipleFilterTest extends TestCase
         parent::tearDown();
     }
 
-
     /**
      * Data providor for testApply method
+     *
      * @return array
      */
     public function applyDataProvider()
