@@ -31,9 +31,9 @@ class ParameterRegistryTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $controller = $this->getMock('Cake\Controller\Controller', ['redirect']);
-        // $controller->request = new Request(['webroot' => '/dir/']);
-        // $controller->response = new Response();
+        $controller = $this->getMockBuilder('Cake\Controller\Controller')
+            ->setMethods(['redirect'])
+            ->getMock();
         $this->ParameterRegistry = new ParameterRegistry($controller);
     }
 

@@ -58,7 +58,9 @@ class FilterComponentTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->Controller = $this->getMock('Cake\Controller\Controller', ['redirect']);
+        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
+            ->setMethods(['redirect'])
+            ->getMock();
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
     }
@@ -118,7 +120,9 @@ class FilterComponentTest extends TestCase
      */
     public function testPrgPost()
     {
-        $this->Controller = $this->getMock('Cake\Controller\Controller', ['redirect']);
+        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
+            ->setMethods(['redirect'])
+            ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->Controller->request = new Request([
             'webroot' => '/dir/',
@@ -171,11 +175,10 @@ class FilterComponentTest extends TestCase
             ],
         ]);
         $response = new Response();
-        $this->Controller = $this->getMock('PlumSearch\Test\App\Controller\ArticlesController', ['redirect'], [
-            $request,
-            $response,
-            'Articles'
-        ]);
+        $this->Controller = $this->getMockBuilder('PlumSearch\Test\App\Controller\ArticlesController')
+            ->setMethods(['redirect'])
+            ->setConstructorArgs([$request, $response, 'Articles'])
+            ->getMock();
 
         $redirectExpectation = [
                 '?' => [
@@ -225,7 +228,9 @@ class FilterComponentTest extends TestCase
     {
         $this->assertEquals($this->Component->values(), []);
 
-        $this->Controller = $this->getMock('Cake\Controller\Controller', ['redirect']);
+        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
+            ->setMethods(['redirect'])
+            ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->Controller->request = new Request([
             'webroot' => '/dir/',
