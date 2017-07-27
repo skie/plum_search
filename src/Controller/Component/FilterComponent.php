@@ -233,16 +233,17 @@ class FilterComponent extends Component
         $this->controller()->set('searchParameters', $this->parameters());
     }
 }
-//adapted from http://php.net/manual/en/function.array-filter.php#87581
+    /**
+     * Recursively calls array_filter for nested arrays
+     * adapted from http://php.net/manual/en/function.array-filter.php#87581
+     */
 function array_filter_recursive($input, $callback = null)
-  {
-    foreach ($input as &$value)
-    {
-      if (is_array($value))
-      {
-        $value = array_filter_recursive($value, $callback);
-      }
+{
+    foreach ($input as &$value) {
+        if (is_array($value)) {
+            $value = array_filter_recursive($value, $callback);
+        }
     }
 
     return $callback? array_filter($input, $callback) : array_filter($input);
-  }
+}
