@@ -171,6 +171,11 @@ abstract class BaseParameter
         return $this->value;
     }
 
+    public function isEmpty()
+    {
+        return $this->value === null || is_string($this->value) && $this->value == '';
+    }
+
     public function __toString()
     {
         return (string)$this->value;

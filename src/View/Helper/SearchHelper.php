@@ -104,7 +104,7 @@ class SearchHelper extends Helper
     protected function _setValue(&$input, $param)
     {
         $value = $param->value();
-        if (!empty($value)) {
+        if (!$param->isEmpty()) {
             $input['value'] = $value;
         }
 
