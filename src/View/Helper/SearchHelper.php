@@ -106,6 +106,8 @@ class SearchHelper extends Helper
         $value = $param->value();
         if (!$param->isEmpty()) {
             $input['value'] = $value;
+        } else {
+            $input['value'] = '';
         }
 
         return $input;
