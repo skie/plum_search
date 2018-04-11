@@ -216,9 +216,12 @@ class FilterComponent extends Component
             $searchParams = array_filter($searchParams);
         }
         $params['?'] = $searchParams;
+        $params = array_merge($params, $searchParams);
 
         $params['action'] = $action;
         $this->controller()->redirect($params);
+        $this->controller()->response->send();
+        $this->controller()->response->stop();
     }
 
     /**
