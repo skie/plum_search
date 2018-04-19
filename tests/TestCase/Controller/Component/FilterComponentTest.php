@@ -144,6 +144,7 @@ class FilterComponentTest extends TestCase
                     'username' => 'admin',
                 ],
                 'action' => 'index',
+                'username' => 'admin',
         ];
         $this->Controller->expects($this->once())
             ->method('redirect')
@@ -185,6 +186,7 @@ class FilterComponentTest extends TestCase
                     'title' => 'first',
                 ],
                 'action' => 'index',
+                'title' => 'first',
         ];
         $this->Controller->expects($this->once())
             ->method('redirect')

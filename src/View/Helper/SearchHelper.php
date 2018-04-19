@@ -40,10 +40,10 @@ class SearchHelper extends Helper
         $collection = $parameters->collection(isset($options['collectionMethod']) ? $options['collectionMethod'] : null);
         foreach ($collection as $primaryParameter) {
             foreach ($primaryParameter->viewValues() as $param) {
-                $name = $param->config('name');
+                $name = $param->getConfig('name');
                 $inputOptions = array_key_exists($name, $options) ? $options[$name] : [];
                 $input = $this->input($param, $inputOptions);
-                $field = $param->config('field');
+                $field = $param->getConfig('field');
                 if (!empty($entityName)) {
                     $field = "$entityName.$field";
                 }
@@ -81,7 +81,7 @@ class SearchHelper extends Helper
     protected function _defaultInput($param)
     {
         $input = $param->formInputConfig();
-        $name = $param->config('name');
+        $name = $param->getConfig('name');
         $input += [
             'type' => 'text',
             'required' => false,
@@ -141,7 +141,7 @@ class SearchHelper extends Helper
         if ($param instanceof AutocompleteParameter) {
             $input['data-url'] = $param->autocompleteUrl();
             $input['class'] = 'autocomplete';
-            $input['data-name'] = $param->config('name');
+            $input['data-name'] = $param->getConfig('name');
         }
 
         return $input;

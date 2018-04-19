@@ -30,7 +30,7 @@ class TagsFilter extends AbstractFilter
     protected function _buildQuery(Query $query, $field, $value, array $data = [])
     {
         // @todo bind to parent Articles.id using initialization parameter
-        $alias = $query->repository()->alias();
+        $alias = $query->getRepository()->getAlias();
 
         $tags = TableRegistry::get('ArticlesTags')->find('all')
         ->matching('Tags', function ($q) use ($value, $alias) {

@@ -11,8 +11,8 @@
  */
 namespace PlumSearch\Test\TestCase\View\Helper;
 
-use Cake\Network\Request;
-use Cake\Network\Response;
+use Cake\Http\ServerRequest;
+use Cake\Http\Response;
 use Cake\ORM\Query;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
@@ -68,7 +68,7 @@ class SearchHelperTest extends TestCase
     public function testInputs()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new Request([
+        $request = $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',
@@ -104,6 +104,7 @@ class SearchHelperTest extends TestCase
                 ],
                 'required' => false,
                 'label' => 'Author',
+                'value' => '',
                 'empty' => true,
             ],
         ];
@@ -118,7 +119,7 @@ class SearchHelperTest extends TestCase
     public function testInput()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new Request([
+        $request = $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',
@@ -159,7 +160,7 @@ class SearchHelperTest extends TestCase
             );
         });
 
-        $request = $request = new Request([
+        $request = $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',
@@ -198,11 +199,13 @@ class SearchHelperTest extends TestCase
                 'data-url' => '/articles/autocomplete',
                 'class' => 'autocomplete',
                 'data-name' => 'author_id',
+                'value' => '',
             ],
             'Article.author_id' => [
                 'type' => 'hidden',
                 'required' => false,
                 'label' => 'Author',
+                'value' => '',
             ],
         ];
         $this->assertEquals($expected, $inputs);

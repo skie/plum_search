@@ -38,6 +38,7 @@ require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
 require ROOT . '/vendor/autoload.php';
 
 Cake\Core\Configure::write('App', ['namespace' => 'PlumSearch\Test\App']);
+// Cake\Core\Configure::write('Error', ['errorLevel' => E_ALL ^ E_USER_DEPRECATED]);
 Cake\Core\Configure::write('debug', true);
 
 $TMP = new \Cake\Filesystem\Folder(TMP);
@@ -65,7 +66,7 @@ $cache = [
     ],
 ];
 
-Cake\Cache\Cache::config($cache);
+Cake\Cache\Cache::setConfig($cache);
 Cake\Core\Configure::write('Session', [
     'defaults' => 'php'
 ]);
@@ -83,7 +84,14 @@ if (!getenv('db_dsn')) {
     putenv('db_dsn=sqlite:///:memory:');
 }
 
-Cake\Datasource\ConnectionManager::config('test', [
+Cake\Datasource\ConnectionManager::setConfig('test', [
     'url' => getenv('db_dsn'),
     'timezone' => 'UTC'
 ]);
+
+//$isCli = PHP_SAPI === 'cli';
+//if ($isCli) {
+//    (new Cake\Console\ConsoleErrorHandler(Cake\Core\Configure::read('Error')))->register();
+//} else {
+//     (new Cake\Error\ErrorHandler(Cake\Core\Configure::read('Error')))->register();
+//}

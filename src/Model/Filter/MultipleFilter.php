@@ -33,8 +33,8 @@ class MultipleFilter extends AbstractFilter
     public function __construct(FilterRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
-        if (is_null($this->config('type')) || !in_array($this->config('type'), [self::TYPE_AND, self::TYPE_OR])) {
-            $this->config('type', self::TYPE_OR);
+        if (is_null($this->getConfig('type')) || !in_array($this->getConfig('type'), [self::TYPE_AND, self::TYPE_OR])) {
+            $this->setConfig('type', self::TYPE_OR);
         }
     }
 
@@ -49,10 +49,10 @@ class MultipleFilter extends AbstractFilter
      */
     protected function _buildQuery(Query $query, $field, $value, array $data = [])
     {
-        $type = $this->config('type');
+        $type = $this->getConfig('type');
         $value = '%' . $value . '%';
-        $fields = $this->config('fields');
-        $typesMap = $this->config('fieldTypes');
+        $fields = $this->getConfig('fields');
+        $typesMap = $this->getConfig('fieldTypes');
         $types = [];
         foreach ($fields as $field) {
             if (is_array($typesMap) && array_key_exists($field, $typesMap)) {

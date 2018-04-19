@@ -42,10 +42,10 @@ class AutocompleteParameter extends BaseParameter
     {
         parent::__construct($registry, $config);
         $config['field'] = $config['name'] . '_lookup';
-        $this->config($config);
+        $this->setConfig($config);
         if (empty($config['autocompleteAction']) || !is_callable($config['autocompleteAction'])) {
             throw new MissingParameterException(
-                __('Missed "autocompleteAction" configuration setting for select param `{0}`', $this->config('name'))
+                __('Missed "autocompleteAction" configuration setting for select param `{0}`', $this->getConfig('name'))
             );
         }
     }
@@ -58,10 +58,10 @@ class AutocompleteParameter extends BaseParameter
      */
     public function autocompleteUrl()
     {
-        $request = $this->_registry->controller()->request;
+        $request = $this->_registry->controller()->getRequest();
 
         return Router::url([
-            'controller' => $request->controller,
+            'controller' => $request->getParam('controller'),
             'action' => 'autocomplete',
         ]);
     }
@@ -73,7 +73,7 @@ class AutocompleteParameter extends BaseParameter
      */
     public function initializeInnerParameters()
     {
-        $paramName = $this->config('name');
+        $paramName = $this->getConfig('name');
         $this->_dependentParameters[$paramName] = new HiddenParameter($this->_registry, [
             'name' => $paramName
         ]);
@@ -86,8 +86,8 @@ class AutocompleteParameter extends BaseParameter
      */
     public function values()
     {
-        $name = $this->config('field');
-        $paramName = $this->config('name');
+        $name = $this->getConfig('field');
+        $paramName = $this->getConfig('name');
         $param = $this->_dependentParameters[$paramName];
 
         return [

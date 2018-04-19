@@ -90,7 +90,7 @@ class MultipleFilterTest extends TestCase
         $store->traverse(function ($d) use (&$store2) {
             $store2 = $d;
         }, ['where']);
-        $this->assertEquals(__('(title LIKE :c0 {0} body LIKE :c1)', $operator), $store->sql($query->valueBinder()));
+        $this->assertEquals(__('(title LIKE :c0 {0} body LIKE :c1)', $operator), $store->sql($query->getValueBinder()));
         $this->assertEquals('%test%', $store2->getValue());
     }
 }

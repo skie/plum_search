@@ -132,15 +132,15 @@ class ParameterRegistry extends ObjectRegistry
     {
         if ($this->_Controller->request->is('get')) {
             if (empty($name)) {
-                return $this->_Controller->request->query;
+                return $this->_Controller->getRequest()->getQueryParams();
             } else {
-                return $this->_Controller->request->query($name);
+                return $this->_Controller->getRequest()->getQuery($name);
             }
         } elseif ($this->_Controller->request->is(['post', 'put'])) {
             if (empty($name)) {
-                return $this->_Controller->request->data[$this->formName];
+                return $this->_Controller->getRequest()->getData($this->formName);
             } else {
-                return $this->_Controller->request->data($this->fieldName($name));
+                return $this->_Controller->getRequest()->getData($this->fieldName($name));
             }
         }
 

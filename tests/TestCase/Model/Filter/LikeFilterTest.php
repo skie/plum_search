@@ -68,7 +68,7 @@ class LikeFilterTest extends TestCase
             $store2 = $d;
         }, ['where']);
 
-        $this->assertEquals($store2->sql($query->valueBinder()), 'Articles.name LIKE :c0');
+        $this->assertEquals($store2->sql($query->getValueBinder()), 'Articles.name LIKE :c0');
         $this->assertEquals($store2->getValue(), '%test%');
     }
 }

@@ -56,20 +56,30 @@ class AutocompleteTraitTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testAutocomplete()
+    public function testAutocompleteSuccess()
     {
-        $this->get('/ExtArticles/autocomplete?query=%');
-        $response = json_decode($this->_response->body());
-        $this->assertEquals([], $response->data);
-        $this->assertEquals('error', $response->status);
-        $this->assertEquals('Field not found', $response->message);
-
+        $this->useHttpServer(true);
         $this->get('/ExtArticles/autocomplete?query=r&parameter=author_id');
-        $response = json_decode($this->_response->body(), true);
+        $response = json_decode($this->_response->getBody(), true);
         $this->assertEquals('success', $response['status']);
         $this->assertEquals([
             ['id' => 2, 'value' => 'mark'],
             ['id' => 3, 'value' => 'larry'],
         ], $response['data']);
     }
+
+    /**
+     * Test autocomplete method
+     *
+     * @return void
+     */
+     public function testAutocompleteFail()
+     {
+         $this->useHttpServer(true);
+         $this->get('/ExtArticles/autocomplete?query=%');
+         $response = json_decode($this->_response->getBody(), true);
+         $this->assertEquals([], $response['data']);
+         $this->assertEquals('error', $response['status']);
+         $this->assertEquals('Field not found', $response['message']);
+     }
 }
