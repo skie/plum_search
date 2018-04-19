@@ -96,32 +96,32 @@ In controller load trait and define autocomplete parameter:
 ```php
 class UsersController extends AppController {
 
-	use AutocompleteTrait;
-	
-	public function initialize() {
-		$role = $this->Users->Roles;
-		$this->loadComponent('PlumSearch.Filter', [
-			'parameters' => [
-				[
-					'name' => 'role_id',
-					'className' => 'Autocomplete',
-					'autocompleteAction' => function($query) use ($role) {
-						return $role
-							->find('all')
-							->where(['name like' => '%' . $query . '%'])
-							->formatResults(function($roles) {
-								return $roles->map(function ($role) {
-									return [
-										'id' => $role['id'],
-										'value' => $role['name']
-									];
-								});
-							});
-					}
-				]					
-			]
-		]);
-	}
+    use AutocompleteTrait;
+    
+    public function initialize() {
+        $role = $this->Users->Roles;
+        $this->loadComponent('PlumSearch.Filter', [
+            'parameters' => [
+                [
+                    'name' => 'role_id',
+                    'className' => 'Autocomplete',
+                    'autocompleteAction' => function($query) use ($role) {
+                        return $role
+                            ->find('all')
+                            ->where(['name like' => '%' . $query . '%'])
+                            ->formatResults(function($roles) {
+                                return $roles->map(function ($role) {
+                                    return [
+                                        'id' => $role['id'],
+                                        'value' => $role['name']
+                                    ];
+                                });
+                            });
+                    }
+                ]                    
+            ]
+        ]);
+    }
 }
 ```
 

@@ -6,11 +6,11 @@ To implement search form you need perform next steps:
 ```php
 class UsersTable extends Table {
 
-	public function initialize(array $config) {
-		$this->addBehavior('PlumSearch.Filterable');
-		$this->addFilter('username', ['className' => 'Like']);
-		$this->addFilter('role_id', ['className' => 'Value']);		
-	}
+    public function initialize(array $config) {
+        $this->addBehavior('PlumSearch.Filterable');
+        $this->addFilter('username', ['className' => 'Like']);
+        $this->addFilter('role_id', ['className' => 'Value']);        
+    }
 
 }
 ``` 
@@ -20,21 +20,21 @@ class UsersTable extends Table {
 ```php
 class UsersController extends AppController {
 
-	public $helpers = [
-		'PlumSearch.Search'
-	];
+    public $helpers = [
+        'PlumSearch.Search'
+    ];
 
-	public function initialize() {
-		$this->loadComponent('PlumSearch.Filter', [
-			'parameters' => [
-				['name' => 'username', 'className' => 'Input'],
-				[
-					'name' => 'role_id',
-					'className' => 'Autocomplete',
-					 'finder' => $this->Users->Roles->find('list'),
-				]
-			]
-		]);
+    public function initialize() {
+        $this->loadComponent('PlumSearch.Filter', [
+            'parameters' => [
+                ['name' => 'username', 'className' => 'Input'],
+                [
+                    'name' => 'role_id',
+                    'className' => 'Autocomplete',
+                     'finder' => $this->Users->Roles->find('list'),
+                ]
+            ]
+        ]);
 
 }
 ``` 
@@ -42,13 +42,13 @@ class UsersController extends AppController {
 ## 3. Call Filter::prg method
 
 ```php
-	public function index() {
-		$this->set('users', $this->Paginator->paginate($this->Filter->prg($this->Users)));
-	}
+    public function index() {
+        $this->set('users', $this->Paginator->paginate($this->Filter->prg($this->Users)));
+    }
 ```
 
 ## 4. Render search form
 
 ```php
-	<?= $this->element('PlumSearch.search'); ?>
+    <?= $this->element('PlumSearch.search'); ?>
 ```

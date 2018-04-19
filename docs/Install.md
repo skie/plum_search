@@ -6,12 +6,12 @@ Installing the Plugin is pretty much as with every other CakePHP Plugin.
 Put the files in `ROOT/plugins/PlumSearch`, using Packagist/Composer:
 ```
 "require": {
-	"skie/cakephp-search": "dev-master"
+    "skie/cakephp-search": "dev-master"
 }
 ```
 and
 
-	composer update
+    composer update
 
 Details @ https://packagist.org/packages/skie/plum-search
 
