@@ -11,6 +11,7 @@
  */
 namespace PlumSearch\Test\TestCase\Controller;
 
+use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
@@ -38,6 +39,7 @@ class AutocompleteTraitTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+        Router::reload();
     }
 
     /**

@@ -224,8 +224,6 @@ class FilterComponent extends Component
 
         $emitter = new ResponseEmitter();
         $emitter->emit($this->controller()->getResponse());
-        // $this->controller()->getResponse()->send();
-        // $this->controller()->getResponse()->stop();
     }
 
     /**
