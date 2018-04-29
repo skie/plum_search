@@ -122,7 +122,7 @@ class SearchHelper extends Helper
      */
     protected function _setOptions(&$input, $param)
     {
-        if ($param->hasOptions()) {
+        if ($param->hasOptions() && !isset($input['empty'])) {
             $input['empty'] = true;
         }
 
