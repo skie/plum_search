@@ -11,8 +11,8 @@
  */
 namespace PlumSearch\Test\TestCase\View\Helper;
 
-use Cake\Http\ServerRequest;
 use Cake\Http\Response;
+use Cake\Http\ServerRequest;
 use Cake\ORM\Query;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;

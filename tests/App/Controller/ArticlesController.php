@@ -22,7 +22,6 @@ use PlumSearch\Test\App\Model\Table\ArticlesTable;
  */
 class ArticlesController extends AppController
 {
-    //	use AutocompleteTrait;
 
     public $helpers = [
         'PlumSearch.Search',

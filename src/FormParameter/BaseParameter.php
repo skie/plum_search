@@ -171,11 +171,21 @@ abstract class BaseParameter
         return $this->value;
     }
 
+    /**
+     * Checks if param value empty.
+     *
+     * @return bool
+     */
     public function isEmpty()
     {
         return $this->value === null || is_string($this->value) && $this->value == '';
     }
 
+    /**
+     * Transforms class to string value. Returns stored parameter value.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return (string)$this->value;

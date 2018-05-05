@@ -75,13 +75,13 @@ class AutocompleteTraitTest extends IntegrationTestCase
      *
      * @return void
      */
-     public function testAutocompleteFail()
-     {
-         $this->useHttpServer(true);
-         $this->get('/ExtArticles/autocomplete?query=%');
-         $response = json_decode($this->_response->getBody(), true);
-         $this->assertEquals([], $response['data']);
-         $this->assertEquals('error', $response['status']);
-         $this->assertEquals('Field not found', $response['message']);
-     }
+    public function testAutocompleteFail()
+    {
+        $this->useHttpServer(true);
+        $this->get('/ExtArticles/autocomplete?query=%');
+        $response = json_decode($this->_response->getBody(), true);
+        $this->assertEquals([], $response['data']);
+        $this->assertEquals('error', $response['status']);
+        $this->assertEquals('Field not found', $response['message']);
+    }
 }
