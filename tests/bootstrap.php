@@ -76,8 +76,8 @@ Cake\Core\Plugin::load('PlumSearch', [
     'autoload' => true
 ]);
 
-Cake\Routing\DispatcherFactory::add('Routing');
-Cake\Routing\DispatcherFactory::add('ControllerFactory');
+// Cake\Routing\DispatcherFactory::add('Routing');
+// Cake\Routing\DispatcherFactory::add('ControllerFactory');
 
 // Ensure default test connection is defined
 if (!getenv('db_dsn')) {
