@@ -84,7 +84,7 @@ class SearchHelperTest extends TestCase
         $this->Controller->index();
         $parameters = $this->Controller->viewVars['searchParameters'];
 
-        $inputs = $this->Search->inputs($parameters);
+        $inputs = $this->Search->controls($parameters);
         $this->assertEquals(count($inputs), 2);
         $this->assertTrue($inputs['Article.author_id']['options'] instanceof Query);
         $inputs['Article.author_id']['options'] = $inputs['Article.author_id']['options']->toArray();
@@ -184,7 +184,7 @@ class SearchHelperTest extends TestCase
         ];
         $this->assertEquals($input, $expected);
 
-        $inputs = $this->Search->inputs($parameters);
+        $inputs = $this->Search->controls($parameters);
         $expected = [
             'Article.title' => [
                 'type' => 'text',

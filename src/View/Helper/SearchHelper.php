@@ -27,13 +27,13 @@ class SearchHelper extends Helper
 {
 
     /**
-     * Build Form::inputs structure
+     * Builds Form::controls structure.
      *
      * @param ParameterRegistry $parameters Form parameters collection.
      * @param array $options Additional input options.
      * @return array
      */
-    public function inputs(ParameterRegistry $parameters, $options = [])
+    public function controls(ParameterRegistry $parameters, $options = [])
     {
         $result = [];
         $entityName = Inflector::singularize($parameters->formName);
@@ -52,6 +52,24 @@ class SearchHelper extends Helper
         }
 
         return $result;
+    }
+
+    /**
+     * Builds Form::controls structure.
+     *
+     * @param ParameterRegistry $parameters Form parameters collection.
+     * @param array $options Additional input options.
+     * @return array
+     * @deprecated 3.6.0 Use SearchHelper::controls() instead. 
+     */
+    public function inputs(ParameterRegistry $parameters, $options = [])
+    {
+        deprecationWarning(
+            'SearchHelper::inputs() is deprecated. ' .
+            'Use SearchHelper::controls() instead.'
+        ); 
+
+        return $this->controls($parameters, $options);
     }
 
     /**
