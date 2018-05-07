@@ -10,7 +10,7 @@ if (empty($formOptions['id'])) {
 ?>
 <div class="row">
     <?= $this->Form->create(null, $formOptions); ?>
-    <?= $this->Form->inputs($searchInputs, ['legend' => __('Search')]); ?>
+    <?= $this->Form->controls($searchInputs, ['legend' => __('Search')]); ?>
     <?= $this->Form->button('Search', ['type' => 'submit', 'class' => 'btn btn-primary']); ?>
     <?= $this->Form->end(); ?>
 </div>
