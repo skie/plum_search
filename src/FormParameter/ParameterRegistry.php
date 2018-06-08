@@ -225,4 +225,13 @@ class ParameterRegistry extends ObjectRegistry
     {
         return [];
     }
+
+    /**
+     * Override to allow serialization
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['formName'];
+    }
 }
