@@ -50,6 +50,7 @@ class MultipleFilter extends AbstractFilter
     protected function _buildQuery(Query $query, $field, $value, array $data = [])
     {
         $type = $this->getConfig('type');
+        $rawValue = $value;
         $value = '%' . $value . '%';
         $fields = $this->getConfig('fields');
         $typesMap = $this->getConfig('fieldTypes');
@@ -65,11 +66,11 @@ class MultipleFilter extends AbstractFilter
             $type = 'and';
         }
 
-        return $query->where(function ($exp) use (&$query, $value, $type, $fields, $types) {
-            return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types) {
-                collection($fields)->each(function ($field) use ($value, &$ex, $types) {
+        return $query->where(function ($exp) use (&$query, $value, $type, $fields, $types, $rawValue) {
+            return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types, $rawValue) {
+                collection($fields)->each(function ($field) use ($value, &$ex, $types, $rawValue) {
                     if (in_array($types[$field], ['integer', 'int', 'float'])) {
-                        return $ex->eq($field, $value, $types[$field]);
+                        return $ex->eq($field, $rawValue, $types[$field]);
                     } else {
                         return $ex->like($field, $value, $types[$field]);
                     }
