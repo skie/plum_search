@@ -47,7 +47,7 @@ class SelectParameter extends BaseParameter
         if ($this->_allowedEmptyOptions()) {
             return;
         }
-        if (empty($config['options']) || !is_array($config['options'])) {
+        if (!isset($config['options']) || !is_array($config['options'])) {
             if (empty($config['finder'])) {
                 throw new MissingParameterException(
                     __('Missed "finder" configuration setting for select param `{0}`', $this->getConfig('name'))
