@@ -60,14 +60,14 @@ class SearchHelper extends Helper
      * @param ParameterRegistry $parameters Form parameters collection.
      * @param array $options Additional input options.
      * @return array
-     * @deprecated 3.6.0 Use SearchHelper::controls() instead. 
+     * @deprecated 3.6.0 Use SearchHelper::controls() instead.
      */
     public function inputs(ParameterRegistry $parameters, $options = [])
     {
         deprecationWarning(
             'SearchHelper::inputs() is deprecated. ' .
             'Use SearchHelper::controls() instead.'
-        ); 
+        );
 
         return $this->controls($parameters, $options);
     }
