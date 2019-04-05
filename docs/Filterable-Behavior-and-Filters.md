@@ -68,6 +68,10 @@ Value filter is most simple filter that provide exact comparison of input data.
 
 Like filter use LIKE operation comparison for input data.
 
+### Multiple Filter
+
+Multiple filter allow to search against multiple fields for same input.
+
 ### Custom Filter
 
 Like filter provides easy way to inject custom query filters.

@@ -29,8 +29,8 @@ class FilterBehaviorTest extends TestCase
      */
     public $fixtures = [
         'plugin.plum_search.articles',
-        'plugin.plum_search.articles_tags',
         'plugin.plum_search.tags',
+        'plugin.plum_search.articles_tags',
         'plugin.plum_search.authors',
     ];
 
@@ -104,14 +104,14 @@ class FilterBehaviorTest extends TestCase
      */
     public function testFindFilter()
     {
-        $result = $this->Articles->find('filters', [])->hydrate(false)->toArray();
+        $result = $this->Articles->find('filters', [])->enableHydration(false)->toArray();
         $this->assertEquals(count($result), 3);
 
         $filterParameters = [
-            'title' => 'first',
+            'title' => 'First',
             'tag' => 'tag1',
         ];
-        $result = $this->Articles->find('filters', $filterParameters)->hydrate(false)->toArray();
+        $result = $this->Articles->find('filters', $filterParameters)->enableHydration(false)->toArray();
         $expected = [[
             'id' => 1,
             'author_id' => 1,
@@ -122,10 +122,10 @@ class FilterBehaviorTest extends TestCase
         $this->assertEquals($expected, $result);
 
         $filterParameters = [
-            'title' => 'first',
+            'title' => 'First',
             'tag' => 'tag3',
         ];
-        $result = $this->Articles->find('filters', $filterParameters)->hydrate(false)->toArray();
+        $result = $this->Articles->find('filters', $filterParameters)->enableHydration(false)->toArray();
         $expected = [];
         $this->assertEquals($expected, $result);
 
@@ -137,7 +137,7 @@ class FilterBehaviorTest extends TestCase
             'author_name' => 'larry',
             'tag' => 'tag3',
         ];
-        $result = $this->Articles->find('withAuthors')->find('filters', $filterParameters)->hydrate(false)->toArray();
+        $result = $this->Articles->find('withAuthors')->find('filters', $filterParameters)->enableHydration(false)->toArray();
         $expected = [[
             'id' => 2,
             'author_id' => 3,

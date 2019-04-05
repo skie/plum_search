@@ -11,6 +11,7 @@
  */
 namespace PlumSearch\Test\TestCase\Controller;
 
+use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
@@ -25,8 +26,8 @@ class AutocompleteTraitTest extends IntegrationTestCase
      */
     public $fixtures = [
         'plugin.plum_search.articles',
-        'plugin.plum_search.articles_tags',
         'plugin.plum_search.tags',
+        'plugin.plum_search.articles_tags',
         'plugin.plum_search.authors',
     ];
 
@@ -38,6 +39,7 @@ class AutocompleteTraitTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+        Router::reload();
     }
 
     /**
@@ -56,20 +58,30 @@ class AutocompleteTraitTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testAutocomplete()
+    public function testAutocompleteSuccess()
     {
-        $this->get('/ExtArticles/autocomplete?query=%');
-        $response = json_decode($this->_response->body());
-        $this->assertEquals([], $response->data);
-        $this->assertEquals('error', $response->status);
-        $this->assertEquals('Field not found', $response->message);
-
+        $this->useHttpServer(true);
         $this->get('/ExtArticles/autocomplete?query=r&parameter=author_id');
-        $response = json_decode($this->_response->body(), true);
+        $response = json_decode($this->_response->getBody(), true);
         $this->assertEquals('success', $response['status']);
         $this->assertEquals([
             ['id' => 2, 'value' => 'mark'],
             ['id' => 3, 'value' => 'larry'],
         ], $response['data']);
+    }
+
+    /**
+     * Test autocomplete method
+     *
+     * @return void
+     */
+    public function testAutocompleteFail()
+    {
+        $this->useHttpServer(true);
+        $this->get('/ExtArticles/autocomplete?query=%');
+        $response = json_decode($this->_response->getBody(), true);
+        $this->assertEquals([], $response['data']);
+        $this->assertEquals('error', $response['status']);
+        $this->assertEquals('Field not found', $response['message']);
     }
 }

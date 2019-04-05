@@ -50,7 +50,7 @@ abstract class AbstractFilter
         if (empty($config['field'])) {
             $config['field'] = $config['name'];
         }
-        $this->config($config);
+        $this->setConfig($config);
     }
 
     /**
@@ -63,7 +63,10 @@ abstract class AbstractFilter
     public function apply(Query $query, array $data)
     {
         if ($this->_applicable($data)) {
-            $field = $this->config('field');
+            $field = $this->getConfig('field');
+            if (is_string($field) && (strpos($field, '.') === false)) {
+                $field = $query->getRepository()->getAlias() . '.' . $field;
+            }
 
             return $this->_buildQuery($query, $field, $this->_value($data), $data);
         }
@@ -79,8 +82,9 @@ abstract class AbstractFilter
      */
     protected function _applicable($data)
     {
-        $field = $this->config('name');
-        return $field && (!empty($data[$field]) || $this->_defaultDefined());
+        $field = $this->getConfig('name');
+
+        return $field && (!empty($data[$field]) || $this->_defaultDefined() || isset($data[$field]) && (string)$data[$field] !== '');
     }
 
     /**
@@ -88,8 +92,10 @@ abstract class AbstractFilter
      *
      * @return bool
      */
-    protected function _defaultDefined() {
-        $default = $this->config('default');
+    protected function _defaultDefined()
+    {
+        $default = $this->getConfig('default');
+
         return !empty($default);
     }
 
@@ -112,10 +118,10 @@ abstract class AbstractFilter
      */
     protected function _value($data)
     {
-        $field = $this->config('name');
+        $field = $this->getConfig('name');
         $value = $data[$field];
         if (empty($value) && $this->_defaultDefined()) {
-            $value = $this->config('default');
+            $value = $this->getConfig('default');
         }
 
         return $value;

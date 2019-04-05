@@ -11,9 +11,10 @@
  */
 namespace PlumSearch\Test\TestCase\View\Helper;
 
-use Cake\Network\Request;
-use Cake\Network\Response;
+use Cake\Http\Response;
+use Cake\Http\ServerRequest;
 use Cake\ORM\Query;
+use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use PlumSearch\Test\App\Controller\ArticlesController;
@@ -67,9 +68,10 @@ class SearchHelperTest extends TestCase
     public function testInputs()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new Request([
-            'webroot' => '/dir/',
+        $request = $request = new ServerRequest([
+            'webroot' => '/articles/',
             'params' => [
+                'controller' => 'Articles',
                 'action' => 'index',
                 'pass' => [],
             ],
@@ -82,7 +84,7 @@ class SearchHelperTest extends TestCase
         $this->Controller->index();
         $parameters = $this->Controller->viewVars['searchParameters'];
 
-        $inputs = $this->Search->inputs($parameters);
+        $inputs = $this->Search->controls($parameters);
         $this->assertEquals(count($inputs), 2);
         $this->assertTrue($inputs['Article.author_id']['options'] instanceof Query);
         $inputs['Article.author_id']['options'] = $inputs['Article.author_id']['options']->toArray();
@@ -102,6 +104,7 @@ class SearchHelperTest extends TestCase
                 ],
                 'required' => false,
                 'label' => 'Author',
+                'value' => '',
                 'empty' => true,
             ],
         ];
@@ -116,9 +119,10 @@ class SearchHelperTest extends TestCase
     public function testInput()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new Request([
-            'webroot' => '/dir/',
+        $request = $request = new ServerRequest([
+            'webroot' => '/articles/',
             'params' => [
+                'controller' => 'Articles',
                 'action' => 'index',
                 'pass' => [],
             ],
@@ -148,9 +152,18 @@ class SearchHelperTest extends TestCase
     public function testInputsExt()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new Request([
-            'webroot' => '/dir/',
+
+        Router::scope('/', function ($routes) {
+            $routes->connect(
+                '/articles/autocomplete',
+                ['controller' => 'Articles', 'action' => 'autocomplete']
+            );
+        });
+
+        $request = $request = new ServerRequest([
+            'webroot' => '/articles/',
             'params' => [
+                'controller' => 'Articles',
                 'action' => 'index',
                 'pass' => [],
             ],
@@ -171,7 +184,7 @@ class SearchHelperTest extends TestCase
         ];
         $this->assertEquals($input, $expected);
 
-        $inputs = $this->Search->inputs($parameters);
+        $inputs = $this->Search->controls($parameters);
         $expected = [
             'Article.title' => [
                 'type' => 'text',
@@ -183,14 +196,16 @@ class SearchHelperTest extends TestCase
                 'type' => 'text',
                 'required' => false,
                 'label' => 'Author',
-                'data-url' => '/autocomplete',
+                'data-url' => '/articles/autocomplete',
                 'class' => 'autocomplete',
                 'data-name' => 'author_id',
+                'value' => '',
             ],
             'Article.author_id' => [
                 'type' => 'hidden',
                 'required' => false,
                 'label' => 'Author',
+                'value' => '',
             ],
         ];
         $this->assertEquals($expected, $inputs);

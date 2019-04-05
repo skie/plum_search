@@ -30,13 +30,13 @@ trait AutocompleteTrait
     public function autocomplete()
     {
         $this->loadComponent('RequestHandler');
-        $this->viewClass = 'Json';
+        $this->viewBuilder()->setClassName('Json');
         $data = [];
-        $paramName = $this->request->query('parameter');
-        $query = $this->request->query('query');
+        $paramName = $this->getRequest()->getQuery('parameter');
+        $query = $this->getRequest()->getQuery('query');
         $parameter = $this->Filter->parameters()->get($paramName);
         if (!empty($parameter)) {
-            $method = $parameter->config('autocompleteAction');
+            $method = $parameter->getConfig('autocompleteAction');
             $data = $method($query);
             $this->set('status', 'success');
         } else {

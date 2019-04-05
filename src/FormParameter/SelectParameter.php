@@ -44,10 +44,13 @@ class SelectParameter extends BaseParameter
     public function __construct(ParameterRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
-        if (empty($config['options']) || !is_array($config['options'])) {
+        if ($this->_allowedEmptyOptions()) {
+            return;
+        }
+        if (!isset($config['options']) || !is_array($config['options'])) {
             if (empty($config['finder'])) {
                 throw new MissingParameterException(
-                    __('Missed "finder" configuration setting for select param `{0}`', $this->config('name'))
+                    __('Missed "finder" configuration setting for select param `{0}`', $this->getConfig('name'))
                 );
             }
         }
@@ -73,16 +76,29 @@ class SelectParameter extends BaseParameter
         $formConfig = parent::formInputConfig();
 
         if (!array_key_exists('options', $formConfig)) {
-            $options = $this->config('options');
-            /** @var Query $finder */
-            $finder = $this->config('finder');
+            $options = $this->getConfig('options');
+            $finder = $this->getConfig('finder');
             if (!empty($options) && is_array($options)) {
                 $formConfig['options'] = $options;
+            } elseif ($this->_allowedEmptyOptions()) {
             } elseif (!empty($finder)) {
                 $formConfig['options'] = $finder;
             }
         }
 
         return $formConfig;
+    }
+
+    /**
+     * Check if empty options allowed
+     *
+     * @return bool
+     */
+    protected function _allowedEmptyOptions()
+    {
+        $options = $this->getConfig('options');
+        $allowEmptyOptions = $this->getConfig('allowEmptyOptions');
+
+        return is_array($options) && !empty($allowEmptyOptions);
     }
 }

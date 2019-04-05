@@ -47,8 +47,6 @@ class ParameterRegistry extends ObjectRegistry
     {
         if ($Controller) {
             $this->_Controller = $Controller;
-            $modelClass = $this->_Controller->modelClass;
-            $this->_formName = $this->_Controller->{$modelClass}->alias();
             $this->config($options);
         }
     }
@@ -114,9 +112,14 @@ class ParameterRegistry extends ObjectRegistry
      *
      * @return \Cake\Collection\Collection
      */
-    public function collection()
+    public function collection($collectionMethod = null)
     {
-        return collection($this->_loaded);
+        $collection = collection($this->_loaded);
+        if (is_callable($collectionMethod)) {
+            return $collectionMethod($collection);
+        }
+
+        return $collection;
     }
 
     /**
@@ -129,17 +132,18 @@ class ParameterRegistry extends ObjectRegistry
     {
         if ($this->_Controller->request->is('get')) {
             if (empty($name)) {
-                return $this->_Controller->request->query;
+                return $this->_Controller->getRequest()->getQueryParams();
             } else {
-                return $this->_Controller->request->query($name);
+                return $this->_Controller->getRequest()->getQuery($name);
             }
         } elseif ($this->_Controller->request->is(['post', 'put'])) {
             if (empty($name)) {
-                return $this->_Controller->request->data[$this->formName];
+                return $this->_Controller->getRequest()->getData($this->formName);
             } else {
-                return $this->_Controller->request->data($this->fieldName($name));
+                return $this->_Controller->getRequest()->getData($this->fieldName($name));
             }
         }
+
         return null;
     }
 
@@ -199,5 +203,35 @@ class ParameterRegistry extends ObjectRegistry
         }
 
         return $this->formName . '.' . $name;
+    }
+
+    /**
+     * Returns controller instance.
+     *
+     * @return Cake\Controller\Controller
+     */
+    public function controller()
+    {
+        return $this->_Controller;
+    }
+
+    /**
+     * Returns an array that can be used to describe the internal state of this
+     * object.
+     *
+     * @return array
+     */
+    public function __debugInfo()
+    {
+        return [];
+    }
+
+    /**
+     * Override to allow serialization
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['formName'];
     }
 }

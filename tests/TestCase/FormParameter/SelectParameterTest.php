@@ -14,8 +14,8 @@ namespace PlumSearch\Test\TestCase\FormParameter;
 use Cake\Network\Request;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\FormParameter\SelectParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
+use PlumSearch\FormParameter\SelectParameter;
 
 /**
  * Class SelectParameterTest
@@ -57,7 +57,9 @@ class SelectParameterTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $controller = $this->getMock('Cake\Controller\Controller', ['redirect']);
+        $controller = $this->getMockBuilder('Cake\Controller\Controller')
+            ->setMethods(['redirect'])
+            ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $controller->request = new Request([
             'webroot' => '/dir/',

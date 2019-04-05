@@ -34,7 +34,9 @@ class AutocompleteParamTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $controller = $this->getMock('Cake\Controller\Controller', ['redirect']);
+        $controller = $this->getMockBuilder('Cake\Controller\Controller')
+            ->setMethods(['redirect'])
+            ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $controller->request = new Request([
             'webroot' => '/dir/',
