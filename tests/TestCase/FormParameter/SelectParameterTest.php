@@ -31,8 +31,10 @@ class SelectParameterTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.plum_search.articles',
-        'plugin.plum_search.authors',
+        'plugin.PlumSearch.Articles',
+        'plugin.PlumSearch.Tags',
+        'plugin.PlumSearch.ArticlesTags',
+        'plugin.PlumSearch.Authors',
     ];
 
     /**

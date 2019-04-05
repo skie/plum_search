@@ -28,6 +28,21 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  */
 class Application extends BaseApplication
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function bootstrap() 
+    {
+        // Call parent to load bootstrap from files.
+        parent::bootstrap(); 
+
+        $this->addPlugin('PlumSearch', [
+            'path' => ROOT . DS,
+            'autoload' => true
+        ]);
+    }
+
     /**
      * Setup the middleware your application will use.
      *
@@ -45,7 +60,7 @@ class Application extends BaseApplication
             ->add(new AssetMiddleware())
 
             // Apply routing
-            ->add(new RoutingMiddleware());
+            ->add(new RoutingMiddleware($this));
 
         return $middleware;
     }

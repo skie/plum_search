@@ -71,10 +71,10 @@ Cake\Core\Configure::write('Session', [
     'defaults' => 'php'
 ]);
 
-Cake\Core\Plugin::load('PlumSearch', [
-    'path' => ROOT . DS,
-    'autoload' => true
-]);
+// Cake\Core\Plugin::load('PlumSearch', [
+    // 'path' => ROOT . DS,
+    // 'autoload' => true
+// ]);
 
 // Ensure default test connection is defined
 if (!getenv('db_dsn')) {
@@ -86,9 +86,3 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
     'timezone' => 'UTC'
 ]);
 
-//$isCli = PHP_SAPI === 'cli';
-//if ($isCli) {
-//    (new Cake\Console\ConsoleErrorHandler(Cake\Core\Configure::read('Error')))->register();
-//} else {
-//     (new Cake\Error\ErrorHandler(Cake\Core\Configure::read('Error')))->register();
-//}
