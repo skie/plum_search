@@ -22,7 +22,9 @@ use PlumSearch\Model\Filter\MultipleFilter;
  */
 class MultipleFilterTest extends TestCase
 {
-    public $fixtures = ['plugin.plum_search.articles'];
+    public $fixtures = [
+        'plugin.PlumSearch.Articles',
+    ];
 
     /**
      * setUp method

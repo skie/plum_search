@@ -32,8 +32,10 @@ class FilterComponentTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.plum_search.authors',
-        'plugin.plum_search.articles',
+        'plugin.PlumSearch.Articles',
+        'plugin.PlumSearch.Tags',
+        'plugin.PlumSearch.ArticlesTags',
+        'plugin.PlumSearch.Authors',
     ];
 
     /**

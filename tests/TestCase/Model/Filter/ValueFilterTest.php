@@ -23,7 +23,7 @@ use PlumSearch\Model\Filter\ValueFilter;
 class ValueFilterTest extends TestCase
 {
     public $fixtures = [
-        'plugin.plum_search.articles',
+        'plugin.PlumSearch.Articles',
     ];
 
     /**

@@ -9,7 +9,7 @@
  * @since         PlumSearch 0.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace PlumPlumSearch\Controller;
+namespace PlumSearch\Controller;
 
 use App\Controller\AppController as BaseController;
 
