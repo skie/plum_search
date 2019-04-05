@@ -71,11 +71,6 @@ Cake\Core\Configure::write('Session', [
     'defaults' => 'php'
 ]);
 
-// Cake\Core\Plugin::load('PlumSearch', [
-    // 'path' => ROOT . DS,
-    // 'autoload' => true
-// ]);
-
 // Ensure default test connection is defined
 if (!getenv('db_dsn')) {
     putenv('db_dsn=sqlite:///:memory:');
@@ -85,4 +80,3 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
     'url' => getenv('db_dsn'),
     'timezone' => 'UTC'
 ]);
-
