@@ -33,7 +33,7 @@ class SearchHelper extends Helper
      * @param array $options Additional input options.
      * @return array
      */
-    public function controls(ParameterRegistry $parameters, $options = [])
+    public function controls(ParameterRegistry $parameters, array $options = []): array
     {
         $result = [];
         $entityName = Inflector::singularize($parameters->formName);
@@ -62,7 +62,7 @@ class SearchHelper extends Helper
      * @return array
      * @deprecated 3.6.0 Use SearchHelper::controls() instead.
      */
-    public function inputs(ParameterRegistry $parameters, $options = [])
+    public function inputs(ParameterRegistry $parameters, array $options = []): array
     {
         deprecationWarning(
             'SearchHelper::inputs() is deprecated. ' .
@@ -79,7 +79,7 @@ class SearchHelper extends Helper
      * @param array $options Additional input options.
      * @return array
      */
-    public function input(BaseParameter $param, $options = [])
+    public function input(BaseParameter $param, array $options = []): array
     {
         $input = $this->_defaultInput($param);
         $this->_setValue($input, $param);
@@ -96,7 +96,7 @@ class SearchHelper extends Helper
      * @param BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _defaultInput($param)
+    protected function _defaultInput(BaseParameter $param): array
     {
         $input = $param->formInputConfig();
         $name = $param->getConfig('name');
@@ -119,7 +119,7 @@ class SearchHelper extends Helper
      * @param BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _setValue(&$input, $param)
+    protected function _setValue(array &$input, BaseParameter $param): array
     {
         $value = $param->value();
         if (!$param->isEmpty()) {
@@ -138,7 +138,7 @@ class SearchHelper extends Helper
      * @param BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _setOptions(&$input, $param)
+    protected function _setOptions(array &$input, BaseParameter $param): array
     {
         if ($param->hasOptions() && !isset($input['empty'])) {
             $input['empty'] = true;
@@ -154,7 +154,7 @@ class SearchHelper extends Helper
      * @param BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _applyAutocompleteOptions(&$input, $param)
+    protected function _applyAutocompleteOptions(array &$input, BaseParameter $param): array
     {
         if ($param instanceof AutocompleteParameter) {
             $input['data-url'] = $param->autocompleteUrl();

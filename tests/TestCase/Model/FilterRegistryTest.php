@@ -34,6 +34,16 @@ class FilterRegistryTest extends TestCase
     ];
 
     /**
+     * @var \Cake\Orm\Table
+     */
+    protected $Table;
+
+    /**
+     * @var FilterRegistry
+     */
+    protected $FilterRegistry;
+
+    /**
      * setUp method
      *
      * @return void
@@ -41,7 +51,7 @@ class FilterRegistryTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->Table = TableRegistry::get('Articles');
+        $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         Configure::write('App.namespace', 'TestApp');
     }

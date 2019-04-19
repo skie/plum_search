@@ -13,6 +13,7 @@ namespace PlumSearch\Test\TestCase\Model\Filter;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Utility\Hash;
 use PlumSearch\Model;
 use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\ValueFilter;
@@ -27,6 +28,21 @@ class ValueFilterTest extends TestCase
     ];
 
     /**
+     * @var \Cake\Orm\Table
+     */
+    protected $Table;
+
+    /**
+     * @var FilterRegistry
+     */
+    protected $FilterRegistry;
+
+    /**
+     * @var \PlumSearch\Model\Filter\AbstractFilter
+     */
+    protected $ValueFilter;
+
+    /**
      * setUp method
      *
      * @return void
@@ -34,7 +50,7 @@ class ValueFilterTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->Table = TableRegistry::get('Articles');
+        $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->ValueFilter = new ValueFilter($this->FilterRegistry, [
             'name' => 'id'
@@ -73,16 +89,15 @@ class ValueFilterTest extends TestCase
         $query = $this->Table->find('all');
         $this->ValueFilter->apply($query, ['id' => 1]);
         $store = null;
-        $query->traverse(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store) {
             $store = $d;
         }, ['where']);
-        $store2 = null;
-        $store->traverse(function ($d) use (&$store2) {
-            $store2 = $d;
-        }, ['where']);
 
-        $this->assertEquals($store2->sql($query->getValueBinder()), 'Articles.id = :c0');
-        $this->assertEquals($store2->getValue(), 1);
+        $this->assertEquals($store->sql($query->getValueBinder()), 'Articles.id = :c0');
+
+        $binder = $query->getValueBinder();
+        $this->assertEquals($store->sql($binder), 'Articles.id = :c1');
+        $this->assertEquals(Hash::get($binder->bindings(), ':c1.value'), 1);
     }
 
     /**
@@ -104,17 +119,13 @@ class ValueFilterTest extends TestCase
             'author_name' => 'larry',
         ]);
         $store = null;
-        $query->traverse(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store) {
             $store = $d;
         }, ['where']);
 
-        $store2 = null;
-        $store->traverse(function ($d) use (&$store2) {
-            $store2 = $d;
-        }, ['where']);
-
-        $this->assertEquals($store2->sql($query->getValueBinder()), 'Authors.name = :c0');
-        $this->assertEquals($store2->getValue(), 'larry');
+        $binder = $query->getValueBinder();
+        $this->assertEquals($store->sql($binder), 'Authors.name = :c0');
+        $this->assertEquals(Hash::get($binder->bindings(), ':c0.value'), 'larry');
     }
 
     /**
@@ -127,15 +138,13 @@ class ValueFilterTest extends TestCase
         $query = $this->Table->find('all');
         $this->ValueFilter->apply($query, ['id' => [1, 2]]);
         $store = null;
-        $query->traverse(function ($d, $type) use (&$store) {
+
+        $query->traverseParts(function ($d, $type) use (&$store) {
             $store = $d;
         }, ['where']);
-        $store2 = null;
-        $store->traverse(function ($d) use (&$store2) {
-            $store2 = $d;
-        }, ['where']);
-
-        $this->assertEquals($store2->sql($query->getValueBinder()), 'Articles.id in (:c0,:c1)');
-        $this->assertEquals($store2->getValue(), [1, 2]);
+        $binder = $query->getValueBinder();
+        $this->assertEquals($store->sql($binder), 'Articles.id in (:c0,:c1)');
+        $this->assertEquals(Hash::get($binder->bindings(), ':c0.value'), '1');
+        $this->assertEquals(Hash::get($binder->bindings(), ':c1.value'), '2');
     }
 }

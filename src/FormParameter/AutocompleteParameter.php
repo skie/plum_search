@@ -13,7 +13,6 @@ namespace PlumSearch\FormParameter;
 
 use Cake\Routing\Router;
 use PlumSearch\FormParameter\Exception\MissingParameterException;
-use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
  * Class AutocompleteParam
@@ -56,7 +55,7 @@ class AutocompleteParameter extends BaseParameter
      *
      * @return string
      */
-    public function autocompleteUrl()
+    public function autocompleteUrl(): string
     {
         $request = $this->_registry->controller()->getRequest();
 
@@ -71,7 +70,7 @@ class AutocompleteParameter extends BaseParameter
      *
      * @return void
      */
-    public function initializeInnerParameters()
+    public function initializeInnerParameters(): void
     {
         $paramName = $this->getConfig('name');
         $this->_dependentParameters[$paramName] = new HiddenParameter($this->_registry, [
@@ -84,7 +83,7 @@ class AutocompleteParameter extends BaseParameter
      *
      * @return array
      */
-    public function values()
+    public function values(): array
     {
         $name = $this->getConfig('field');
         $paramName = $this->getConfig('name');

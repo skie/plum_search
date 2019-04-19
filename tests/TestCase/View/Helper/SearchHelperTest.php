@@ -84,7 +84,7 @@ class SearchHelperTest extends TestCase
 
         $this->Controller = new ArticlesController($request, new Response());
         $this->Controller->index();
-        $parameters = $this->Controller->viewVars['searchParameters'];
+        $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
 
         $inputs = $this->Search->controls($parameters);
         $this->assertEquals(count($inputs), 2);
@@ -135,7 +135,7 @@ class SearchHelperTest extends TestCase
 
         $this->Controller = new ArticlesController($request, new Response());
         $this->Controller->index();
-        $parameters = $this->Controller->viewVars['searchParameters'];
+        $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
         $input = $this->Search->input($parameters->get('title'));
         $expected = [
             'type' => 'text',
@@ -176,7 +176,7 @@ class SearchHelperTest extends TestCase
 
         $this->Controller = new ExtArticlesController($request, new Response());
         $this->Controller->index();
-        $parameters = $this->Controller->viewVars['searchParameters'];
+        $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
         $input = $this->Search->input($parameters->get('title'));
         $expected = [
             'type' => 'text',

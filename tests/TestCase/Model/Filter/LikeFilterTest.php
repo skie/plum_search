@@ -13,6 +13,7 @@ namespace PlumSearch\Test\TestCase\Model\Filter;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Utility\Hash;
 use PlumSearch\Model;
 use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\LikeFilter;
@@ -27,6 +28,21 @@ class LikeFilterTest extends TestCase
     ];
 
     /**
+     * @var \Cake\Orm\Table
+     */
+    protected $Table;
+
+    /**
+     * @var FilterRegistry
+     */
+    protected $FilterRegistry;
+
+    /**
+     * @var \PlumSearch\Model\Filter\AbstractFilter
+     */
+    protected $LikeFilter;
+
+    /**
      * setUp method
      *
      * @return void
@@ -34,7 +50,7 @@ class LikeFilterTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->Table = TableRegistry::get('Articles');
+        $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->LikeFilter = new LikeFilter($this->FilterRegistry, [
             'name' => 'name'
@@ -62,15 +78,12 @@ class LikeFilterTest extends TestCase
         $query = $this->Table->find('all');
         $this->LikeFilter->apply($query, ['name' => 'test']);
         $store = null;
-        $query->traverse(function ($d, $type) use (&$store) {
+
+        $query->traverseParts(function ($d, $type) use (&$store) {
             $store = $d;
         }, ['where']);
-        $store2 = null;
-        $store->traverse(function ($d) use (&$store2) {
-            $store2 = $d;
-        }, ['where']);
-
-        $this->assertEquals($store2->sql($query->getValueBinder()), 'Articles.name LIKE :c0');
-        $this->assertEquals($store2->getValue(), '%test%');
+        $binder = $query->getValueBinder();
+        $this->assertEquals($store->sql($binder), 'Articles.name LIKE :c0');
+        $this->assertEquals(Hash::get($binder->bindings(), ':c0.value'), '%test%');
     }
 }

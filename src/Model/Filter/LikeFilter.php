@@ -24,7 +24,7 @@ class LikeFilter extends AbstractFilter
      * @param  array  $data Filters values.
      * @return \Cake\ORM\Query
      */
-    protected function _buildQuery(Query $query, $field, $value, array $data = [])
+    protected function _buildQuery(Query $query, string $field, $value, array $data = []): \Cake\ORM\Query
     {
         $value = '%' . $value . '%';
 

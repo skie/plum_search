@@ -11,7 +11,7 @@
  */
 namespace PlumSearch\Test\TestCase\FormParameter;
 
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use PlumSearch\FormParameter\InputParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
@@ -36,10 +36,10 @@ class InputParameterTest extends TestCase
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->request = new Request([
+        $controller->setRequest(new ServerRequest([
             'webroot' => '/dir/',
             'query' => ['username' => 'admin'],
-        ]);
+        ]));
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->InputParam = new InputParameter($this->ParameterRegistry, ['name' => 'username']);
     }

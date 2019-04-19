@@ -74,7 +74,7 @@ class FilterableBehavior extends Behavior
      * @param  bool $reset Reset flag.
      * @return \PlumSearch\Model\FilterRegistry
      */
-    public function filters($reset = false)
+    public function filters(bool $reset = false): \PlumSearch\Model\FilterRegistry
     {
         if ($reset || is_null($this->_searchFilters)) {
             $this->_searchFilters = new FilterRegistry($this->_table);
@@ -103,7 +103,7 @@ class FilterableBehavior extends Behavior
      * @param array $options The options for the filter to use.
      * @return \Cake\ORM\Table
      */
-    public function addFilter($name, array $options = [])
+    public function addFilter(string $name, array $options = []): \Cake\ORM\Table
     {
         $this->filters()->load($name, $options);
 
@@ -124,7 +124,7 @@ class FilterableBehavior extends Behavior
      * @param string $name The alias that the filter was added with.
      * @return \Cake\ORM\Table
      */
-    public function removeFilter($name)
+    public function removeFilter(string $name): \Cake\ORM\Table
     {
         $this->filters()->unload($name);
 
@@ -138,7 +138,7 @@ class FilterableBehavior extends Behavior
      * @param array $options Array of options as described above.
      * @return \Cake\ORM\Query
      */
-    public function findFilter(Query $query, array $options)
+    public function findFilter(Query $query, array $options): \Cake\ORM\Query
     {
         foreach ($this->filters()->collection() as $name => $filter) {
             $filter->apply($query, $options);

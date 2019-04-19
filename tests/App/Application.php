@@ -17,6 +17,7 @@ namespace PlumSearch\Test\App;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 
@@ -32,7 +33,7 @@ class Application extends BaseApplication
     /**
      * {@inheritDoc}
      */
-    public function bootstrap() 
+    public function bootstrap(): void
     {
         // Call parent to load bootstrap from files.
         parent::bootstrap(); 
@@ -49,7 +50,7 @@ class Application extends BaseApplication
      * @param \Cake\Http\MiddlewareQueue $middleware The middleware queue to setup.
      * @return \Cake\Http\MiddlewareQueue The updated middleware.
      */
-    public function middleware($middleware)
+    public function middleware(MiddlewareQueue $middleware): MiddlewareQueue
     {
         $middleware
             // Catch any exceptions in the lower layers,

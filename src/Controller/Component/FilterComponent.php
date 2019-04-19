@@ -69,7 +69,7 @@ class FilterComponent extends Component
      * @param bool $reset Reset flag.
      * @return \PlumSearch\FormParameter\ParameterRegistry
      */
-    public function parameters($reset = false)
+    public function parameters(bool $reset = false): \PlumSearch\FormParameter\ParameterRegistry
     {
         if ($reset || is_null($this->_searchParameters)) {
             $this->_searchParameters = new ParameterRegistry($this->_controller, []);
@@ -99,7 +99,7 @@ class FilterComponent extends Component
      * @param  array $options The options for the parameter to use.
      * @return \Cake\Controller\Component
      */
-    public function addParam($name, array $options = [])
+    public function addParam(string $name, array $options = []): \Cake\Controller\Component
     {
         $this->parameters()->load($name, $options);
 
@@ -120,7 +120,7 @@ class FilterComponent extends Component
      * @param  string                     $name The alias that the parameter was added with.
      * @return \Cake\Controller\Component
      */
-    public function removeParam($name)
+    public function removeParam(string $name): \Cake\Controller\Component
     {
         $this->parameters()->unload($name);
 
@@ -136,7 +136,7 @@ class FilterComponent extends Component
      * @param array $options Search parameters.
      * @return mixed
      */
-    public function prg($table, $options = [])
+    public function prg(Table $table, array $options = [])
     {
         $this->setConfig($options);
 
@@ -162,7 +162,7 @@ class FilterComponent extends Component
      *
      * @return array
      */
-    public function values()
+    public function values(): array
     {
         return $this->parameters()->values();
     }
@@ -172,7 +172,7 @@ class FilterComponent extends Component
      *
      * @return \Cake\Controller\Controller
      */
-    public function controller()
+    public function controller(): \Cake\Controller\Controller
     {
         return $this->_controller;
     }
@@ -184,7 +184,7 @@ class FilterComponent extends Component
      * @param mixed $default Default value.
      * @return mixed|string
      */
-    protected function _initParam($name, $default = null)
+    protected function _initParam(string $name, $default = null)
     {
         $param = $this->getConfig($name);
         if (!$param) {
@@ -200,7 +200,7 @@ class FilterComponent extends Component
      * @param string $action Action name.
      * @return void
      */
-    protected function _redirect($action)
+    protected function _redirect(string $action): bool
     {
         $params = $this->controller()->getRequest()->getParam('pass');
         $searchParams = array_diff_key(
@@ -234,6 +234,8 @@ class FilterComponent extends Component
 
         $emitter = new ResponseEmitter();
         $emitter->emit($this->controller()->getResponse());
+
+        return true;
     }
 
     /**
@@ -242,7 +244,7 @@ class FilterComponent extends Component
      * @param string $formName Form name.
      * @return void
      */
-    protected function _setViewData($formName)
+    protected function _setViewData(string $formName): void
     {
         $this->controller()->setRequest(
             $this->controller()->getRequest()->withData($formName, $this->parameters()->viewValues())

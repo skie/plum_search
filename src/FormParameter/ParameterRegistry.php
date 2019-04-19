@@ -59,7 +59,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param  string       $class Partial class name to resolve.
      * @return string|false Either the correct class name or false.
      */
-    protected function _resolveClassName($class)
+    protected function _resolveClassName($class): ?string
     {
         $result = App::className($class, 'FormParameter', 'Parameter');
         if ($result || strpos($class, '.') !== false) {
@@ -79,7 +79,7 @@ class ParameterRegistry extends ObjectRegistry
      * @return void
      * @throws \PlumSearch\FormParameter\Exception\MissingParameterException
      */
-    protected function _throwMissingClassError($class, $plugin)
+    protected function _throwMissingClassError(string $class, ?string $plugin): void
     {
         throw new MissingParameterException([
             'class' => $class . 'Parameter',
@@ -97,7 +97,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param array $config An array of config to use for the param.
      * @return \PlumSearch\FormParameter\BaseParameter The constructed param class.
      */
-    protected function _create($class, $alias, $config)
+    protected function _create($class, string $alias, array $config): \PlumSearch\FormParameter\BaseParameter
     {
         if (empty($config['name'])) {
             $config['name'] = $alias;
@@ -110,9 +110,10 @@ class ParameterRegistry extends ObjectRegistry
     /**
      * Return collection of loaded parameters
      *
+     * @param callable $collectionMethod
      * @return \Cake\Collection\Collection
      */
-    public function collection($collectionMethod = null)
+    public function collection(callable $collectionMethod = null): \Cake\Collection\Collection
     {
         $collection = collection($this->_loaded);
         if (is_callable($collectionMethod)) {
@@ -128,15 +129,15 @@ class ParameterRegistry extends ObjectRegistry
      * @param string $name Parameter name.
      * @return mixed
      */
-    public function data($name = null)
+    public function data(string $name = null)
     {
-        if ($this->_Controller->request->is('get')) {
+        if ($this->_Controller->getRequest()->is('get')) {
             if (empty($name)) {
                 return $this->_Controller->getRequest()->getQueryParams();
             } else {
                 return $this->_Controller->getRequest()->getQuery($name);
             }
-        } elseif ($this->_Controller->request->is(['post', 'put'])) {
+        } elseif ($this->_Controller->getRequest()->is(['post', 'put'])) {
             if (empty($name)) {
                 return $this->_Controller->getRequest()->getData($this->formName);
             } else {
@@ -152,7 +153,7 @@ class ParameterRegistry extends ObjectRegistry
      *
      * @return array
      */
-    public function values()
+    public function values(): array
     {
         $result = [];
         foreach ($this->collection() as $param) {
@@ -167,7 +168,7 @@ class ParameterRegistry extends ObjectRegistry
      *
      * @return array
      */
-    public function viewValues()
+    public function viewValues(): array
     {
         $result = [];
         foreach ($this->collection() as $param) {
@@ -183,7 +184,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param array $options Settings.
      * @return void
      */
-    public function config($options)
+    public function config(array $options): void
     {
         if (!empty($options['formName'])) {
             $this->formName = $options['formName'];
@@ -196,7 +197,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param string $name Field name.
      * @return string
      */
-    public function fieldName($name)
+    public function fieldName(string $name): string
     {
         if (empty($this->formName)) {
             return $name;
@@ -208,9 +209,9 @@ class ParameterRegistry extends ObjectRegistry
     /**
      * Returns controller instance.
      *
-     * @return Cake\Controller\Controller
+     * @return \Cake\Controller\Controller
      */
-    public function controller()
+    public function controller(): \Cake\Controller\Controller
     {
         return $this->_Controller;
     }
@@ -221,7 +222,7 @@ class ParameterRegistry extends ObjectRegistry
      *
      * @return array
      */
-    public function __debugInfo()
+    public function __debugInfo(): array
     {
         return [];
     }
@@ -230,7 +231,7 @@ class ParameterRegistry extends ObjectRegistry
      * Override to allow serialization
      * @return array
      */
-    public function __sleep()
+    public function __sleep(): array
     {
         return ['formName'];
     }

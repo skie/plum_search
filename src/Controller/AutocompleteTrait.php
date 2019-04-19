@@ -27,12 +27,12 @@ trait AutocompleteTrait
      *
      * @return void
      */
-    public function autocomplete()
+    public function autocomplete(): void
     {
         $this->loadComponent('RequestHandler');
         $this->viewBuilder()->setClassName('Json');
         $data = [];
-        $paramName = $this->getRequest()->getQuery('parameter');
+        $paramName = (string)$this->getRequest()->getQuery('parameter');
         $query = $this->getRequest()->getQuery('query');
         $parameter = $this->Filter->parameters()->get($paramName);
         if (!empty($parameter)) {

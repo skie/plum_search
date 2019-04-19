@@ -22,17 +22,12 @@ use PlumSearch\Test\App\Model\Table\ArticlesTable;
  */
 class ArticlesController extends AppController
 {
-
-    public $helpers = [
-        'PlumSearch.Search',
-    ];
-
     /**
      * initialize callback
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $author = $this->Articles->Authors;
         $this->loadComponent('Paginator');
@@ -46,6 +41,9 @@ class ArticlesController extends AppController
                     'finder' => $author->find('list'),
                 ],
             ]
+        ]);
+        $this->viewBuilder()->setHelpers([
+            'PlumSearch.Search',
         ]);
     }
 

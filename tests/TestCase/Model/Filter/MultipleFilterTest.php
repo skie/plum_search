@@ -13,6 +13,7 @@ namespace PlumSearch\Test\TestCase\Model\Filter;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Utility\Hash;
 use PlumSearch\Model;
 use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\MultipleFilter;
@@ -27,6 +28,21 @@ class MultipleFilterTest extends TestCase
     ];
 
     /**
+     * @var \Cake\Orm\Table
+     */
+    protected $Table;
+
+    /**
+     * @var FilterRegistry
+     */
+    protected $FilterRegistry;
+
+    /**
+     * @var \PlumSearch\Model\Filter\AbstractFilter
+     */
+    protected $MultipleFilter;
+
+    /**
      * setUp method
      *
      * @return void
@@ -34,7 +50,7 @@ class MultipleFilterTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->Table = TableRegistry::get('Articles');
+        $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
     }
 
@@ -50,7 +66,7 @@ class MultipleFilterTest extends TestCase
     }
 
     /**
-     * Data providor for testApply method
+     * Data provider for testApply method
      *
      * @return array
      */
@@ -85,14 +101,13 @@ class MultipleFilterTest extends TestCase
         $query = $this->Table->find('all');
         $this->MultipleFilter->apply($query, ['name' => 'test']);
         $store = null;
-        $query->traverse(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store) {
             $store = $d;
         }, ['where']);
-        $store2 = null;
-        $store->traverse(function ($d) use (&$store2) {
-            $store2 = $d;
-        }, ['where']);
-        $this->assertEquals(__('(title LIKE :c0 {0} body LIKE :c1)', $operator), $store->sql($query->getValueBinder()));
-        $this->assertEquals('%test%', $store2->getValue());
+
+        $binder = $query->getValueBinder();
+        $this->assertEquals($store->sql($binder), __('(title LIKE :c0 {0} body LIKE :c1)', $operator));
+        $this->assertEquals(Hash::get($binder->bindings(), ':c0.value'), '%test%');
+        $this->assertEquals(Hash::get($binder->bindings(), ':c1.value'), '%test%');
     }
 }

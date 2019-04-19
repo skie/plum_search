@@ -25,20 +25,19 @@ class ExtArticlesController extends AppController
 {
     use AutocompleteTrait;
 
-    public $helpers = [
-        'PlumSearch.Search',
-    ];
-
     /**
      * initialize callback
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
-        $Articles = TableRegistry::get('Articles');
+        $Articles = TableRegistry::getTableLocator()->get('Articles');
         $author = $Articles->Authors;
         $this->loadComponent('Paginator');
+        $this->viewBuilder()->setHelpers([
+            'PlumSearch.Search',
+        ]);
         $this->loadComponent('PlumSearch.Filter', [
             'formName' => 'Article',
             'parameters' => [
@@ -71,7 +70,7 @@ class ExtArticlesController extends AppController
      */
     public function index()
     {
-        $Articles = TableRegistry::get('Articles');
+        $Articles = TableRegistry::getTableLocator()->get('Articles');
         $this->set('articles', $this->Paginator->paginate($this->Filter->prg($Articles)));
     }
 }

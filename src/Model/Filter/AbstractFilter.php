@@ -60,7 +60,7 @@ abstract class AbstractFilter
      * @param array $data Filters values.
      * @return \Cake\ORM\Query
      */
-    public function apply(Query $query, array $data)
+    public function apply(Query $query, array $data): \Cake\ORM\Query
     {
         if ($this->_applicable($data)) {
             $field = $this->getConfig('field');
@@ -80,7 +80,7 @@ abstract class AbstractFilter
      * @param array $data Array of options as described above.
      * @return bool
      */
-    protected function _applicable($data)
+    protected function _applicable(array $data): bool
     {
         $field = $this->getConfig('name');
 
@@ -92,7 +92,7 @@ abstract class AbstractFilter
      *
      * @return bool
      */
-    protected function _defaultDefined()
+    protected function _defaultDefined(): bool
     {
         $default = $this->getConfig('default');
 
@@ -104,11 +104,11 @@ abstract class AbstractFilter
      *
      * @param  \Cake\ORM\Query $query Query.
      * @param string $field Field name.
-     * @param string $value Field value.
+     * @param string|array $value Field value.
      * @param array $data Filters values.
      * @return \Cake\ORM\Query
      */
-    abstract protected function _buildQuery(Query $query, $field, $value, array $data = []);
+    abstract protected function _buildQuery(Query $query, string $field, $value, array $data = []): \Cake\ORM\Query;
 
     /**
      * Evaluate value of filter parameter
@@ -116,7 +116,7 @@ abstract class AbstractFilter
      * @param array $data Array of options as described above.
      * @return mixed
      */
-    protected function _value($data)
+    protected function _value(array $data)
     {
         $field = $this->getConfig('name');
         $value = $data[$field];

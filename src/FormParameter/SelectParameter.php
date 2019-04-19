@@ -11,9 +11,7 @@
  */
 namespace PlumSearch\FormParameter;
 
-use Cake\ORM\Query;
 use PlumSearch\FormParameter\Exception\MissingParameterException;
-use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
  * Class SelectParam
@@ -61,7 +59,7 @@ class SelectParameter extends BaseParameter
      *
      * @return bool
      */
-    public function hasOptions()
+    public function hasOptions(): bool
     {
         return true;
     }
@@ -71,7 +69,7 @@ class SelectParameter extends BaseParameter
      *
      * @return array
      */
-    public function formInputConfig()
+    public function formInputConfig(): array
     {
         $formConfig = parent::formInputConfig();
 
@@ -94,7 +92,7 @@ class SelectParameter extends BaseParameter
      *
      * @return bool
      */
-    protected function _allowedEmptyOptions()
+    protected function _allowedEmptyOptions(): bool
     {
         $options = $this->getConfig('options');
         $allowEmptyOptions = $this->getConfig('allowEmptyOptions');

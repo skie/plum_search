@@ -50,7 +50,7 @@ class FilterRegistry extends ObjectRegistry
      * @param  string       $class Partial class name to resolve.
      * @return string|false Either the correct class name or false.
      */
-    protected function _resolveClassName($class)
+    protected function _resolveClassName($class): ?string
     {
         $result = App::className($class, 'Model/Filter', 'Filter');
         if ($result || strpos($class, '.') !== false) {
@@ -70,7 +70,7 @@ class FilterRegistry extends ObjectRegistry
      * @return void
      * @throws \PlumSearch\Model\Filter\Exception\MissingFilterException
      */
-    protected function _throwMissingClassError($class, $plugin)
+    protected function _throwMissingClassError(string $class, ?string $plugin): void
     {
         throw new MissingFilterException([
             'class' => $class . 'Filter',
@@ -89,7 +89,7 @@ class FilterRegistry extends ObjectRegistry
      * @param  array $config An array of config to use for the filter.
      * @return \PlumSearch\Model\Filter\AbstractFilter The constructed filter class.
      */
-    protected function _create($class, $alias, $config)
+    protected function _create($class, string $alias, array $config): \PlumSearch\Model\Filter\AbstractFilter
     {
         if (empty($config['name'])) {
             $config['name'] = $alias;
@@ -104,7 +104,7 @@ class FilterRegistry extends ObjectRegistry
      *
      * @return \Cake\Collection\Collection
      */
-    public function collection()
+    public function collection(): \Cake\Collection\Collection
     {
         return collection($this->_loaded);
     }

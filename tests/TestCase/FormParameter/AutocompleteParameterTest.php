@@ -11,7 +11,7 @@
  */
 namespace PlumSearch\Test\TestCase\FormParameter;
 
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use PlumSearch\FormParameter\AutocompleteParameter;
 use PlumSearch\FormParameter\HiddenParameter;
@@ -38,13 +38,13 @@ class AutocompleteParamTest extends TestCase
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->request = new Request([
+        $controller->setRequest(new ServerRequest([
             'webroot' => '/dir/',
             'query' => [
                 'item_id' => 7,
                 'item_id_lookup' => 'cool item',
             ],
-        ]);
+        ]));
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->AutocompleteParam = new AutocompleteParameter($this->ParameterRegistry, [
             'name' => 'item_id',

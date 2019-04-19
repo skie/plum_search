@@ -19,7 +19,7 @@ class TagsTable extends \Cake\ORM\Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setTable('tags');
         $this->setDisplayField('id');
