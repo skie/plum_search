@@ -132,15 +132,15 @@ class FilterComponent extends Component
      * For POST requests builds redirection url and perform redirect to get action.
      * For GET requests add filters finder to passed into the method query and returns it.
      *
-     * @param Table $table Table instance.
+     * @param Table|\Cake\ORM\Query $table Table instance.
      * @param array $options Search parameters.
      * @return mixed
      */
-    public function prg(Table $table, array $options = [])
+    public function prg($table, array $options = [])
     {
         $this->setConfig($options);
 
-        $formName = $this->_initParam('formName', $this->getConfig('formName'));
+        $formName = (string)$this->_initParam('formName', $this->getConfig('formName'));
         $action = $this->_initParam('action', $this->controller()->getRequest()->getParam('action'));
 
         $this->parameters()->config([

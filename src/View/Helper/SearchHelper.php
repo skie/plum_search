@@ -36,7 +36,7 @@ class SearchHelper extends Helper
     public function controls(ParameterRegistry $parameters, array $options = []): array
     {
         $result = [];
-        $entityName = Inflector::singularize($parameters->formName);
+        $entityName = Inflector::singularize($parameters->getFormName());
         $collection = $parameters->collection(isset($options['collectionMethod']) ? $options['collectionMethod'] : null);
         foreach ($collection as $primaryParameter) {
             foreach ($primaryParameter->viewValues() as $param) {

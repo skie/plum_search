@@ -35,7 +35,7 @@ class ParameterRegistry extends ObjectRegistry
      *
      * @var string
      */
-    public $formName;
+    protected $formName;
 
     /**
      * Constructor.
@@ -49,6 +49,16 @@ class ParameterRegistry extends ObjectRegistry
             $this->_Controller = $Controller;
             $this->config($options);
         }
+    }
+
+    /**
+     * Form name getter.
+     *
+     * @return string
+     */
+    public function getFormName(): string
+    {
+        return (string)$this->formName;
     }
 
     /**
@@ -110,7 +120,7 @@ class ParameterRegistry extends ObjectRegistry
     /**
      * Return collection of loaded parameters
      *
-     * @param callable $collectionMethod Method to process on collection items.
+     * @param callable $collectionMethod
      * @return \Cake\Collection\Collection
      */
     public function collection(callable $collectionMethod = null): \Cake\Collection\Collection
