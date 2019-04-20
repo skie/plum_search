@@ -200,7 +200,7 @@ class FilterComponent extends Component
      * @param string $action Action name.
      * @return void
      */
-    protected function _redirect(string $action): bool
+    protected function _redirect(string $action): void
     {
         $params = $this->controller()->getRequest()->getParam('pass');
         $searchParams = array_diff_key(
@@ -234,8 +234,6 @@ class FilterComponent extends Component
 
         $emitter = new ResponseEmitter();
         $emitter->emit($this->controller()->getResponse());
-
-        return true;
     }
 
     /**

@@ -51,7 +51,6 @@ class AutocompleteParameter extends BaseParameter
 
     /**
      * Builds autocomplete url
-     * @todo allow override url with parameter configuration
      *
      * @return string
      */

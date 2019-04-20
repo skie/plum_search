@@ -29,7 +29,6 @@ class TagsFilter extends AbstractFilter
      */
     protected function _buildQuery(Query $query, string $field, $value, array $data = []): \Cake\ORM\Query
     {
-        // @todo bind to parent Articles.id using initialization parameter
         $idName = $query->getRepository()->aliasField('id');
 
         $tags = TableRegistry::get('ArticlesTags')->find('all')

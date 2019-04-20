@@ -43,5 +43,15 @@
     "support":{
         "source":"https://github.com/skie/plum-search",
         "issues":"https://github.com/skie/plum-search/issues"
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
+        "cs-fix": "phpcbf --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
+        "test": "phpunit --stderr",
+        "test-coverage": "phpunit --stderr --coverage-clover=clover.xml"
     }
 }
