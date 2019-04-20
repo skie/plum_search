@@ -34,6 +34,13 @@ abstract class AbstractFilter
     protected $_defaultConfig = [];
 
     /**
+     * FilterRegistry storage.
+     *
+     * @var FilterRegistry
+     */
+    protected $registry;
+
+    /**
      * Filter constructor
      *
      * @param FilterRegistry $registry FilterRegistry instance.
@@ -50,6 +57,7 @@ abstract class AbstractFilter
         if (empty($config['field'])) {
             $config['field'] = $config['name'];
         }
+        $this->registry = $registry;
         $this->setConfig($config);
     }
 

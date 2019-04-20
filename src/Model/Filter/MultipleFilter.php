@@ -65,7 +65,7 @@ class MultipleFilter extends AbstractFilter
             $type = 'and';
         }
 
-        return $query->where(function ($exp) use (&$query, $value, $type, $fields, $types, $rawValue) {
+        return $query->where(function ($exp) use ($value, $type, $fields, $types, $rawValue) {
             return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types, $rawValue) {
                 collection($fields)->each(function ($field) use ($value, &$ex, $types, $rawValue) {
                     if (in_array($types[$field], ['integer', 'int', 'float'])) {

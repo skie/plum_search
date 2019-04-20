@@ -26,7 +26,8 @@
         "phpunit/phpunit": "^7",
         "rector/rector": "^0.4.11",
         "vlucas/phpdotenv": "^3.3",
-        "cakephp/cakephp-codesniffer": "dev-master"
+        "cakephp/cakephp-codesniffer": "dev-master",
+        "phpstan/phpstan": "^0.11.0@dev"
     },
     "autoload": {
         "psr-4": {
@@ -47,11 +48,13 @@
     "scripts": {
         "check": [
             "@cs-check",
-            "@test"
+            "@test",
+            "@stan"
         ],
         "cs-check": "phpcs -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
         "cs-fix": "phpcbf --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
         "test": "phpunit --stderr",
+        "stan": "phpstan analyse -l 3 src",
         "test-coverage": "phpunit --stderr --coverage-clover=clover.xml"
     }
 }

@@ -48,7 +48,7 @@ class FilterRegistry extends ObjectRegistry
      * Part of the template method for Cake\Core\ObjectRegistry::load()
      *
      * @param  string       $class Partial class name to resolve.
-     * @return string|false Either the correct class name or false.
+     * @return string|null Either the correct class name or false.
      */
     protected function _resolveClassName($class): ?string
     {
