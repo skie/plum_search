@@ -35,8 +35,7 @@ class Application extends BaseApplication
      */
     public function bootstrap(): void
     {
-        // Call parent to load bootstrap from files.
-        parent::bootstrap(); 
+        parent::bootstrap();
 
         $this->addPlugin('PlumSearch', [
             'path' => ROOT . DS,

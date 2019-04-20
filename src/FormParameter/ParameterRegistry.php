@@ -110,7 +110,7 @@ class ParameterRegistry extends ObjectRegistry
     /**
      * Return collection of loaded parameters
      *
-     * @param callable $collectionMethod
+     * @param callable $collectionMethod Method to process on collection items.
      * @return \Cake\Collection\Collection
      */
     public function collection(callable $collectionMethod = null): \Cake\Collection\Collection
