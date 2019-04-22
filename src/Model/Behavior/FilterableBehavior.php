@@ -28,7 +28,7 @@ class FilterableBehavior extends Behavior
      *
      * @var \PlumSearch\Model\FilterRegistry
      */
-    protected $_searchFilters = null;
+    protected $_searchFilters;
 
     /**
      * Table instance
@@ -65,21 +65,16 @@ class FilterableBehavior extends Behavior
     {
         parent::__construct($table, $config);
         $this->_table = $table;
-        $this->filters();
+        $this->_searchFilters = new FilterRegistry($this->_table);
     }
 
     /**
      * Returns filter registry instance
      *
-     * @param  bool $reset Reset flag.
      * @return \PlumSearch\Model\FilterRegistry
      */
-    public function filters(bool $reset = false): \PlumSearch\Model\FilterRegistry
+    public function filters(): \PlumSearch\Model\FilterRegistry
     {
-        if ($reset || is_null($this->_searchFilters)) {
-            $this->_searchFilters = new FilterRegistry($this->_table);
-        }
-
         return $this->_searchFilters;
     }
 

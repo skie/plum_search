@@ -11,6 +11,7 @@
  */
 namespace PlumSearch\Model\Filter;
 
+use Cake\Database\Expression\QueryExpression;
 use Cake\ORM\Query;
 use PlumSearch\Model\FilterRegistry;
 
@@ -65,9 +66,9 @@ class MultipleFilter extends AbstractFilter
             $type = 'and';
         }
 
-        return $query->where(function ($exp) use ($value, $type, $fields, $types, $rawValue) {
-            return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types, $rawValue) {
-                collection($fields)->each(function ($field) use ($value, &$ex, $types, $rawValue) {
+        return $query->where(function (QueryExpression $exp) use ($value, $type, $fields, $types, $rawValue):QueryExpression {
+            return $exp->{$type . '_'}(function (QueryExpression $ex) use ($value, $fields, $types, $rawValue): QueryExpression {
+                collection($fields)->each(function (string $field) use ($value, &$ex, $types, $rawValue): QueryExpression {
                     if (in_array($types[$field], ['integer', 'int', 'float'])) {
                         return $ex->eq($field, $rawValue, $types[$field]);
                     } else {

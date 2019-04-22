@@ -27,7 +27,7 @@ class FilterComponent extends Component
      *
      * @var \PlumSearch\FormParameter\ParameterRegistry
      */
-    protected $_searchParameters = null;
+    protected $_searchParameters;
 
     /**
      * Controller instance
@@ -60,28 +60,33 @@ class FilterComponent extends Component
     {
         parent::__construct($registry, $config);
         $this->_controller = $registry->getController();
-        $this->parameters(true);
+        $this->resetParameters();
     }
 
     /**
-     * Returns parameters registry instance
+     * Returns parameters registry instance.
      *
-     * @param bool $reset Reset flag.
      * @return \PlumSearch\FormParameter\ParameterRegistry
      */
-    public function parameters(bool $reset = false): \PlumSearch\FormParameter\ParameterRegistry
+    public function parameters(): \PlumSearch\FormParameter\ParameterRegistry
     {
-        if ($reset || is_null($this->_searchParameters)) {
-            $this->_searchParameters = new ParameterRegistry($this->_controller, []);
-            $parameters = (array)$this->getConfig('parameters');
-            foreach ($parameters as $parameter) {
-                if (!empty($parameter['name'])) {
-                    $this->addParam($parameter['name'], $parameter);
-                }
+        return $this->_searchParameters;
+    }
+
+    /**
+     * Reset parameters registry instance.
+     *
+     * @return void
+     */
+    public function resetParameters(): void
+    {
+        $this->_searchParameters = new ParameterRegistry($this->_controller, []);
+        $parameters = (array)$this->getConfig('parameters');
+        foreach ($parameters as $parameter) {
+            if (!empty($parameter['name'])) {
+                $this->addParam($parameter['name'], $parameter);
             }
         }
-
-        return $this->_searchParameters;
     }
 
     /**
@@ -216,7 +221,7 @@ class FilterComponent extends Component
         if ($this->getConfig('filterEmptyParams')) {
             $searchParams = array_filter(
                 $searchParams,
-                function ($v, $k) {
+                function ($v, $k): bool {
                     if (($v === 0) || ($v === '0')) {
                         return true;
                     }

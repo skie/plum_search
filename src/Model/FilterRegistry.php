@@ -28,18 +28,16 @@ class FilterRegistry extends ObjectRegistry
      *
      * @var \Cake\ORM\Table
      */
-    protected $_Table = null;
+    protected $_Table;
 
     /**
      * Constructor.
      *
      * @param \Cake\ORM\Table $Table Table instance.
      */
-    public function __construct(Table $Table = null)
+    public function __construct(Table $Table)
     {
-        if ($Table) {
-            $this->_Table = $Table;
-        }
+        $this->_Table = $Table;
     }
 
     /**
@@ -102,9 +100,9 @@ class FilterRegistry extends ObjectRegistry
     /**
      * Return collection of loaded filters
      *
-     * @return \Cake\Collection\Collection
+     * @return \Cake\Collection\CollectionInterface
      */
-    public function collection(): \Cake\Collection\Collection
+    public function collection(): \Cake\Collection\CollectionInterface
     {
         return collection($this->_loaded);
     }

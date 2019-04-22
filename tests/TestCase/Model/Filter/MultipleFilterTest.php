@@ -28,7 +28,7 @@ class MultipleFilterTest extends TestCase
     ];
 
     /**
-     * @var \Cake\Orm\Table
+     * @var \Cake\ORM\Table
      */
     protected $Table;
 
@@ -61,7 +61,8 @@ class MultipleFilterTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->LikeFilter);
+        unset($this->Table);
+        unset($this->FilterRegistry);
         parent::tearDown();
     }
 

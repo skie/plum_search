@@ -17,7 +17,7 @@ use PlumSearch\Test\App\Model\Table\ArticlesTable;
 /**
  * Articles Controller
  *
- * @property \App\Model\Table\ArticlesTable $Articles
+ * @property \PlumSearch\Test\App\Model\Table\ArticlesTable $Articles
  * @property FilterComponent $Filter
  */
 class ArticlesController extends AppController

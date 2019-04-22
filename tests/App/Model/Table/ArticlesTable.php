@@ -13,6 +13,14 @@ namespace PlumSearch\Test\App\Model\Table;
 
 use Cake\ORM\Query;
 
+/**
+ * Articles Table
+ *
+ * @property \PlumSearch\Test\App\Model\Table\AuthorsTable|\Cake\ORM\Association\BelongsTo $Authors
+ * @method \PlumSearch\Model\FilterRegistry filters()
+ * @method \Cake\ORM\Table addFilter(string $name, array $options = [])
+ * @method \Cake\ORM\Table removeFilter(string $name)
+ */
 class ArticlesTable extends \Cake\ORM\Table
 {
     /**

@@ -23,8 +23,18 @@ use PlumSearch\FormParameter\ParameterRegistry;
  *
  * @package PlumSearch\Test\TestCase\FormParameter
  */
-class AutocompleteParamTest extends TestCase
+class AutocompleteParameterTest extends TestCase
 {
+
+    /**
+     * @var ParameterRegistry
+     */
+    protected $ParameterRegistry;
+
+    /**
+     * @var \PlumSearch\FormParameter\AutocompleteParameter
+     */
+    protected $AutocompleteParam;
 
     /**
      * setUp method
@@ -61,7 +71,8 @@ class AutocompleteParamTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->InputParam);
+        unset($this->AutocompleteParam);
+        unset($this->ParameterRegistry);
         parent::tearDown();
     }
 

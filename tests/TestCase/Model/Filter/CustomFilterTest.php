@@ -11,9 +11,10 @@
  */
 namespace PlumSearch\Test\TestCase\Model\Filter;
 
+use Cake\ORM\Query;
+use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\Model;
 use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\CustomFilter;
 
@@ -27,6 +28,16 @@ class CustomFilterTest extends TestCase
     ];
 
     /**
+     * @var Table
+     */
+    protected $Table;
+
+    /**
+     * @var FilterRegistry
+     */
+    protected $FilterRegistry;
+
+    /**
      * setUp method
      *
      * @return void
@@ -38,11 +49,16 @@ class CustomFilterTest extends TestCase
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => function ($query, $data) {
+            'method' => function ($query, $data): Query {
                 return $query;
             }
         ]);
     }
+
+    /**
+     * @var CustomFilter
+     */
+    protected $CustomFilter;
 
     /**
      * tearDown method
@@ -75,7 +91,7 @@ class CustomFilterTest extends TestCase
     {
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => function ($query, $field, $value, $data, $config) {
+            'method' => function ($query, $field, $value, $data, $config): Query {
                 return $query
                     ->where([
                         'OR' => [

@@ -9,7 +9,7 @@
  * @since         PlumSearch 0.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace PlumSearch\Test\TestCase\Lib;
+namespace PlumSearch\Test\TestCase\FormParameter;
 
 use Cake\TestSuite\TestCase;
 use PlumSearch\FormParameter\InputParameter;
@@ -23,6 +23,12 @@ use PlumSearch\FormParameter\ParameterRegistry;
  */
 class ParameterRegistryTest extends TestCase
 {
+
+    /**
+     * @var \PlumSearch\FormParameter\ParameterRegistry
+     */
+    protected $ParameterRegistry;
+
     /**
      * setUp method
      *

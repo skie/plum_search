@@ -28,7 +28,7 @@ class ParameterRegistry extends ObjectRegistry
      *
      * @var \Cake\Controller\Controller
      */
-    protected $_Controller = null;
+    protected $_Controller;
 
     /**
      * Form name
@@ -43,12 +43,10 @@ class ParameterRegistry extends ObjectRegistry
      * @param \Cake\Controller\Controller $Controller Controller instance.
      * @param array $options Settings.
      */
-    public function __construct(Controller $Controller = null, array $options = [])
+    public function __construct(Controller $Controller, array $options = [])
     {
-        if ($Controller) {
-            $this->_Controller = $Controller;
-            $this->config($options);
-        }
+        $this->_Controller = $Controller;
+        $this->config($options);
     }
 
     /**

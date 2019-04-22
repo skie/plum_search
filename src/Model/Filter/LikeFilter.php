@@ -11,6 +11,7 @@
  */
 namespace PlumSearch\Model\Filter;
 
+use Cake\Database\Expression\QueryExpression;
 use Cake\ORM\Query;
 
 class LikeFilter extends AbstractFilter
@@ -29,7 +30,7 @@ class LikeFilter extends AbstractFilter
         $value = '%' . $value . '%';
 
         return $query->where(
-            function ($exp) use ($field, $value) {
+            function (QueryExpression $exp) use ($field, $value): QueryExpression {
                 return $exp->like($field, $value);
             }
         );

@@ -11,6 +11,11 @@
  */
 namespace PlumSearch\Test\App\Model\Table;
 
+/**
+ * Authors Table
+ *
+ * @property \PlumSearch\Test\App\Model\Table\AuthorsTable|\Cake\ORM\Association\BelongsTo $Authors
+ */
 class AuthorsTable extends \Cake\ORM\Table
 {
 }

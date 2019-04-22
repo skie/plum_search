@@ -20,7 +20,7 @@ class ValueFilter extends AbstractFilter
      *
      * @param \Cake\ORM\Query $query Query.
      * @param string $field Field name.
-     * @param string $value Field value.
+     * @param string|array $value Field value.
      * @param array $data Filters values.
      * @return \Cake\ORM\Query
      */

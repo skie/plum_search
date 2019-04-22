@@ -18,7 +18,8 @@ use PlumSearch\Controller\Component\FilterComponent;
 /**
  * Articles Controller
  *
- * @property \App\Model\Table\ArticlesTable $Articles
+ * @property \PlumSearch\Test\App\Model\Table\ArticlesTable $Articles
+ * @property \PlumSearch\Test\App\Model\Table\AuthorsTable $Authors
  * @property FilterComponent $Filter
  */
 class ExtArticlesController extends AppController

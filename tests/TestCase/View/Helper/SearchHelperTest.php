@@ -38,6 +38,15 @@ class SearchHelperTest extends TestCase
         'plugin.PlumSearch.Authors',
     ];
 
+    /** @var \Cake\Controller\Controller */
+    protected $Controller;
+
+    /** @var \Cake\View\View */
+    protected $View;
+
+    /** @var SearchHelper */
+    protected $Search;
+
     /**
      * setUp method
      *

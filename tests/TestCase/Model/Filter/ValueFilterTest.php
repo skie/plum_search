@@ -28,7 +28,7 @@ class ValueFilterTest extends TestCase
     ];
 
     /**
-     * @var \Cake\Orm\Table
+     * @var \Cake\ORM\Table
      */
     protected $Table;
 
