@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -62,7 +63,7 @@ class AutocompleteTraitTest extends IntegrationTestCase
     {
         $this->useHttpServer(true);
         $this->get('/ExtArticles/autocomplete?query=r&parameter=author_id');
-        $response = json_decode($this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true);
         $this->assertEquals('success', $response['status']);
         $this->assertEquals([
             ['id' => 2, 'value' => 'mark'],
@@ -79,7 +80,7 @@ class AutocompleteTraitTest extends IntegrationTestCase
     {
         $this->useHttpServer(true);
         $this->get('/ExtArticles/autocomplete?query=%');
-        $response = json_decode($this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true);
         $this->assertEquals([], $response['data']);
         $this->assertEquals('error', $response['status']);
         $this->assertEquals('Field not found', $response['message']);

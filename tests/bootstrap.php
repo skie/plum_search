@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 $findRoot = function () {
     $root = dirname(__DIR__);
