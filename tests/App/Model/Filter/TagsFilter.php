@@ -39,7 +39,7 @@ class TagsFilter extends AbstractFilter
             ]);
         })
         ->where([
-            "ArticlesTags.article_id = $idName"
+            "ArticlesTags.article_id = $idName",
         ]);
 
         return $query

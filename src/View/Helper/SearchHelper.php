@@ -26,11 +26,10 @@ use PlumSearch\FormParameter\ParameterRegistry;
  */
 class SearchHelper extends Helper
 {
-
     /**
      * Builds Form::controls structure.
      *
-     * @param ParameterRegistry $parameters Form parameters collection.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $parameters Form parameters collection.
      * @param array $options Additional input options.
      * @return array
      */
@@ -38,7 +37,7 @@ class SearchHelper extends Helper
     {
         $result = [];
         $entityName = Inflector::singularize($parameters->getFormName());
-        $collection = $parameters->collection(isset($options['collectionMethod']) ? $options['collectionMethod'] : null);
+        $collection = $parameters->collection($options['collectionMethod'] ?? null);
         foreach ($collection as $primaryParameter) {
             foreach ($primaryParameter->viewValues() as $param) {
                 $name = $param->getConfig('name');
@@ -58,7 +57,7 @@ class SearchHelper extends Helper
     /**
      * Builds Form::controls structure.
      *
-     * @param ParameterRegistry $parameters Form parameters collection.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $parameters Form parameters collection.
      * @param array $options Additional input options.
      * @return array
      * @deprecated 3.6.0 Use SearchHelper::controls() instead.
@@ -76,7 +75,7 @@ class SearchHelper extends Helper
     /**
      * Generates input for parameter
      *
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @param array $options Additional input options.
      * @return array
      */
@@ -94,7 +93,7 @@ class SearchHelper extends Helper
     /**
      * Generates default input for parameter
      *
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
     protected function _defaultInput(BaseParameter $param): array
@@ -117,7 +116,7 @@ class SearchHelper extends Helper
      * Set value for field
      *
      * @param array $input Field options.
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
     protected function _setValue(array &$input, BaseParameter $param): array
@@ -136,7 +135,7 @@ class SearchHelper extends Helper
      * Set options for field
      *
      * @param array $input Field options.
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
     protected function _setOptions(array &$input, BaseParameter $param): array
@@ -152,7 +151,7 @@ class SearchHelper extends Helper
      * Set autocomplete settings for field
      *
      * @param array $input Field options.
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
     protected function _applyAutocompleteOptions(array &$input, BaseParameter $param): array

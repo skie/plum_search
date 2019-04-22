@@ -34,7 +34,7 @@ class AutocompleteParameter extends BaseParameter
     /**
      * Constructor
      *
-     * @param ParameterRegistry $registry ParameterRegistry object.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $registry ParameterRegistry object.
      * @param array $config Object settings.
      * @throws \PlumSearch\FormParameter\Exception\MissingParameterException
      */
@@ -74,7 +74,7 @@ class AutocompleteParameter extends BaseParameter
     {
         $paramName = $this->getConfig('name');
         $this->_dependentParameters[$paramName] = new HiddenParameter($this->_registry, [
-            'name' => $paramName
+            'name' => $paramName,
         ]);
     }
 
@@ -91,7 +91,7 @@ class AutocompleteParameter extends BaseParameter
 
         return [
             $name => $this->value(),
-            $paramName => $param->value()
+            $paramName => $param->value(),
         ];
     }
 }

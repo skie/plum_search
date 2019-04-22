@@ -27,10 +27,10 @@ class ArticlesTagsTable extends \Cake\ORM\Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Articles', [
-            'foreignKey' => 'article_id'
+            'foreignKey' => 'article_id',
         ]);
         $this->belongsTo('Tags', [
-            'foreignKey' => 'tag_id'
+            'foreignKey' => 'tag_id',
         ]);
     }
 }

@@ -14,8 +14,8 @@ namespace PlumSearch\Model\Filter;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\ORM\Query;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * Class AbstractFilter
@@ -37,14 +37,14 @@ abstract class AbstractFilter
     /**
      * FilterRegistry storage.
      *
-     * @var FilterRegistry
+     * @var \PlumSearch\Model\FilterRegistry
      */
     protected $registry;
 
     /**
      * Filter constructor
      *
-     * @param FilterRegistry $registry FilterRegistry instance.
+     * @param \PlumSearch\Model\FilterRegistry $registry FilterRegistry instance.
      * @param array $config Filter configuration.
      * @throws \PlumSearch\Model\Filter\Exception\MissingFilterException Used when required options not defined.
      */
@@ -93,7 +93,11 @@ abstract class AbstractFilter
     {
         $field = $this->getConfig('name');
 
-        return $field && (!empty($data[$field]) || $this->_defaultDefined() || isset($data[$field]) && (string)$data[$field] !== '');
+        return $field && (
+                !empty($data[$field]) ||
+                $this->_defaultDefined() ||
+                isset($data[$field]) && (string)$data[$field] !== ''
+            );
     }
 
     /**

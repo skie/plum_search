@@ -15,10 +15,9 @@ namespace PlumSearch\Test\TestCase\Model;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\Model\FilterRegistry;
-use PlumSearch\Model\Filter\Exception\MissingFilterException;
 use PlumSearch\Model\Filter\LikeFilter;
 use PlumSearch\Model\Filter\ValueFilter;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * PlumSearch\Model\FilterRegistry Test Case

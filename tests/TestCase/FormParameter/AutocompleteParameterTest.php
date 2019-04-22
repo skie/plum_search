@@ -26,7 +26,6 @@ use PlumSearch\FormParameter\ParameterRegistry;
  */
 class AutocompleteParameterTest extends TestCase
 {
-
     /**
      * @var ParameterRegistry
      */
@@ -61,7 +60,7 @@ class AutocompleteParameterTest extends TestCase
             'name' => 'item_id',
             'autocompleteAction' => function () {
                 return [];
-            }
+            },
         ]);
     }
 
@@ -132,7 +131,7 @@ class AutocompleteParameterTest extends TestCase
     {
         $this->assertEquals($this->AutocompleteParam->values(), [
             'item_id_lookup' => 'cool item',
-            'item_id' => 7
+            'item_id' => 7,
         ]);
     }
 

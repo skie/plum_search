@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 $findRoot = function () {
     $root = dirname(__DIR__);
     if (is_dir($root . '/vendor/cakephp/cakephp')) {
@@ -69,7 +68,7 @@ $cache = [
 
 Cake\Cache\Cache::setConfig($cache);
 Cake\Core\Configure::write('Session', [
-    'defaults' => 'php'
+    'defaults' => 'php',
 ]);
 
 Cake\Core\Configure::write('App.encoding', 'utf8');
@@ -81,5 +80,5 @@ if (!getenv('db_dsn')) {
 
 Cake\Datasource\ConnectionManager::setConfig('test', [
     'url' => getenv('db_dsn'),
-    'timezone' => 'UTC'
+    'timezone' => 'UTC',
 ]);

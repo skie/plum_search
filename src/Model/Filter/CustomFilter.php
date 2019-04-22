@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace PlumSearch\Model\Filter;
 
 use Cake\ORM\Query;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * Class CustomFilter
@@ -26,7 +26,7 @@ class CustomFilter extends AbstractFilter
     /**
      * Filter constructor
      *
-     * @param FilterRegistry $registry FilterRegistry instance.
+     * @param \PlumSearch\Model\FilterRegistry $registry FilterRegistry instance.
      * @param array $config Filter configuration.
      * @throws \PlumSearch\Model\Filter\Exception\MissingFilterException Used when required options not defined.
      */

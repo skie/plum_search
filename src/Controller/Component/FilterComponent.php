@@ -15,7 +15,6 @@ namespace PlumSearch\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
 use Cake\Http\ResponseEmitter;
-use Cake\ORM\Table;
 use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
@@ -54,7 +53,7 @@ class FilterComponent extends Component
     /**
      * Constructor
      *
-     * @param ComponentRegistry $registry A ComponentRegistry this component can use to lazy load its components.
+     * @param \Cake\Controller\ComponentRegistry $registry A ComponentRegistry this component can use to lazy load its components.
      * @param array $config Array of configuration settings.
      */
     public function __construct(ComponentRegistry $registry, array $config = [])
@@ -138,7 +137,7 @@ class FilterComponent extends Component
      * For POST requests builds redirection url and perform redirect to get action.
      * For GET requests add filters finder to passed into the method query and returns it.
      *
-     * @param Table|\Cake\ORM\Query $table Table instance.
+     * @param \Cake\ORM\Table|\Cake\ORM\Query $table Table instance.
      * @param array $options Search parameters.
      * @return mixed
      */

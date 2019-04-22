@@ -122,7 +122,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param callable $collectionMethod Collection method to execute.
      * @return \Cake\Collection\Collection
      */
-    public function collection(callable $collectionMethod = null): \Cake\Collection\Collection
+    public function collection(?callable $collectionMethod = null): \Cake\Collection\Collection
     {
         $collection = collection($this->_loaded);
         if (is_callable($collectionMethod)) {
@@ -138,7 +138,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param string $name Parameter name.
      * @return mixed
      */
-    public function data(string $name = null)
+    public function data(?string $name = null)
     {
         if ($this->_Controller->getRequest()->is('get')) {
             if (empty($name)) {

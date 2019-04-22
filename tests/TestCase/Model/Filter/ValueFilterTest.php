@@ -15,9 +15,8 @@ namespace PlumSearch\Test\TestCase\Model\Filter;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
-use PlumSearch\Model;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\ValueFilter;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * PlumSearch\Model\Filter\ValueFilter Test Case
@@ -54,7 +53,7 @@ class ValueFilterTest extends TestCase
         $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->ValueFilter = new ValueFilter($this->FilterRegistry, [
-            'name' => 'id'
+            'name' => 'id',
         ]);
     }
 
@@ -113,7 +112,7 @@ class ValueFilterTest extends TestCase
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->ValueFilter = new ValueFilter($this->FilterRegistry, [
             'name' => 'author_name',
-            'field' => 'Authors.name'
+            'field' => 'Authors.name',
         ]);
 
         $this->ValueFilter->apply($query, [

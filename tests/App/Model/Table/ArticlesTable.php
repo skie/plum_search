@@ -43,7 +43,7 @@ class ArticlesTable extends \Cake\ORM\Table
         $this->addFilter('author_id', ['className' => 'Value']);
 
         $this->belongsTo('Authors', [
-            'foreignKey' => 'author_id'
+            'foreignKey' => 'author_id',
         ]);
     }
 

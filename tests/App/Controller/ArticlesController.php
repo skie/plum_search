@@ -12,9 +12,6 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\App\Controller;
 
-use PlumSearch\Controller\Component\FilterComponent;
-use PlumSearch\Test\App\Model\Table\ArticlesTable;
-
 /**
  * Articles Controller
  *
@@ -41,7 +38,7 @@ class ArticlesController extends AppController
                     'className' => 'Select',
                     'finder' => $author->find('list'),
                 ],
-            ]
+            ],
         ]);
         $this->viewBuilder()->setHelpers([
             'PlumSearch.Search',

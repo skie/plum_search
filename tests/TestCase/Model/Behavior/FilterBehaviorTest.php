@@ -14,9 +14,8 @@ namespace PlumSearch\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\ValueFilter;
-use PlumSearch\Test\App\Model\Table\ArticlesTable;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * PlumSearch\Model\Behavior\FilterBehavior Test Case
@@ -132,7 +131,7 @@ class FilterBehaviorTest extends TestCase
 
         $this->Articles->addFilter('author_name', [
             'className' => 'Value',
-            'field' => 'Authors.name'
+            'field' => 'Authors.name',
         ]);
         $filterParameters = [
             'author_name' => 'larry',

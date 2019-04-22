@@ -13,11 +13,10 @@ declare(strict_types=1);
 namespace PlumSearch\Test\TestCase\Model\Filter;
 
 use Cake\ORM\Query;
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\CustomFilter;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * PlumSearch\Model\Filter\CustomFilter Test Case
@@ -52,7 +51,7 @@ class CustomFilterTest extends TestCase
             'name' => 'id',
             'method' => function ($query, $data): Query {
                 return $query;
-            }
+            },
         ]);
     }
 
@@ -100,7 +99,7 @@ class CustomFilterTest extends TestCase
                             'decription LIKE ' => $value,
                         ],
                     ]);
-            }
+            },
         ]);
 
         $query = $this->Table->find('all');

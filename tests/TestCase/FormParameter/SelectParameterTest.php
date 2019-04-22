@@ -72,7 +72,7 @@ class SelectParameterTest extends TestCase
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->SelectParam = new SelectParameter($this->ParameterRegistry, [
             'name' => 'username',
-            'finder' => $articles->find('list')
+            'finder' => $articles->find('list'),
         ]);
     }
 
@@ -96,7 +96,7 @@ class SelectParameterTest extends TestCase
     public function testConstruct()
     {
         $this->SelectParam = new SelectParameter($this->ParameterRegistry, [
-            'name' => 'username'
+            'name' => 'username',
         ]);
     }
 

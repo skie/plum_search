@@ -15,8 +15,6 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\App;
 
-use Cake\Core\Configure;
-use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Middleware\AssetMiddleware;
@@ -30,7 +28,6 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  */
 class Application extends BaseApplication
 {
-
     /**
      * {@inheritDoc}
      */
@@ -40,7 +37,7 @@ class Application extends BaseApplication
 
         $this->addPlugin('PlumSearch', [
             'path' => ROOT . DS,
-            'autoload' => true
+            'autoload' => true,
         ]);
     }
 

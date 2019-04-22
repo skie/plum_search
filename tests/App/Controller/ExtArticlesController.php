@@ -14,7 +14,6 @@ namespace PlumSearch\Test\App\Controller;
 
 use Cake\ORM\TableRegistry;
 use PlumSearch\Controller\AutocompleteTrait;
-use PlumSearch\Controller\Component\FilterComponent;
 
 /**
  * Articles Controller
@@ -55,13 +54,13 @@ class ExtArticlesController extends AppController
                                 return $authors->map(function ($author) {
                                     return [
                                         'id' => $author['id'],
-                                        'value' => $author['name']
+                                        'value' => $author['name'],
                                     ];
                                 });
                             });
-                    }
+                    },
                 ],
-            ]
+            ],
         ]);
     }
 

@@ -35,14 +35,14 @@ abstract class BaseParameter
     /**
      * ParameterRegistry instance
      *
-     * @var ParameterRegistry
+     * @var \PlumSearch\FormParameter\ParameterRegistry
      */
     protected $_registry;
 
     /**
      * List of dependent parameters
      *
-     * @var BaseParameter[]
+     * @var \PlumSearch\FormParameter\BaseParameter[]
      */
     protected $_dependentParameters = [];
 
@@ -63,7 +63,7 @@ abstract class BaseParameter
     /**
      * Constructor
      *
-     * @param ParameterRegistry $registry ParameterRegistry object.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $registry ParameterRegistry object.
      * @param array $config Object settings.
      */
     public function __construct(ParameterRegistry $registry, array $config = [])
@@ -130,7 +130,7 @@ abstract class BaseParameter
     /**
      * Build view values list
      *
-     * @return BaseParameter[]
+     * @return \PlumSearch\FormParameter\BaseParameter[]
      */
     public function viewValues(): array
     {

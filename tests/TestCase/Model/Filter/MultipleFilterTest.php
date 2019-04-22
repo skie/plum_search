@@ -15,9 +15,8 @@ namespace PlumSearch\Test\TestCase\Model\Filter;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
-use PlumSearch\Model;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\MultipleFilter;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * PlumSearch\Model\Filter\MultipleFilter Test Case
@@ -91,7 +90,7 @@ class MultipleFilterTest extends TestCase
     {
         $options = [
             'name' => 'name',
-            'fields' => ['title', 'body']
+            'fields' => ['title', 'body'],
         ];
 
         if ($type !== false) {

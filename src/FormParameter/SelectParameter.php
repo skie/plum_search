@@ -36,7 +36,7 @@ class SelectParameter extends BaseParameter
     /**
      * Constructor
      *
-     * @param ParameterRegistry $registry ParameterRegistry object.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $registry ParameterRegistry object.
      * @param array $config Object settings.
      * @throws \PlumSearch\FormParameter\Exception\MissingParameterException
      */

@@ -39,13 +39,19 @@ class SearchHelperTest extends TestCase
         'plugin.PlumSearch.Authors',
     ];
 
-    /** @var \Cake\Controller\Controller */
+    /**
+     * @var \Cake\Controller\Controller
+     */
     protected $Controller;
 
-    /** @var \Cake\View\View */
+    /**
+     * @var \Cake\View\View
+     */
     protected $View;
 
-    /** @var SearchHelper */
+    /**
+     * @var SearchHelper
+     */
     protected $Search;
 
     /**
@@ -80,7 +86,7 @@ class SearchHelperTest extends TestCase
     public function testInputs()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',
@@ -131,7 +137,7 @@ class SearchHelperTest extends TestCase
     public function testInput()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',
@@ -172,7 +178,7 @@ class SearchHelperTest extends TestCase
             );
         });
 
-        $request = $request = new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',

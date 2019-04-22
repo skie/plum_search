@@ -15,9 +15,8 @@ namespace PlumSearch\Test\TestCase\Model\Filter;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
-use PlumSearch\Model;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\LikeFilter;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * PlumSearch\Model\Filter\LikeFilter Test Case
@@ -54,7 +53,7 @@ class LikeFilterTest extends TestCase
         $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->LikeFilter = new LikeFilter($this->FilterRegistry, [
-            'name' => 'name'
+            'name' => 'name',
         ]);
     }
 

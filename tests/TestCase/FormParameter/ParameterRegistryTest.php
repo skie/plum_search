@@ -24,7 +24,6 @@ use PlumSearch\FormParameter\ParameterRegistry;
  */
 class ParameterRegistryTest extends TestCase
 {
-
     /**
      * @var \PlumSearch\FormParameter\ParameterRegistry
      */
