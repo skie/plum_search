@@ -47,7 +47,7 @@ class LikeFilterTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Table = TableRegistry::getTableLocator()->get('Articles');
@@ -62,7 +62,7 @@ class LikeFilterTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->LikeFilter);
         parent::tearDown();

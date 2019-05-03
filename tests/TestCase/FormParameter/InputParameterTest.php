@@ -40,7 +40,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $controller = $this->getMockBuilder('Cake\Controller\Controller')
@@ -60,7 +60,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->InputParam);
         parent::tearDown();

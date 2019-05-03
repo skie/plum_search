@@ -57,7 +57,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $controller = $this->getMockBuilder('Cake\Controller\Controller')
@@ -81,7 +81,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->SelectParam);
         parent::tearDown();

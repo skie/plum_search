@@ -37,7 +37,7 @@ class AutocompleteTraitTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Router::reload();
@@ -48,7 +48,7 @@ class AutocompleteTraitTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Controller);
         parent::tearDown();

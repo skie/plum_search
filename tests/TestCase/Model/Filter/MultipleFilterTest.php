@@ -47,7 +47,7 @@ class MultipleFilterTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Table = TableRegistry::getTableLocator()->get('Articles');
@@ -59,7 +59,7 @@ class MultipleFilterTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Table);
         unset($this->FilterRegistry);
