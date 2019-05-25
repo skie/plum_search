@@ -100,7 +100,7 @@ class FilterableBehavior extends Behavior
      * @param array $options The options for the filter to use.
      * @return \Cake\ORM\Table
      */
-    public function addFilter(string $name, array $options = []): \Cake\ORM\Table
+    public function addFilter(string $name, array $options = []): Table
     {
         $this->filters()->load($name, $options);
 
@@ -121,7 +121,7 @@ class FilterableBehavior extends Behavior
      * @param string $name The alias that the filter was added with.
      * @return \Cake\ORM\Table
      */
-    public function removeFilter(string $name): \Cake\ORM\Table
+    public function removeFilter(string $name): Table
     {
         $this->filters()->unload($name);
 
@@ -135,7 +135,7 @@ class FilterableBehavior extends Behavior
      * @param array $options Array of options as described above.
      * @return \Cake\ORM\Query
      */
-    public function findFilter(Query $query, array $options): \Cake\ORM\Query
+    public function findFilter(Query $query, array $options): Query
     {
         foreach ($this->filters()->collection() as $name => $filter) {
             $filter->apply($query, $options);

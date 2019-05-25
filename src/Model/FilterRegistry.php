@@ -13,9 +13,11 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Model;
 
+use Cake\Collection\CollectionInterface;
 use Cake\Core\App;
 use Cake\Core\ObjectRegistry;
 use Cake\ORM\Table;
+use PlumSearch\Model\Filter\AbstractFilter;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
 
 /**
@@ -89,7 +91,7 @@ class FilterRegistry extends ObjectRegistry
      * @param  array $config An array of config to use for the filter.
      * @return \PlumSearch\Model\Filter\AbstractFilter The constructed filter class.
      */
-    protected function _create($class, string $alias, array $config): \PlumSearch\Model\Filter\AbstractFilter
+    protected function _create($class, string $alias, array $config): AbstractFilter
     {
         if (empty($config['name'])) {
             $config['name'] = $alias;
@@ -104,7 +106,7 @@ class FilterRegistry extends ObjectRegistry
      *
      * @return \Cake\Collection\CollectionInterface
      */
-    public function collection(): \Cake\Collection\CollectionInterface
+    public function collection(): CollectionInterface
     {
         return collection($this->_loaded);
     }

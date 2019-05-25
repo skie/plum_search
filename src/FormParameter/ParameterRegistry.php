@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 namespace PlumSearch\FormParameter;
 
+use Cake\Collection\Collection;
 use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\ObjectRegistry;
@@ -107,7 +108,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param array $config An array of config to use for the param.
      * @return \PlumSearch\FormParameter\BaseParameter The constructed param class.
      */
-    protected function _create($class, string $alias, array $config): \PlumSearch\FormParameter\BaseParameter
+    protected function _create($class, string $alias, array $config): BaseParameter
     {
         if (empty($config['name'])) {
             $config['name'] = $alias;
@@ -123,7 +124,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param callable $collectionMethod Collection method to execute.
      * @return \Cake\Collection\Collection
      */
-    public function collection(?callable $collectionMethod = null): \Cake\Collection\Collection
+    public function collection(?callable $collectionMethod = null): Collection
     {
         $collection = collection($this->_loaded);
         if (is_callable($collectionMethod)) {

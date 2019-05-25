@@ -49,7 +49,7 @@ class MultipleFilter extends AbstractFilter
      * @param  array  $data Filters values.
      * @return \Cake\ORM\Query
      */
-    protected function _buildQuery(Query $query, string $field, $value, array $data = []): \Cake\ORM\Query
+    protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query
     {
         $type = $this->getConfig('type');
         $rawValue = $value;

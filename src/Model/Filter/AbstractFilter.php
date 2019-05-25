@@ -70,7 +70,7 @@ abstract class AbstractFilter
      * @param array $data Filters values.
      * @return \Cake\ORM\Query
      */
-    public function apply(Query $query, array $data): \Cake\ORM\Query
+    public function apply(Query $query, array $data): Query
     {
         if ($this->_applicable($data)) {
             $field = $this->getConfig('field');
@@ -122,7 +122,7 @@ abstract class AbstractFilter
      * @param array $data Filters values.
      * @return \Cake\ORM\Query
      */
-    abstract protected function _buildQuery(Query $query, string $field, $value, array $data = []): \Cake\ORM\Query;
+    abstract protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query;
 
     /**
      * Evaluate value of filter parameter

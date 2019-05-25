@@ -15,6 +15,7 @@ namespace PlumSearch\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
+use Cake\Controller\Controller;
 use Cake\Http\ResponseEmitter;
 use PlumSearch\FormParameter\ParameterRegistry;
 
@@ -69,7 +70,7 @@ class FilterComponent extends Component
      *
      * @return \PlumSearch\FormParameter\ParameterRegistry
      */
-    public function parameters(): \PlumSearch\FormParameter\ParameterRegistry
+    public function parameters(): ParameterRegistry
     {
         return $this->_searchParameters;
     }
@@ -105,7 +106,7 @@ class FilterComponent extends Component
      * @param  array $options The options for the parameter to use.
      * @return \Cake\Controller\Component
      */
-    public function addParam(string $name, array $options = []): \Cake\Controller\Component
+    public function addParam(string $name, array $options = []): Component
     {
         $this->parameters()->load($name, $options);
 
@@ -126,7 +127,7 @@ class FilterComponent extends Component
      * @param  string                     $name The alias that the parameter was added with.
      * @return \Cake\Controller\Component
      */
-    public function removeParam(string $name): \Cake\Controller\Component
+    public function removeParam(string $name): Component
     {
         $this->parameters()->unload($name);
 
@@ -178,7 +179,7 @@ class FilterComponent extends Component
      *
      * @return \Cake\Controller\Controller
      */
-    public function controller(): \Cake\Controller\Controller
+    public function controller(): Controller
     {
         return $this->_controller;
     }
