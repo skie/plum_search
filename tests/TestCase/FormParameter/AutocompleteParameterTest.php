@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -15,6 +16,7 @@ namespace PlumSearch\Test\TestCase\FormParameter;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use PlumSearch\FormParameter\AutocompleteParameter;
+use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\HiddenParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
 
@@ -79,11 +81,11 @@ class AutocompleteParameterTest extends TestCase
     /**
      * Test constructor method
      *
-     * @expectedException \PlumSearch\FormParameter\Exception\MissingParameterException
      * @return void
      */
     public function testConstruct()
     {
+        $this->expectException(MissingParameterException::class);
         $this->AutocompleteParam = new AutocompleteParameter($this->ParameterRegistry, ['name' => 'item_id']);
     }
 

@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 $findRoot = function () {
     $root = dirname(__DIR__);
     if (is_dir($root . '/vendor/cakephp/cakephp')) {

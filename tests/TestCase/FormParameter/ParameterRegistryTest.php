@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -13,8 +14,10 @@ declare(strict_types=1);
 namespace PlumSearch\Test\TestCase\FormParameter;
 
 use Cake\TestSuite\TestCase;
+use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\InputParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
+use RuntimeException;
 
 /**
  * Class ParameterRegistryTest
@@ -70,23 +73,23 @@ class ParameterRegistryTest extends TestCase
     /**
      * Test load unexists class  method
      *
-     * @expectedException \PlumSearch\FormParameter\Exception\MissingParameterException
      * @return void
      */
     public function testLoadWrongClass()
     {
+        $this->expectException(MissingParameterException::class);
         $this->ParameterRegistry->load('name1', ['className' => 'Input2']);
     }
 
     /**
      * Test load twice class  method
      *
-     * @expectedException RuntimeException
      * @return void
      */
     public function testLoadTwice()
     {
         $this->ParameterRegistry->load('name', ['className' => 'Input']);
+        $this->expectException(RuntimeException::class);
         $this->ParameterRegistry->load('name', ['className' => 'Select']);
     }
 }

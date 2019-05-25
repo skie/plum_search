@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -16,6 +17,7 @@ use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use PlumSearch\Model\Filter\CustomFilter;
+use PlumSearch\Model\Filter\Exception\MissingFilterException;
 use PlumSearch\Model\FilterRegistry;
 
 /**
@@ -74,11 +76,11 @@ class CustomFilterTest extends TestCase
     /**
      * Test constructor method
      *
-     * @expectedException \PlumSearch\Model\Filter\Exception\MissingFilterException
      * @return void
      */
     public function testConstruct()
     {
+        $this->expectException(MissingFilterException::class);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, ['name' => 'id']);
     }
 

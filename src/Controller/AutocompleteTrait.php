@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -35,7 +36,11 @@ trait AutocompleteTrait
         $data = [];
         $paramName = (string)$this->getRequest()->getQuery('parameter');
         $query = $this->getRequest()->getQuery('query');
-        $parameter = $this->Filter->parameters()->get($paramName);
+        try {
+            $parameter = $this->Filter->parameters()->get($paramName);
+        } catch (\Exception $e) {
+            $parameter = null;
+        }
         if (!empty($parameter)) {
             $method = $parameter->getConfig('autocompleteAction');
             $data = $method($query);

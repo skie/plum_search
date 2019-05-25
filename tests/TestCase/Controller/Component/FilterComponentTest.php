@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -21,6 +22,7 @@ use PlumSearch\Controller\Component\FilterComponent;
 use PlumSearch\FormParameter\InputParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
 use PlumSearch\Test\App\Controller\ArticlesController;
+use RuntimeException;
 
 /**
  * PlumSearch\Controller\Component\FilterComponent Test Case
@@ -112,6 +114,8 @@ class FilterComponentTest extends TestCase
     {
         $this->Component->addParam('name', ['className' => 'Input']);
         $this->Component->removeParam('name');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unknown object "name"');
         $input = $this->Component->parameters()->get('name');
         $this->assertNull($input);
     }

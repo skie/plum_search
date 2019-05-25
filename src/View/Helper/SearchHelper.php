@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -99,11 +100,11 @@ class SearchHelper extends Helper
     protected function _defaultInput(BaseParameter $param): array
     {
         $input = $param->formInputConfig();
-        $name = $param->getConfig('name');
+        $name = (string)$param->getConfig('name');
         $input += [
             'type' => 'text',
             'required' => false,
-            'label' => Inflector::humanize(preg_replace('/_id$/', '', $name)),
+            'label' => Inflector::humanize((string)preg_replace('/_id$/', '', $name)),
         ];
         if (!$param->visible()) {
             $input['type'] = 'hidden';

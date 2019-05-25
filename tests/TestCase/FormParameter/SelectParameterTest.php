@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -15,6 +16,7 @@ namespace PlumSearch\Test\TestCase\FormParameter;
 use Cake\Http\ServerRequest;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\ParameterRegistry;
 use PlumSearch\FormParameter\SelectParameter;
 
@@ -90,11 +92,11 @@ class SelectParameterTest extends TestCase
     /**
      * Test __construct method
      *
-     * @expectedException \PlumSearch\FormParameter\Exception\MissingParameterException
      * @return void
      */
     public function testConstruct()
     {
+        $this->expectException(MissingParameterException::class);
         $this->SelectParam = new SelectParameter($this->ParameterRegistry, [
             'name' => 'username',
         ]);

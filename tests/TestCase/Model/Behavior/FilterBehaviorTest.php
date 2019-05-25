@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -16,6 +17,7 @@ use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use PlumSearch\Model\Filter\ValueFilter;
 use PlumSearch\Model\FilterRegistry;
+use RuntimeException;
 
 /**
  * PlumSearch\Model\Behavior\FilterBehavior Test Case
@@ -93,6 +95,8 @@ class FilterBehaviorTest extends TestCase
     {
         $this->Articles->addFilter('name', ['className' => 'Value']);
         $this->Articles->removeFilter('name');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unknown object "name"');
         $input = $this->Articles->filters()->get('name');
         $this->assertNull($input);
     }

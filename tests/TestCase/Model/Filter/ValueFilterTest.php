@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -15,6 +16,7 @@ namespace PlumSearch\Test\TestCase\Model\Filter;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Cake\Utility\Hash;
+use PlumSearch\Model\Filter\Exception\MissingFilterException;
 use PlumSearch\Model\Filter\ValueFilter;
 use PlumSearch\Model\FilterRegistry;
 
@@ -71,11 +73,11 @@ class ValueFilterTest extends TestCase
     /**
      * Test constructor method
      *
-     * @expectedException \PlumSearch\Model\Filter\Exception\MissingFilterException
      * @return void
      */
     public function testConstruct()
     {
+        $this->expectException(MissingFilterException::class);
         $this->ValueFilter = new ValueFilter($this->FilterRegistry, ['field' => 'id']);
     }
 

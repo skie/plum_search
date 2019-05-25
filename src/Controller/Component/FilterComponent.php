@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -210,7 +211,7 @@ class FilterComponent extends Component
         $params = $this->controller()->getRequest()->getParam('pass');
         $searchParams = array_diff_key(
             array_merge(
-                $this->controller()->getRequest()->getQuery(),
+                (array)$this->controller()->getRequest()->getQuery(),
                 $this->values()
             ),
             array_flip(
