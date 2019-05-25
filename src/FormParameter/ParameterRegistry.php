@@ -167,7 +167,7 @@ class ParameterRegistry extends ObjectRegistry
     {
         $result = [];
         foreach ($this->collection() as $param) {
-            $result = $result + $param->values();
+            $result = $result + (array)$param->values();
         }
 
         return $result;
@@ -182,7 +182,7 @@ class ParameterRegistry extends ObjectRegistry
     {
         $result = [];
         foreach ($this->collection() as $param) {
-            $result = $result + $param->viewValues();
+            $result = $result + (array)$param->viewValues();
         }
 
         return $result;
@@ -221,7 +221,7 @@ class ParameterRegistry extends ObjectRegistry
      *
      * @return \Cake\Controller\Controller
      */
-    public function controller(): \Cake\Controller\Controller
+    public function controller(): Controller
     {
         return $this->_Controller;
     }
