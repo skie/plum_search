@@ -50,6 +50,6 @@ trait AutocompleteTrait
             $this->set('message', __('Field not found'));
         }
         $this->set('data', $data);
-        $this->set('_serialize', ['data', 'status', 'message']);
+        $this->viewBuilder()->setOption('serialize', ['data', 'status', 'message']);
     }
 }
