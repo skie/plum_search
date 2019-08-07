@@ -55,7 +55,7 @@ class FilterComponent extends Component
     /**
      * Constructor
      *
-     * @param \Cake\Controller\ComponentRegistry $registry A ComponentRegistry this component can use to lazy load its components.
+     * @param \Cake\Controller\ComponentRegistry $registry A ComponentRegistry.
      * @param array $config Array of configuration settings.
      */
     public function __construct(ComponentRegistry $registry, array $config = [])
