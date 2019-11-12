@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
