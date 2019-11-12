@@ -31,8 +31,8 @@ matrix:
       
 before_script:
   - sh -c "composer install --no-interaction --dev"
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
+  - if [[ $DB == 'mysql' ]]; then mysql -u root -e 'CREATE DATABASE cakephp_test;'; fi
+  - if [[ $DB == 'pgsql' ]]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi
   - if [[ $PHPSTAN = 1 ]]; then composer stan-setup; fi
 
   - phpenv rehash
