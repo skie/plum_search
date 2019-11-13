@@ -65,6 +65,13 @@
         <PossiblyNullPropertyAssignmentValue errorLevel="info" />
         <PossiblyNullPropertyFetch errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
+        <PossiblyNullIterator>
+            <errorLevel type="info" />
+            <errorLevel type="suppress">
+                <file name="vendor/cakephp/cakephp/src/ORM/Behavior.php" />
+            </errorLevel>
+        </PossiblyNullIterator>
+        
 
         <!-- level 5 issues - should be avoided at mosts costs... -->
 

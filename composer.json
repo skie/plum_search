@@ -46,17 +46,20 @@
     },
     "scripts": {
         "check": [
-            "@cs-check",
             "@test",
-            "@stan"
+            "@analyse"
+        ],
+        "analyse": [
+            "@stan",
+            "@psalm"
         ],
         "cs-check": "phpcs -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
         "cs-fix": "phpcbf --standard=vendor/cakephp/cakephp-codesniffer/CakePHP src/ tests/",
         "test": "phpunit --stderr",
         "_stan": "phpstan analyse -l 3 src",
-        "stan": "phpstan analyse src/ && psalm --show-info=false",
+        "stan": "phpstan analyse src/",
         "stan-test": "phpstan analyse tests/",
-        "psalm": "php vendor/psalm/phar/psalm.phar",
+        "psalm": "php vendor/psalm/phar/psalm.phar --show-info=false src/ ",
         "stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan-shim:^0.11.18 psalm/phar:^3.5  && mv composer.backup composer.json",
         "coverage-test": "phpunit --stderr --coverage-clover=clover.xml"
     }
