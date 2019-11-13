@@ -56,7 +56,7 @@
         "_stan": "phpstan analyse -l 3 src",
         "stan": "phpstan analyse src/ && psalm --show-info=false",
         "stan-test": "phpstan analyse tests/",
-        "psalm": "psalm",
+        "psalm": "php vendor/psalm/phar/psalm.phar",
         "stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan-shim:^0.11.18 psalm/phar:^3.5  && mv composer.backup composer.json",
         "coverage-test": "phpunit --stderr --coverage-clover=clover.xml"
     }
