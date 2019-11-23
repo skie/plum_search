@@ -23,7 +23,7 @@ use PlumSearch\Model\Filter\ValueFilter;
 class ValueFilterTest extends TestCase
 {
     public $fixtures = [
-        'plugin.plum_search.articles',
+        'plugin.PlumSearch.Articles',
     ];
 
     /**
@@ -81,7 +81,7 @@ class ValueFilterTest extends TestCase
             $store2 = $d;
         }, ['where']);
 
-        $this->assertEquals($store2->sql($query->valueBinder()), 'Articles.id = :c0');
+        $this->assertEquals($store2->sql($query->getValueBinder()), 'Articles.id = :c0');
         $this->assertEquals($store2->getValue(), 1);
     }
 
@@ -113,7 +113,7 @@ class ValueFilterTest extends TestCase
             $store2 = $d;
         }, ['where']);
 
-        $this->assertEquals($store2->sql($query->valueBinder()), 'Authors.name = :c0');
+        $this->assertEquals($store2->sql($query->getValueBinder()), 'Authors.name = :c0');
         $this->assertEquals($store2->getValue(), 'larry');
     }
 
@@ -135,7 +135,7 @@ class ValueFilterTest extends TestCase
             $store2 = $d;
         }, ['where']);
 
-        $this->assertEquals($store2->sql($query->valueBinder()), 'Articles.id in (:c0,:c1)');
+        $this->assertEquals($store2->sql($query->getValueBinder()), 'Articles.id in (:c0,:c1)');
         $this->assertEquals($store2->getValue(), [1, 2]);
     }
 }

@@ -22,7 +22,9 @@ use PlumSearch\Model\Filter\LikeFilter;
  */
 class LikeFilterTest extends TestCase
 {
-    public $fixtures = ['plugin.plum_search.articles'];
+    public $fixtures = [
+        'plugin.PlumSearch.Articles',
+    ];
 
     /**
      * setUp method
@@ -68,7 +70,7 @@ class LikeFilterTest extends TestCase
             $store2 = $d;
         }, ['where']);
 
-        $this->assertEquals($store2->sql($query->valueBinder()), 'Articles.name LIKE :c0');
+        $this->assertEquals($store2->sql($query->getValueBinder()), 'Articles.name LIKE :c0');
         $this->assertEquals($store2->getValue(), '%test%');
     }
 }

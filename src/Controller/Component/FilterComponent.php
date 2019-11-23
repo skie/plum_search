@@ -13,6 +13,7 @@ namespace PlumSearch\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
+use Cake\Http\ResponseEmitter;
 use Cake\ORM\Table;
 use PlumSearch\FormParameter\ParameterRegistry;
 
@@ -72,7 +73,7 @@ class FilterComponent extends Component
     {
         if ($reset || is_null($this->_searchParameters)) {
             $this->_searchParameters = new ParameterRegistry($this->_controller, []);
-            $parameters = (array)$this->config('parameters');
+            $parameters = (array)$this->getConfig('parameters');
             foreach ($parameters as $parameter) {
                 if (!empty($parameter['name'])) {
                     $this->addParam($parameter['name'], $parameter);
@@ -137,17 +138,17 @@ class FilterComponent extends Component
      */
     public function prg($table, $options = [])
     {
-        $this->config($options);
+        $this->setConfig($options);
 
-        $formName = $this->_initParam('formName', $this->config('formName'));
-        $action = $this->_initParam('action', $this->controller()->request->params['action']);
+        $formName = $this->_initParam('formName', $this->getConfig('formName'));
+        $action = $this->_initParam('action', $this->controller()->getRequest()->getParam('action'));
 
         $this->parameters()->config([
             'formName' => $formName,
         ]);
-        if ($this->_controller->request->is(['post', 'put'])) {
+        if ($this->_controller->getRequest()->is(['post', 'put'])) {
             $this->_redirect($action);
-        } elseif ($this->_controller->request->is('get')) {
+        } elseif ($this->_controller->getRequest()->is('get')) {
             $this->_setViewData($formName);
 
             return $table->find('filters', $this->values());
@@ -185,7 +186,7 @@ class FilterComponent extends Component
      */
     protected function _initParam($name, $default = null)
     {
-        $param = $this->config($name);
+        $param = $this->getConfig($name);
         if (!$param) {
             return $default;
         }
@@ -201,27 +202,38 @@ class FilterComponent extends Component
      */
     protected function _redirect($action)
     {
-        $params = $this->controller()->request->params['pass'];
+        $params = $this->controller()->getRequest()->getParam('pass');
         $searchParams = array_diff_key(
             array_merge(
-                $this->controller()->request->query,
+                $this->controller()->getRequest()->getQuery(),
                 $this->values()
             ),
             array_flip(
-                (array)$this->config('prohibitedParams')
+                (array)$this->getConfig('prohibitedParams')
             )
         );
 
-        if ($this->config('filterEmptyParams')) {
-            $searchParams = array_filter($searchParams);
+        if ($this->getConfig('filterEmptyParams')) {
+            $searchParams = array_filter(
+                $searchParams,
+                function ($v, $k) {
+                    if (($v === 0) || ($v === '0')) {
+                        return true;
+                    }
+
+                    return (bool)$v;
+                },
+                ARRAY_FILTER_USE_BOTH
+            );
         }
         $params['?'] = $searchParams;
         $params = array_merge($params, $searchParams);
 
         $params['action'] = $action;
         $this->controller()->redirect($params);
-        $this->controller()->response->send();
-        $this->controller()->response->stop();
+
+        $emitter = new ResponseEmitter();
+        $emitter->emit($this->controller()->getResponse());
     }
 
     /**
@@ -232,7 +244,9 @@ class FilterComponent extends Component
      */
     protected function _setViewData($formName)
     {
-        $this->controller()->request->data($formName, $this->parameters()->viewValues());
+        $this->controller()->setRequest(
+            $this->controller()->getRequest()->withData($formName, $this->parameters()->viewValues())
+        );
         $this->controller()->set('searchParameters', $this->parameters());
     }
 }

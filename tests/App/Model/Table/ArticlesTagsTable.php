@@ -21,9 +21,9 @@ class ArticlesTagsTable extends \Cake\ORM\Table
      */
     public function initialize(array $config)
     {
-        $this->table('articles_tags');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('articles_tags');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Articles', [
             'foreignKey' => 'article_id'

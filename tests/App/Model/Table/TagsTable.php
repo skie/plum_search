@@ -21,8 +21,8 @@ class TagsTable extends \Cake\ORM\Table
      */
     public function initialize(array $config)
     {
-        $this->table('tags');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('tags');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
     }
 }

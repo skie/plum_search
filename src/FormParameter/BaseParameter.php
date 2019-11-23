@@ -71,7 +71,7 @@ abstract class BaseParameter
         if (empty($config['field'])) {
             $config['field'] = $config['name'];
         }
-        $this->config($config);
+        $this->setConfig($config);
         $this->_registry = $registry;
         $this->initializeInnerParameters();
     }
@@ -83,7 +83,7 @@ abstract class BaseParameter
      */
     public function visible()
     {
-        $visible = $this->config('visible');
+        $visible = $this->getConfig('visible');
 
         return !empty($visible);
     }
@@ -95,7 +95,7 @@ abstract class BaseParameter
      */
     public function formInputConfig()
     {
-        $formConfig = $this->config('formConfig');
+        $formConfig = $this->getConfig('formConfig');
         if (empty($formConfig)) {
             return [];
         }
@@ -110,7 +110,7 @@ abstract class BaseParameter
      */
     protected function _process()
     {
-        $name = $this->config('field');
+        $name = $this->getConfig('field');
         $this->value = $this->_registry->data($name);
         $this->_processed = true;
     }
@@ -122,7 +122,7 @@ abstract class BaseParameter
      */
     public function values()
     {
-        $name = $this->config('field');
+        $name = $this->getConfig('field');
 
         return [$name => $this->value()];
     }
@@ -134,7 +134,7 @@ abstract class BaseParameter
      */
     public function viewValues()
     {
-        return array_merge([$this->config('field') => $this], $this->_dependentParameters);
+        return array_merge([$this->getConfig('field') => $this], $this->_dependentParameters);
     }
 
     /**
@@ -171,11 +171,21 @@ abstract class BaseParameter
         return $this->value;
     }
 
+    /**
+     * Checks if param value empty.
+     *
+     * @return bool
+     */
     public function isEmpty()
     {
         return $this->value === null || is_string($this->value) && $this->value == '';
     }
 
+    /**
+     * Transforms class to string value. Returns stored parameter value.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return (string)$this->value;

@@ -34,7 +34,7 @@ class CustomFilter extends AbstractFilter
         parent::__construct($registry, $config);
         if (empty($config['method']) || !is_callable($config['method'])) {
             throw new MissingFilterException(
-                __('Missed "method" configuration setting for custom filter `{0}`', $this->config('name'))
+                __('Missed "method" configuration setting for custom filter `{0}`', $this->getConfig('name'))
             );
         }
     }
@@ -50,9 +50,9 @@ class CustomFilter extends AbstractFilter
      */
     protected function _buildQuery(Query $query, $field, $value, array $data = [])
     {
-        $method = $this->config('method');
+        $method = $this->getConfig('method');
         if (is_callable($method)) {
-            return call_user_func_array($method, [$query, $field, $value, $data, $this->config()]);
+            return call_user_func_array($method, [$query, $field, $value, $data, $this->getConfig()]);
         }
 
         return $query;

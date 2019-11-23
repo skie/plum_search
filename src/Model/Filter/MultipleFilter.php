@@ -33,8 +33,8 @@ class MultipleFilter extends AbstractFilter
     public function __construct(FilterRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
-        if (is_null($this->config('type')) || !in_array($this->config('type'), [self::TYPE_AND, self::TYPE_OR])) {
-            $this->config('type', self::TYPE_OR);
+        if (is_null($this->getConfig('type')) || !in_array($this->getConfig('type'), [self::TYPE_AND, self::TYPE_OR])) {
+            $this->setConfig('type', self::TYPE_OR);
         }
     }
 
@@ -49,10 +49,11 @@ class MultipleFilter extends AbstractFilter
      */
     protected function _buildQuery(Query $query, $field, $value, array $data = [])
     {
-        $type = $this->config('type');
+        $type = $this->getConfig('type');
+        $rawValue = $value;
         $value = '%' . $value . '%';
-        $fields = $this->config('fields');
-        $typesMap = $this->config('fieldTypes');
+        $fields = $this->getConfig('fields');
+        $typesMap = $this->getConfig('fieldTypes');
         $types = [];
         foreach ($fields as $field) {
             if (is_array($typesMap) && array_key_exists($field, $typesMap)) {
@@ -65,10 +66,14 @@ class MultipleFilter extends AbstractFilter
             $type = 'and';
         }
 
-        return $query->where(function ($exp) use (&$query, $value, $type, $fields, $types) {
-            return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types) {
-                collection($fields)->each(function ($field) use ($value, &$ex, $types) {
-                    return $ex->like($field, $value, $types[$field]);
+        return $query->where(function ($exp) use (&$query, $value, $type, $fields, $types, $rawValue) {
+            return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types, $rawValue) {
+                collection($fields)->each(function ($field) use ($value, &$ex, $types, $rawValue) {
+                    if (in_array($types[$field], ['integer', 'int', 'float'])) {
+                        return $ex->eq($field, $rawValue, $types[$field]);
+                    } else {
+                        return $ex->like($field, $value, $types[$field]);
+                    }
                 });
 
                 return $ex;

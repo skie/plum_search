@@ -32,8 +32,10 @@ class FilterComponentTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.plum_search.authors',
-        'plugin.plum_search.articles',
+        'plugin.PlumSearch.Articles',
+        'plugin.PlumSearch.Tags',
+        'plugin.PlumSearch.ArticlesTags',
+        'plugin.PlumSearch.Authors',
     ];
 
     /**
@@ -144,6 +146,7 @@ class FilterComponentTest extends TestCase
                     'username' => 'admin',
                 ],
                 'action' => 'index',
+                'username' => 'admin',
         ];
         $this->Controller->expects($this->once())
             ->method('redirect')
@@ -185,6 +188,7 @@ class FilterComponentTest extends TestCase
                     'title' => 'first',
                 ],
                 'action' => 'index',
+                'title' => 'first',
         ];
         $this->Controller->expects($this->once())
             ->method('redirect')

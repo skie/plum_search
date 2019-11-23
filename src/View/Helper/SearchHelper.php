@@ -27,23 +27,23 @@ class SearchHelper extends Helper
 {
 
     /**
-     * Build Form::inputs structure
+     * Builds Form::controls structure.
      *
      * @param ParameterRegistry $parameters Form parameters collection.
      * @param array $options Additional input options.
      * @return array
      */
-    public function inputs(ParameterRegistry $parameters, $options = [])
+    public function controls(ParameterRegistry $parameters, $options = [])
     {
         $result = [];
         $entityName = Inflector::singularize($parameters->formName);
         $collection = $parameters->collection(isset($options['collectionMethod']) ? $options['collectionMethod'] : null);
         foreach ($collection as $primaryParameter) {
             foreach ($primaryParameter->viewValues() as $param) {
-                $name = $param->config('name');
+                $name = $param->getConfig('name');
                 $inputOptions = array_key_exists($name, $options) ? $options[$name] : [];
                 $input = $this->input($param, $inputOptions);
-                $field = $param->config('field');
+                $field = $param->getConfig('field');
                 if (!empty($entityName)) {
                     $field = "$entityName.$field";
                 }
@@ -52,6 +52,24 @@ class SearchHelper extends Helper
         }
 
         return $result;
+    }
+
+    /**
+     * Builds Form::controls structure.
+     *
+     * @param ParameterRegistry $parameters Form parameters collection.
+     * @param array $options Additional input options.
+     * @return array
+     * @deprecated 3.6.0 Use SearchHelper::controls() instead.
+     */
+    public function inputs(ParameterRegistry $parameters, $options = [])
+    {
+        deprecationWarning(
+            'SearchHelper::inputs() is deprecated. ' .
+            'Use SearchHelper::controls() instead.'
+        );
+
+        return $this->controls($parameters, $options);
     }
 
     /**
@@ -81,7 +99,7 @@ class SearchHelper extends Helper
     protected function _defaultInput($param)
     {
         $input = $param->formInputConfig();
-        $name = $param->config('name');
+        $name = $param->getConfig('name');
         $input += [
             'type' => 'text',
             'required' => false,
@@ -141,7 +159,7 @@ class SearchHelper extends Helper
         if ($param instanceof AutocompleteParameter) {
             $input['data-url'] = $param->autocompleteUrl();
             $input['class'] = 'autocomplete';
-            $input['data-name'] = $param->config('name');
+            $input['data-name'] = $param->getConfig('name');
         }
 
         return $input;

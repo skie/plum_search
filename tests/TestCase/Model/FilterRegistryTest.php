@@ -30,7 +30,7 @@ class FilterRegistryTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.plum_search.articles',
+        'plugin.PlumSearch.Articles',
     ];
 
     /**

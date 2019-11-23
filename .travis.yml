@@ -3,7 +3,7 @@ language: php
 dist: xenial
 
 php:
-  - 5.6
+  - 7.1
   - 7.2
   - 7.3
 
@@ -32,9 +32,9 @@ matrix:
     - php: hhvm-nightly
   fast_finish: true
   include:
-    - php: 7.0
+    - php: 7.2
       env: PHPCS=1 RUN_TESTS=0 INSTALL_DEPS=0
-    - php: 7.0
+    - php: 7.2
       env: RUN_COVERAGE=1 RUN_TESTS=0 DB=mysql db_dsn='mysql://travis@0.0.0.0/cakephp_test'
 
 before_script:
@@ -44,17 +44,19 @@ before_script:
   - if [[ $DB == 'pgsql' ]]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi
   - sh -c "if [ '$PHPCS' = '1' ]; then composer require cakephp/cakephp-codesniffer:dev-master; fi"
   - sh -c "if [ '$PHPCS' = '1' ]; then ./vendor/bin/phpcs --config-set installed_paths vendor/cakephp/cakephp-codesniffer; fi"
-  - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then composer require --dev satooshi/php-coveralls:dev-master; fi"
+  - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then composer require --dev satooshi/php-coveralls:^2.0; fi"
   - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then mkdir -p build/logs; fi"
 
   - phpenv rehash
   - set +H
 
 script:
-  - sh -c "if [ '$RUN_TESTS' = '1' ]; then ./vendor/bin/phpunit; fi"
+  - sh -c "if [ '$RUN_TESTS' = '1' ]; then ./vendor/bin/phpunit --stderr; fi"
   - sh -c "if [ '$PHPCS' = '1' ]; then ./vendor/bin/phpcs -n -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests; fi"
   - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then ./vendor/bin/phpunit --stderr --coverage-clover build/logs/clover.xml; fi"
-  - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then php vendor/bin/coveralls -c .coveralls.yml -v; fi"
+  - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then php vendor/bin/php-coveralls -c .coveralls.yml -v; fi"
 
 notifications:
   email: false
+
+  

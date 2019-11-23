@@ -23,9 +23,9 @@ class ArticlesTable extends \Cake\ORM\Table
      */
     public function initialize(array $config)
     {
-        $this->table('articles');
-        $this->displayField('id');
-        $this->primaryKey('id');
+        $this->setTable('articles');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
         $this->addBehavior('PlumSearch.Filterable');
         $this->addFilter('title', ['className' => 'Like']);
