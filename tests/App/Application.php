@@ -32,10 +32,10 @@ class Application extends BaseApplication
     /**
      * {@inheritDoc}
      */
-    public function bootstrap() 
+    public function bootstrap()
     {
         // Call parent to load bootstrap from files.
-        parent::bootstrap(); 
+        parent::bootstrap();
 
         $this->addPlugin('PlumSearch', [
             'path' => ROOT . DS,
