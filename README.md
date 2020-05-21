@@ -8,12 +8,13 @@
 
 Plugin implements highly configurable search strategy.
 
-### What is this plugin for?
+## What is this plugin for?
 
 This plugin implements custom, flexible search with multiple ways of search configuration for cakephp 3.* 
 Plugin provides search support on tables, controllers and templates layers.
 
-### Provided features
+## Provided features
+
 - Named find based on search data, that processed multiple filters staring from pre-build value, like and cutom query based, and finishing by flexible filters written for user's project.
 - Post-Redirect-Get processing for search form based on different input parameters like Input, Select, Multiple select or checkbox, or Autocomplete fields.
 - Pre-build logic for autocomplete generation.
