@@ -132,6 +132,9 @@ class FilterComponentTest extends TestCase
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->Controller->setRequest(new ServerRequest([
+            'environment' => [
+                'REQUEST_METHOD' => 'POST',
+            ],
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -171,6 +174,9 @@ class FilterComponentTest extends TestCase
         unset($this->Controller);
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $request = new ServerRequest([
+            'environment' => [
+                'REQUEST_METHOD' => 'POST',
+            ],
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -211,6 +217,9 @@ class FilterComponentTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = new ServerRequest([
+            'environment' => [
+                'REQUEST_METHOD' => 'GET',
+            ],
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -243,6 +252,9 @@ class FilterComponentTest extends TestCase
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->Controller->setRequest(new ServerRequest([
+            'environment' => [
+                'REQUEST_METHOD' => 'GET',
+            ],
             'webroot' => '/dir/',
             'query' => [
                 'username' => 'admin',

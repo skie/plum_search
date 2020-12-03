@@ -70,7 +70,7 @@ class MultipleFilter extends AbstractFilter
 
         return $query->where(
             function (QueryExpression $exp) use ($value, $type, $fields, $types, $rawValue): QueryExpression {
-                return $exp->{$type . '_'}(
+                return $exp->{$type}(
                     function (QueryExpression $ex) use ($value, $fields, $types, $rawValue): QueryExpression {
                         collection($fields)->each(
                             function (string $field) use ($value, &$ex, $types, $rawValue): QueryExpression {
