@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -19,17 +21,17 @@ class ArticlesTagsTable extends \Cake\ORM\Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setTable('articles_tags');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Articles', [
-            'foreignKey' => 'article_id'
+            'foreignKey' => 'article_id',
         ]);
         $this->belongsTo('Tags', [
-            'foreignKey' => 'tag_id'
+            'foreignKey' => 'tag_id',
         ]);
     }
 }

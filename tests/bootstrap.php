@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 $findRoot = function () {
     $root = dirname(__DIR__);
@@ -68,13 +69,10 @@ $cache = [
 
 Cake\Cache\Cache::setConfig($cache);
 Cake\Core\Configure::write('Session', [
-    'defaults' => 'php'
+    'defaults' => 'php',
 ]);
 
-// Cake\Core\Plugin::load('PlumSearch', [
-    // 'path' => ROOT . DS,
-    // 'autoload' => true
-// ]);
+Cake\Core\Configure::write('App.encoding', 'utf8');
 
 // Ensure default test connection is defined
 if (!getenv('db_dsn')) {
@@ -83,5 +81,5 @@ if (!getenv('db_dsn')) {
 
 Cake\Datasource\ConnectionManager::setConfig('test', [
     'url' => getenv('db_dsn'),
-    'timezone' => 'UTC'
+    'timezone' => 'UTC',
 ]);

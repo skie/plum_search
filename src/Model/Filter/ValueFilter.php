@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -20,11 +22,11 @@ class ValueFilter extends AbstractFilter
      *
      * @param \Cake\ORM\Query $query Query.
      * @param string $field Field name.
-     * @param string $value Field value.
+     * @param string|array $value Field value.
      * @param array $data Filters values.
      * @return \Cake\ORM\Query
      */
-    protected function _buildQuery(Query $query, $field, $value, array $data = [])
+    protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query
     {
         if (is_array($value)) {
             $field .= ' IN';

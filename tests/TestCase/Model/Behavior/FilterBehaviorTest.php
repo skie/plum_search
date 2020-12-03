@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -13,9 +15,9 @@ namespace PlumSearch\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\ValueFilter;
-use PlumSearch\Test\App\Model\Table\ArticlesTable;
+use PlumSearch\Model\FilterRegistry;
+use RuntimeException;
 
 /**
  * PlumSearch\Model\Behavior\FilterBehavior Test Case
@@ -44,7 +46,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Articles = TableRegistry::get('Articles');
@@ -55,7 +57,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         TableRegistry::clear();
@@ -93,6 +95,8 @@ class FilterBehaviorTest extends TestCase
     {
         $this->Articles->addFilter('name', ['className' => 'Value']);
         $this->Articles->removeFilter('name');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unknown object "name"');
         $input = $this->Articles->filters()->get('name');
         $this->assertNull($input);
     }
@@ -131,7 +135,7 @@ class FilterBehaviorTest extends TestCase
 
         $this->Articles->addFilter('author_name', [
             'className' => 'Value',
-            'field' => 'Authors.name'
+            'field' => 'Authors.name',
         ]);
         $filterParameters = [
             'author_name' => 'larry',

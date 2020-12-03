@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -12,14 +14,15 @@
 namespace PlumSearch\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
-use Cake\Network\Request;
-use Cake\Network\Response;
+use Cake\Http\Response;
+use Cake\Http\ServerRequest;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use PlumSearch\Controller\Component\FilterComponent;
 use PlumSearch\FormParameter\InputParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
 use PlumSearch\Test\App\Controller\ArticlesController;
+use RuntimeException;
 
 /**
  * PlumSearch\Controller\Component\FilterComponent Test Case
@@ -57,7 +60,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
@@ -72,7 +75,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Component);
 
@@ -111,6 +114,8 @@ class FilterComponentTest extends TestCase
     {
         $this->Component->addParam('name', ['className' => 'Input']);
         $this->Component->removeParam('name');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unknown object "name"');
         $input = $this->Component->parameters()->get('name');
         $this->assertNull($input);
     }
@@ -126,7 +131,7 @@ class FilterComponentTest extends TestCase
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->Controller->request = new Request([
+        $this->Controller->setRequest(new ServerRequest([
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -135,8 +140,8 @@ class FilterComponentTest extends TestCase
             'post' => [
                 'username' => 'admin',
             ],
-        ]);
-        $this->Controller->response = new Response();
+        ]));
+        $this->Controller->setResponse(new Response());
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
         $this->Component->addParam('username', ['className' => 'Input']);
@@ -151,7 +156,7 @@ class FilterComponentTest extends TestCase
         $this->Controller->expects($this->once())
             ->method('redirect')
             ->with($redirectExpectation)
-            ->will($this->returnValue($this->Controller->response));
+            ->will($this->returnValue($this->Controller->getResponse()));
         $table = TableRegistry::get('Articles');
         $this->Component->prg($table);
     }
@@ -165,7 +170,7 @@ class FilterComponentTest extends TestCase
     {
         unset($this->Controller);
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $request = new Request([
+        $request = new ServerRequest([
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -193,7 +198,7 @@ class FilterComponentTest extends TestCase
         $this->Controller->expects($this->once())
             ->method('redirect')
             ->with($redirectExpectation)
-            ->will($this->returnValue($this->Controller->response));
+            ->will($this->returnValue($this->Controller->getResponse()));
         $this->Controller->Filter->prg($this->Controller->Articles);
     }
 
@@ -205,7 +210,7 @@ class FilterComponentTest extends TestCase
     public function testPrgGet()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $this->Controller->request = $request = new Request([
+        $request = new ServerRequest([
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -215,11 +220,12 @@ class FilterComponentTest extends TestCase
                 'title' => 'Third',
             ],
         ]);
+        $this->Controller->setRequest($request);
         $this->Controller = new ArticlesController($request, new Response());
         $this->Controller->index();
 
-        $this->assertEquals(count($this->Controller->viewVars['articles']), 1);
-        $article = $this->Controller->viewVars['articles']->toArray()[0];
+        $this->assertEquals(count($this->Controller->viewBuilder()->getVar('articles')), 1);
+        $article = $this->Controller->viewBuilder()->getVar('articles')->toArray()[0];
         $this->assertEquals($article->id, 3);
     }
 
@@ -236,12 +242,12 @@ class FilterComponentTest extends TestCase
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $this->Controller->request = new Request([
+        $this->Controller->setRequest(new ServerRequest([
             'webroot' => '/dir/',
             'query' => [
                 'username' => 'admin',
             ],
-        ]);
+        ]));
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
         $this->Component->addParam('username', ['className' => 'Input']);

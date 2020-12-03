@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -12,7 +14,6 @@
 namespace PlumSearch\FormParameter;
 
 use Cake\Core\InstanceConfigTrait;
-use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
  * Class BaseParam
@@ -35,14 +36,14 @@ abstract class BaseParameter
     /**
      * ParameterRegistry instance
      *
-     * @var ParameterRegistry
+     * @var \PlumSearch\FormParameter\ParameterRegistry
      */
     protected $_registry;
 
     /**
      * List of dependent parameters
      *
-     * @var BaseParameter[]
+     * @var \PlumSearch\FormParameter\BaseParameter[]
      */
     protected $_dependentParameters = [];
 
@@ -63,7 +64,7 @@ abstract class BaseParameter
     /**
      * Constructor
      *
-     * @param ParameterRegistry $registry ParameterRegistry object.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $registry ParameterRegistry object.
      * @param array $config Object settings.
      */
     public function __construct(ParameterRegistry $registry, array $config = [])
@@ -81,7 +82,7 @@ abstract class BaseParameter
      *
      * @return bool
      */
-    public function visible()
+    public function visible(): bool
     {
         $visible = $this->getConfig('visible');
 
@@ -93,7 +94,7 @@ abstract class BaseParameter
      *
      * @return array
      */
-    public function formInputConfig()
+    public function formInputConfig(): array
     {
         $formConfig = $this->getConfig('formConfig');
         if (empty($formConfig)) {
@@ -108,7 +109,7 @@ abstract class BaseParameter
      *
      * @return void
      */
-    protected function _process()
+    protected function _process(): void
     {
         $name = $this->getConfig('field');
         $this->value = $this->_registry->data($name);
@@ -120,7 +121,7 @@ abstract class BaseParameter
      *
      * @return array
      */
-    public function values()
+    public function values(): array
     {
         $name = $this->getConfig('field');
 
@@ -130,9 +131,9 @@ abstract class BaseParameter
     /**
      * Build view values list
      *
-     * @return BaseParameter[]
+     * @return \PlumSearch\FormParameter\BaseParameter[]
      */
-    public function viewValues()
+    public function viewValues(): array
     {
         return array_merge([$this->getConfig('field') => $this], $this->_dependentParameters);
     }
@@ -142,7 +143,7 @@ abstract class BaseParameter
      *
      * @return void
      */
-    public function initializeInnerParameters()
+    public function initializeInnerParameters(): void
     {
         $this->_dependentParameters = [];
     }
@@ -152,7 +153,7 @@ abstract class BaseParameter
      *
      * @return bool
      */
-    public function hasOptions()
+    public function hasOptions(): bool
     {
         return false;
     }
@@ -176,7 +177,7 @@ abstract class BaseParameter
      *
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->value === null || is_string($this->value) && $this->value == '';
     }
@@ -186,7 +187,7 @@ abstract class BaseParameter
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->value;
     }

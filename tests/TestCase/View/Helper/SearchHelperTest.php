@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -39,11 +41,26 @@ class SearchHelperTest extends TestCase
     ];
 
     /**
+     * @var \Cake\Controller\Controller
+     */
+    protected $Controller;
+
+    /**
+     * @var \Cake\View\View
+     */
+    protected $View;
+
+    /**
+     * @var SearchHelper
+     */
+    protected $Search;
+
+    /**
      * setUp method
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->View = new View();
@@ -55,7 +72,7 @@ class SearchHelperTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Search);
 
@@ -70,7 +87,7 @@ class SearchHelperTest extends TestCase
     public function testInputs()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',
@@ -84,7 +101,7 @@ class SearchHelperTest extends TestCase
 
         $this->Controller = new ArticlesController($request, new Response());
         $this->Controller->index();
-        $parameters = $this->Controller->viewVars['searchParameters'];
+        $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
 
         $inputs = $this->Search->controls($parameters);
         $this->assertEquals(count($inputs), 2);
@@ -121,7 +138,7 @@ class SearchHelperTest extends TestCase
     public function testInput()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $request = $request = new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',
@@ -135,7 +152,7 @@ class SearchHelperTest extends TestCase
 
         $this->Controller = new ArticlesController($request, new Response());
         $this->Controller->index();
-        $parameters = $this->Controller->viewVars['searchParameters'];
+        $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
         $input = $this->Search->input($parameters->get('title'));
         $expected = [
             'type' => 'text',
@@ -162,7 +179,7 @@ class SearchHelperTest extends TestCase
             );
         });
 
-        $request = $request = new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/articles/',
             'params' => [
                 'controller' => 'Articles',
@@ -176,7 +193,7 @@ class SearchHelperTest extends TestCase
 
         $this->Controller = new ExtArticlesController($request, new Response());
         $this->Controller->index();
-        $parameters = $this->Controller->viewVars['searchParameters'];
+        $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
         $input = $this->Search->input($parameters->get('title'));
         $expected = [
             'type' => 'text',

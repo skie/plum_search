@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -11,9 +13,11 @@
  */
 namespace PlumSearch\Model;
 
+use Cake\Collection\CollectionInterface;
 use Cake\Core\App;
 use Cake\Core\ObjectRegistry;
 use Cake\ORM\Table;
+use PlumSearch\Model\Filter\AbstractFilter;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
 
 /**
@@ -28,18 +32,16 @@ class FilterRegistry extends ObjectRegistry
      *
      * @var \Cake\ORM\Table
      */
-    protected $_Table = null;
+    protected $_Table;
 
     /**
      * Constructor.
      *
      * @param \Cake\ORM\Table $Table Table instance.
      */
-    public function __construct(Table $Table = null)
+    public function __construct(Table $Table)
     {
-        if ($Table) {
-            $this->_Table = $Table;
-        }
+        $this->_Table = $Table;
     }
 
     /**
@@ -48,9 +50,9 @@ class FilterRegistry extends ObjectRegistry
      * Part of the template method for Cake\Core\ObjectRegistry::load()
      *
      * @param  string       $class Partial class name to resolve.
-     * @return string|false Either the correct class name or false.
+     * @return string|null Either the correct class name or false.
      */
-    protected function _resolveClassName($class)
+    protected function _resolveClassName($class): ?string
     {
         $result = App::className($class, 'Model/Filter', 'Filter');
         if ($result || strpos($class, '.') !== false) {
@@ -70,7 +72,7 @@ class FilterRegistry extends ObjectRegistry
      * @return void
      * @throws \PlumSearch\Model\Filter\Exception\MissingFilterException
      */
-    protected function _throwMissingClassError($class, $plugin)
+    protected function _throwMissingClassError(string $class, ?string $plugin): void
     {
         throw new MissingFilterException([
             'class' => $class . 'Filter',
@@ -89,7 +91,7 @@ class FilterRegistry extends ObjectRegistry
      * @param  array $config An array of config to use for the filter.
      * @return \PlumSearch\Model\Filter\AbstractFilter The constructed filter class.
      */
-    protected function _create($class, $alias, $config)
+    protected function _create($class, string $alias, array $config): AbstractFilter
     {
         if (empty($config['name'])) {
             $config['name'] = $alias;
@@ -102,9 +104,9 @@ class FilterRegistry extends ObjectRegistry
     /**
      * Return collection of loaded filters
      *
-     * @return \Cake\Collection\Collection
+     * @return \Cake\Collection\CollectionInterface
      */
-    public function collection()
+    public function collection(): CollectionInterface
     {
         return collection($this->_loaded);
     }

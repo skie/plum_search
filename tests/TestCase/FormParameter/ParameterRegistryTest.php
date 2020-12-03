@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -9,11 +11,13 @@
  * @since         PlumSearch 0.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace PlumSearch\Test\TestCase\Lib;
+namespace PlumSearch\Test\TestCase\FormParameter;
 
 use Cake\TestSuite\TestCase;
+use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\InputParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
+use RuntimeException;
 
 /**
  * Class ParameterRegistryTest
@@ -24,11 +28,16 @@ use PlumSearch\FormParameter\ParameterRegistry;
 class ParameterRegistryTest extends TestCase
 {
     /**
+     * @var \PlumSearch\FormParameter\ParameterRegistry
+     */
+    protected $ParameterRegistry;
+
+    /**
      * setUp method
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $controller = $this->getMockBuilder('Cake\Controller\Controller')
@@ -42,7 +51,7 @@ class ParameterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->ParameterRegistry);
         parent::tearDown();
@@ -64,23 +73,23 @@ class ParameterRegistryTest extends TestCase
     /**
      * Test load unexists class  method
      *
-     * @expectedException \PlumSearch\FormParameter\Exception\MissingParameterException
      * @return void
      */
     public function testLoadWrongClass()
     {
+        $this->expectException(MissingParameterException::class);
         $this->ParameterRegistry->load('name1', ['className' => 'Input2']);
     }
 
     /**
      * Test load twice class  method
      *
-     * @expectedException RuntimeException
      * @return void
      */
     public function testLoadTwice()
     {
         $this->ParameterRegistry->load('name', ['className' => 'Input']);
+        $this->expectException(RuntimeException::class);
         $this->ParameterRegistry->load('name', ['className' => 'Select']);
     }
 }

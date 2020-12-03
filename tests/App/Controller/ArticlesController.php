@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -11,28 +13,20 @@
  */
 namespace PlumSearch\Test\App\Controller;
 
-use PlumSearch\Controller\Component\FilterComponent;
-use PlumSearch\Test\App\Model\Table\ArticlesTable;
-
 /**
  * Articles Controller
  *
- * @property \App\Model\Table\ArticlesTable $Articles
+ * @property \PlumSearch\Test\App\Model\Table\ArticlesTable $Articles
  * @property FilterComponent $Filter
  */
 class ArticlesController extends AppController
 {
-
-    public $helpers = [
-        'PlumSearch.Search',
-    ];
-
     /**
      * initialize callback
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $author = $this->Articles->Authors;
         $this->loadComponent('Paginator');
@@ -45,7 +39,10 @@ class ArticlesController extends AppController
                     'className' => 'Select',
                     'finder' => $author->find('list'),
                 ],
-            ]
+            ],
+        ]);
+        $this->viewBuilder()->setHelpers([
+            'PlumSearch.Search',
         ]);
     }
 

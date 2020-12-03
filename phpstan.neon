@@ -1,0 +1,4 @@
+parameters:
+    level: 5
+    autoload_files:
+        - tests/bootstrap.php

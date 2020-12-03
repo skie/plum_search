@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -13,7 +15,6 @@ namespace PlumSearch\FormParameter;
 
 use Cake\Routing\Router;
 use PlumSearch\FormParameter\Exception\MissingParameterException;
-use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
  * Class AutocompleteParam
@@ -34,7 +35,7 @@ class AutocompleteParameter extends BaseParameter
     /**
      * Constructor
      *
-     * @param ParameterRegistry $registry ParameterRegistry object.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $registry ParameterRegistry object.
      * @param array $config Object settings.
      * @throws \PlumSearch\FormParameter\Exception\MissingParameterException
      */
@@ -52,11 +53,10 @@ class AutocompleteParameter extends BaseParameter
 
     /**
      * Builds autocomplete url
-     * @todo allow override url with parameter configuration
      *
      * @return string
      */
-    public function autocompleteUrl()
+    public function autocompleteUrl(): string
     {
         $request = $this->_registry->controller()->getRequest();
 
@@ -71,11 +71,11 @@ class AutocompleteParameter extends BaseParameter
      *
      * @return void
      */
-    public function initializeInnerParameters()
+    public function initializeInnerParameters(): void
     {
         $paramName = $this->getConfig('name');
         $this->_dependentParameters[$paramName] = new HiddenParameter($this->_registry, [
-            'name' => $paramName
+            'name' => $paramName,
         ]);
     }
 
@@ -84,7 +84,7 @@ class AutocompleteParameter extends BaseParameter
      *
      * @return array
      */
-    public function values()
+    public function values(): array
     {
         $name = $this->getConfig('field');
         $paramName = $this->getConfig('name');
@@ -92,7 +92,7 @@ class AutocompleteParameter extends BaseParameter
 
         return [
             $name => $this->value(),
-            $paramName => $param->value()
+            $paramName => $param->value(),
         ];
     }
 }

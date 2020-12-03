@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -13,6 +15,14 @@ namespace PlumSearch\Test\App\Model\Table;
 
 use Cake\ORM\Query;
 
+/**
+ * Articles Table
+ *
+ * @property \PlumSearch\Test\App\Model\Table\AuthorsTable|\Cake\ORM\Association\BelongsTo $Authors
+ * @method \PlumSearch\Model\FilterRegistry filters()
+ * @method \Cake\ORM\Table addFilter(string $name, array $options = [])
+ * @method \Cake\ORM\Table removeFilter(string $name)
+ */
 class ArticlesTable extends \Cake\ORM\Table
 {
     /**
@@ -21,7 +31,7 @@ class ArticlesTable extends \Cake\ORM\Table
      * @param  array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setTable('articles');
         $this->setDisplayField('id');
@@ -34,7 +44,7 @@ class ArticlesTable extends \Cake\ORM\Table
         $this->addFilter('author_id', ['className' => 'Value']);
 
         $this->belongsTo('Authors', [
-            'foreignKey' => 'author_id'
+            'foreignKey' => 'author_id',
         ]);
     }
 

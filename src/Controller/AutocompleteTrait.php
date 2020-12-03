@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -27,14 +29,18 @@ trait AutocompleteTrait
      *
      * @return void
      */
-    public function autocomplete()
+    public function autocomplete(): void
     {
         $this->loadComponent('RequestHandler');
         $this->viewBuilder()->setClassName('Json');
         $data = [];
-        $paramName = $this->getRequest()->getQuery('parameter');
+        $paramName = (string)$this->getRequest()->getQuery('parameter');
         $query = $this->getRequest()->getQuery('query');
-        $parameter = $this->Filter->parameters()->get($paramName);
+        try {
+            $parameter = $this->Filter->parameters()->get($paramName);
+        } catch (\Exception $e) {
+            $parameter = null;
+        }
         if (!empty($parameter)) {
             $method = $parameter->getConfig('autocompleteAction');
             $data = $method($query);
@@ -44,6 +50,6 @@ trait AutocompleteTrait
             $this->set('message', __('Field not found'));
         }
         $this->set('data', $data);
-        $this->set('_serialize', ['data', 'status', 'message']);
+        $this->viewBuilder()->setOption('serialize', ['data', 'status', 'message']);
     }
 }

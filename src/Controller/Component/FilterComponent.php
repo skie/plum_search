@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -13,8 +15,8 @@ namespace PlumSearch\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
+use Cake\Controller\Controller;
 use Cake\Http\ResponseEmitter;
-use Cake\ORM\Table;
 use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
@@ -27,7 +29,7 @@ class FilterComponent extends Component
      *
      * @var \PlumSearch\FormParameter\ParameterRegistry
      */
-    protected $_searchParameters = null;
+    protected $_searchParameters;
 
     /**
      * Controller instance
@@ -53,35 +55,40 @@ class FilterComponent extends Component
     /**
      * Constructor
      *
-     * @param ComponentRegistry $registry A ComponentRegistry this component can use to lazy load its components.
+     * @param \Cake\Controller\ComponentRegistry $registry A ComponentRegistry.
      * @param array $config Array of configuration settings.
      */
     public function __construct(ComponentRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
         $this->_controller = $registry->getController();
-        $this->parameters(true);
+        $this->resetParameters();
     }
 
     /**
-     * Returns parameters registry instance
+     * Returns parameters registry instance.
      *
-     * @param bool $reset Reset flag.
      * @return \PlumSearch\FormParameter\ParameterRegistry
      */
-    public function parameters($reset = false)
+    public function parameters(): ParameterRegistry
     {
-        if ($reset || is_null($this->_searchParameters)) {
-            $this->_searchParameters = new ParameterRegistry($this->_controller, []);
-            $parameters = (array)$this->getConfig('parameters');
-            foreach ($parameters as $parameter) {
-                if (!empty($parameter['name'])) {
-                    $this->addParam($parameter['name'], $parameter);
-                }
+        return $this->_searchParameters;
+    }
+
+    /**
+     * Reset parameters registry instance.
+     *
+     * @return void
+     */
+    public function resetParameters(): void
+    {
+        $this->_searchParameters = new ParameterRegistry($this->_controller, []);
+        $parameters = (array)$this->getConfig('parameters');
+        foreach ($parameters as $parameter) {
+            if (!empty($parameter['name'])) {
+                $this->addParam($parameter['name'], $parameter);
             }
         }
-
-        return $this->_searchParameters;
     }
 
     /**
@@ -99,7 +106,7 @@ class FilterComponent extends Component
      * @param  array $options The options for the parameter to use.
      * @return \Cake\Controller\Component
      */
-    public function addParam($name, array $options = [])
+    public function addParam(string $name, array $options = []): Component
     {
         $this->parameters()->load($name, $options);
 
@@ -120,7 +127,7 @@ class FilterComponent extends Component
      * @param  string                     $name The alias that the parameter was added with.
      * @return \Cake\Controller\Component
      */
-    public function removeParam($name)
+    public function removeParam(string $name): Component
     {
         $this->parameters()->unload($name);
 
@@ -132,15 +139,15 @@ class FilterComponent extends Component
      * For POST requests builds redirection url and perform redirect to get action.
      * For GET requests add filters finder to passed into the method query and returns it.
      *
-     * @param Table $table Table instance.
+     * @param \Cake\ORM\Table|\Cake\ORM\Query $table Table instance.
      * @param array $options Search parameters.
      * @return mixed
      */
-    public function prg($table, $options = [])
+    public function prg($table, array $options = [])
     {
         $this->setConfig($options);
 
-        $formName = $this->_initParam('formName', $this->getConfig('formName'));
+        $formName = (string)$this->_initParam('formName', $this->getConfig('formName'));
         $action = $this->_initParam('action', $this->controller()->getRequest()->getParam('action'));
 
         $this->parameters()->config([
@@ -162,7 +169,7 @@ class FilterComponent extends Component
      *
      * @return array
      */
-    public function values()
+    public function values(): array
     {
         return $this->parameters()->values();
     }
@@ -172,7 +179,7 @@ class FilterComponent extends Component
      *
      * @return \Cake\Controller\Controller
      */
-    public function controller()
+    public function controller(): Controller
     {
         return $this->_controller;
     }
@@ -184,7 +191,7 @@ class FilterComponent extends Component
      * @param mixed $default Default value.
      * @return mixed|string
      */
-    protected function _initParam($name, $default = null)
+    protected function _initParam(string $name, $default = null)
     {
         $param = $this->getConfig($name);
         if (!$param) {
@@ -200,12 +207,12 @@ class FilterComponent extends Component
      * @param string $action Action name.
      * @return void
      */
-    protected function _redirect($action)
+    protected function _redirect(string $action): void
     {
         $params = $this->controller()->getRequest()->getParam('pass');
         $searchParams = array_diff_key(
             array_merge(
-                $this->controller()->getRequest()->getQuery(),
+                (array)$this->controller()->getRequest()->getQuery(),
                 $this->values()
             ),
             array_flip(
@@ -216,7 +223,7 @@ class FilterComponent extends Component
         if ($this->getConfig('filterEmptyParams')) {
             $searchParams = array_filter(
                 $searchParams,
-                function ($v, $k) {
+                function ($v, $k): bool {
                     if (($v === 0) || ($v === '0')) {
                         return true;
                     }
@@ -242,7 +249,7 @@ class FilterComponent extends Component
      * @param string $formName Form name.
      * @return void
      */
-    protected function _setViewData($formName)
+    protected function _setViewData(string $formName): void
     {
         $this->controller()->setRequest(
             $this->controller()->getRequest()->withData($formName, $this->parameters()->viewValues())

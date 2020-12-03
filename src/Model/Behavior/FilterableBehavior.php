@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -28,7 +30,7 @@ class FilterableBehavior extends Behavior
      *
      * @var \PlumSearch\Model\FilterRegistry
      */
-    protected $_searchFilters = null;
+    protected $_searchFilters;
 
     /**
      * Table instance
@@ -65,21 +67,16 @@ class FilterableBehavior extends Behavior
     {
         parent::__construct($table, $config);
         $this->_table = $table;
-        $this->filters();
+        $this->_searchFilters = new FilterRegistry($this->_table);
     }
 
     /**
      * Returns filter registry instance
      *
-     * @param  bool $reset Reset flag.
      * @return \PlumSearch\Model\FilterRegistry
      */
-    public function filters($reset = false)
+    public function filters(): \PlumSearch\Model\FilterRegistry
     {
-        if ($reset || is_null($this->_searchFilters)) {
-            $this->_searchFilters = new FilterRegistry($this->_table);
-        }
-
         return $this->_searchFilters;
     }
 
@@ -103,7 +100,7 @@ class FilterableBehavior extends Behavior
      * @param array $options The options for the filter to use.
      * @return \Cake\ORM\Table
      */
-    public function addFilter($name, array $options = [])
+    public function addFilter(string $name, array $options = []): Table
     {
         $this->filters()->load($name, $options);
 
@@ -124,7 +121,7 @@ class FilterableBehavior extends Behavior
      * @param string $name The alias that the filter was added with.
      * @return \Cake\ORM\Table
      */
-    public function removeFilter($name)
+    public function removeFilter(string $name): Table
     {
         $this->filters()->unload($name);
 
@@ -138,7 +135,7 @@ class FilterableBehavior extends Behavior
      * @param array $options Array of options as described above.
      * @return \Cake\ORM\Query
      */
-    public function findFilter(Query $query, array $options)
+    public function findFilter(Query $query, array $options): Query
     {
         foreach ($this->filters()->collection() as $name => $filter) {
             $filter->apply($query, $options);

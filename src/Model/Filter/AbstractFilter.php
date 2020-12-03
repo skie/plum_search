@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -13,8 +15,8 @@ namespace PlumSearch\Model\Filter;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\ORM\Query;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * Class AbstractFilter
@@ -34,9 +36,16 @@ abstract class AbstractFilter
     protected $_defaultConfig = [];
 
     /**
+     * FilterRegistry storage.
+     *
+     * @var \PlumSearch\Model\FilterRegistry
+     */
+    protected $registry;
+
+    /**
      * Filter constructor
      *
-     * @param FilterRegistry $registry FilterRegistry instance.
+     * @param \PlumSearch\Model\FilterRegistry $registry FilterRegistry instance.
      * @param array $config Filter configuration.
      * @throws \PlumSearch\Model\Filter\Exception\MissingFilterException Used when required options not defined.
      */
@@ -50,6 +59,7 @@ abstract class AbstractFilter
         if (empty($config['field'])) {
             $config['field'] = $config['name'];
         }
+        $this->registry = $registry;
         $this->setConfig($config);
     }
 
@@ -60,7 +70,7 @@ abstract class AbstractFilter
      * @param array $data Filters values.
      * @return \Cake\ORM\Query
      */
-    public function apply(Query $query, array $data)
+    public function apply(Query $query, array $data): Query
     {
         if ($this->_applicable($data)) {
             $field = $this->getConfig('field');
@@ -80,11 +90,15 @@ abstract class AbstractFilter
      * @param array $data Array of options as described above.
      * @return bool
      */
-    protected function _applicable($data)
+    protected function _applicable(array $data): bool
     {
         $field = $this->getConfig('name');
 
-        return $field && (!empty($data[$field]) || $this->_defaultDefined() || isset($data[$field]) && (string)$data[$field] !== '');
+        return $field && (
+                !empty($data[$field]) ||
+                $this->_defaultDefined() ||
+                isset($data[$field]) && (string)$data[$field] !== ''
+            );
     }
 
     /**
@@ -92,7 +106,7 @@ abstract class AbstractFilter
      *
      * @return bool
      */
-    protected function _defaultDefined()
+    protected function _defaultDefined(): bool
     {
         $default = $this->getConfig('default');
 
@@ -104,11 +118,11 @@ abstract class AbstractFilter
      *
      * @param  \Cake\ORM\Query $query Query.
      * @param string $field Field name.
-     * @param string $value Field value.
+     * @param string|array $value Field value.
      * @param array $data Filters values.
      * @return \Cake\ORM\Query
      */
-    abstract protected function _buildQuery(Query $query, $field, $value, array $data = []);
+    abstract protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query;
 
     /**
      * Evaluate value of filter parameter
@@ -116,7 +130,7 @@ abstract class AbstractFilter
      * @param array $data Array of options as described above.
      * @return mixed
      */
-    protected function _value($data)
+    protected function _value(array $data)
     {
         $field = $this->getConfig('name');
         $value = $data[$field];

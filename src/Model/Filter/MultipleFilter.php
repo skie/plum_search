@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -11,22 +13,22 @@
  */
 namespace PlumSearch\Model\Filter;
 
+use Cake\Database\Expression\QueryExpression;
 use Cake\ORM\Query;
 use PlumSearch\Model\FilterRegistry;
-use PlumSearch\Model\Filter\AbstractFilter;
 
 class MultipleFilter extends AbstractFilter
 {
     /**
      * Constants for types
      */
-    const TYPE_OR = 'or';
-    const TYPE_AND = '';
+    public const TYPE_OR = 'or';
+    public const TYPE_AND = '';
 
     /**
      * Filter constructor
      *
-     * @param FilterRegistry $registry FilterRegistry instance.
+     * @param \PlumSearch\Model\FilterRegistry $registry FilterRegistry instance.
      * @param array $config Filter configuration.
      * @throws \PlumSearch\Model\Filter\Exception\MissingFilterException Used when required options not defined.
      */
@@ -47,7 +49,7 @@ class MultipleFilter extends AbstractFilter
      * @param  array  $data Filters values.
      * @return \Cake\ORM\Query
      */
-    protected function _buildQuery(Query $query, $field, $value, array $data = [])
+    protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query
     {
         $type = $this->getConfig('type');
         $rawValue = $value;
@@ -66,18 +68,24 @@ class MultipleFilter extends AbstractFilter
             $type = 'and';
         }
 
-        return $query->where(function ($exp) use (&$query, $value, $type, $fields, $types, $rawValue) {
-            return $exp->{$type . '_'}(function ($ex) use ($value, $fields, $types, $rawValue) {
-                collection($fields)->each(function ($field) use ($value, &$ex, $types, $rawValue) {
-                    if (in_array($types[$field], ['integer', 'int', 'float'])) {
-                        return $ex->eq($field, $rawValue, $types[$field]);
-                    } else {
-                        return $ex->like($field, $value, $types[$field]);
-                    }
-                });
+        return $query->where(
+            function (QueryExpression $exp) use ($value, $type, $fields, $types, $rawValue): QueryExpression {
+                return $exp->{$type . '_'}(
+                    function (QueryExpression $ex) use ($value, $fields, $types, $rawValue): QueryExpression {
+                        collection($fields)->each(
+                            function (string $field) use ($value, &$ex, $types, $rawValue): QueryExpression {
+                                if (in_array($types[$field], ['integer', 'int', 'float'])) {
+                                    return $ex->eq($field, $rawValue, $types[$field]);
+                                } else {
+                                    return $ex->like($field, $value, $types[$field]);
+                                }
+                            }
+                        );
 
-                return $ex;
-            });
-        });
+                        return $ex;
+                    }
+                );
+            }
+        );
     }
 }

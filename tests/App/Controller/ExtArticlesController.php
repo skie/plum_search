@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -13,32 +15,31 @@ namespace PlumSearch\Test\App\Controller;
 
 use Cake\ORM\TableRegistry;
 use PlumSearch\Controller\AutocompleteTrait;
-use PlumSearch\Controller\Component\FilterComponent;
 
 /**
  * Articles Controller
  *
- * @property \App\Model\Table\ArticlesTable $Articles
+ * @property \PlumSearch\Test\App\Model\Table\ArticlesTable $Articles
+ * @property \PlumSearch\Test\App\Model\Table\AuthorsTable $Authors
  * @property FilterComponent $Filter
  */
 class ExtArticlesController extends AppController
 {
     use AutocompleteTrait;
 
-    public $helpers = [
-        'PlumSearch.Search',
-    ];
-
     /**
      * initialize callback
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
-        $Articles = TableRegistry::get('Articles');
+        $Articles = TableRegistry::getTableLocator()->get('Articles');
         $author = $Articles->Authors;
         $this->loadComponent('Paginator');
+        $this->viewBuilder()->setHelpers([
+            'PlumSearch.Search',
+        ]);
         $this->loadComponent('PlumSearch.Filter', [
             'formName' => 'Article',
             'parameters' => [
@@ -54,13 +55,13 @@ class ExtArticlesController extends AppController
                                 return $authors->map(function ($author) {
                                     return [
                                         'id' => $author['id'],
-                                        'value' => $author['name']
+                                        'value' => $author['name'],
                                     ];
                                 });
                             });
-                    }
+                    },
                 ],
-            ]
+            ],
         ]);
     }
 
@@ -71,7 +72,7 @@ class ExtArticlesController extends AppController
      */
     public function index()
     {
-        $Articles = TableRegistry::get('Articles');
+        $Articles = TableRegistry::getTableLocator()->get('Articles');
         $this->set('articles', $this->Paginator->paginate($this->Filter->prg($Articles)));
     }
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -11,7 +13,7 @@
  */
 namespace PlumSearch\Test\TestCase\FormParameter;
 
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use PlumSearch\FormParameter\InputParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
@@ -25,21 +27,31 @@ use PlumSearch\FormParameter\ParameterRegistry;
 class InputParameterTest extends TestCase
 {
     /**
+     * @var ParameterRegistry
+     */
+    protected $ParameterRegistry;
+
+    /**
+     * @var \PlumSearch\FormParameter\InputParameter
+     */
+    protected $InputParam;
+
+    /**
      * setUp method
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $controller = $this->getMockBuilder('Cake\Controller\Controller')
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->request = new Request([
+        $controller->setRequest(new ServerRequest([
             'webroot' => '/dir/',
             'query' => ['username' => 'admin'],
-        ]);
+        ]));
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->InputParam = new InputParameter($this->ParameterRegistry, ['name' => 'username']);
     }
@@ -49,7 +61,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->InputParam);
         parent::tearDown();

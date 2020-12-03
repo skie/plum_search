@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -12,8 +14,8 @@
 namespace PlumSearch\Model\Filter;
 
 use Cake\ORM\Query;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * Class CustomFilter
@@ -25,7 +27,7 @@ class CustomFilter extends AbstractFilter
     /**
      * Filter constructor
      *
-     * @param FilterRegistry $registry FilterRegistry instance.
+     * @param \PlumSearch\Model\FilterRegistry $registry FilterRegistry instance.
      * @param array $config Filter configuration.
      * @throws \PlumSearch\Model\Filter\Exception\MissingFilterException Used when required options not defined.
      */
@@ -44,11 +46,11 @@ class CustomFilter extends AbstractFilter
      *
      * @param  \Cake\ORM\Query $query Query.
      * @param  string $field Field name.
-     * @param  string $value Field value.
+     * @param string|array $value Field value.
      * @param  array $data Filters values.
      * @return \Cake\ORM\Query
      */
-    protected function _buildQuery(Query $query, $field, $value, array $data = [])
+    protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query
     {
         $method = $this->getConfig('method');
         if (is_callable($method)) {

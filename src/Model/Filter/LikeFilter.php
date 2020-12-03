@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -11,6 +13,7 @@
  */
 namespace PlumSearch\Model\Filter;
 
+use Cake\Database\Expression\QueryExpression;
 use Cake\ORM\Query;
 
 class LikeFilter extends AbstractFilter
@@ -24,12 +27,12 @@ class LikeFilter extends AbstractFilter
      * @param  array  $data Filters values.
      * @return \Cake\ORM\Query
      */
-    protected function _buildQuery(Query $query, $field, $value, array $data = [])
+    protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query
     {
         $value = '%' . $value . '%';
 
         return $query->where(
-            function ($exp) use ($field, $value) {
+            function (QueryExpression $exp) use ($field, $value): QueryExpression {
                 return $exp->like($field, $value);
             }
         );

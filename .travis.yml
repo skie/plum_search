@@ -3,11 +3,9 @@ language: php
 dist: xenial
 
 php:
-  - 7.1
-  - 7.2
   - 7.3
-
-sudo: false
+  - 7.4
+  - 8.0
 
 services:
   - postgresql
@@ -16,47 +14,46 @@ services:
 cache:
   directories:
     - vendor
-    - $HOME/.composer/cache 
-
+    - $HOME/.composer/cache
 env:
-  matrix:
+  jobs:
     - DB=mysql db_dsn='mysql://root@127.0.0.1/cakephp_test?init[]=SET sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"'
     - DB=pgsql db_dsn='postgres://postgres@127.0.0.1/cakephp_test'
     - DB=sqlite db_dsn='sqlite:///:memory:'
   global:
-    - INSTALL_DEPS=1
-    - RUN_TESTS=1
+    - DEFAULT=1
 
-matrix:
+jobs:
   allow_failures:
     - php: hhvm-nightly
   fast_finish: true
   include:
-    - php: 7.2
-      env: PHPCS=1 RUN_TESTS=0 INSTALL_DEPS=0
-    - php: 7.2
-      env: RUN_COVERAGE=1 RUN_TESTS=0 DB=mysql db_dsn='mysql://travis@0.0.0.0/cakephp_test'
+    - php: 7.4
+      env: PHPCS=1 DEFAULT=0
+
+    - php: 7.4
+      env: PHPSTAN=1 DEFAULT=0
+
+    - php: 7.4
+      env: COVERAGE=1 DEFAULT=0 DB=mysql db_dsn='mysql://travis@0.0.0.0/cakephp_test'
 
 before_script:
-  - sh -c "if [ '$INSTALL_DEPS' = '1' ]; then composer self-update; fi"
-  - sh -c "if [ '$INSTALL_DEPS' = '1' ]; then composer install --no-interaction --dev; fi"
+  - sh -c "composer install --no-interaction --dev"
   - if [[ $DB == 'mysql' ]]; then mysql -u root -e 'CREATE DATABASE cakephp_test;'; fi
   - if [[ $DB == 'pgsql' ]]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi
-  - sh -c "if [ '$PHPCS' = '1' ]; then composer require cakephp/cakephp-codesniffer:dev-master; fi"
-  - sh -c "if [ '$PHPCS' = '1' ]; then ./vendor/bin/phpcs --config-set installed_paths vendor/cakephp/cakephp-codesniffer; fi"
-  - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then composer require --dev satooshi/php-coveralls:^2.0; fi"
-  - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then mkdir -p build/logs; fi"
+  - if [[ $PHPSTAN = 1 ]]; then composer stan-setup; fi
 
   - phpenv rehash
   - set +H
 
 script:
-  - sh -c "if [ '$RUN_TESTS' = '1' ]; then ./vendor/bin/phpunit --stderr; fi"
-  - sh -c "if [ '$PHPCS' = '1' ]; then ./vendor/bin/phpcs -n -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests; fi"
-  - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then ./vendor/bin/phpunit --stderr --coverage-clover build/logs/clover.xml; fi"
-  - sh -c "if [ '$RUN_COVERAGE' = '1' ]; then php vendor/bin/php-coveralls -c .coveralls.yml -v; fi"
+  - if [[ $DEFAULT = 1 ]]; then composer test; fi
+  - if [[ $COVERAGE = 1 ]]; then composer coverage-test; fi
+  - if [[ $PHPCS = 1 ]]; then composer cs-check; fi
+  - if [[ $PHPSTAN = 1 ]]; then composer stan; fi
+
+after_success:
+  - if [[ $COVERAGE = 1 ]]; then bash <(curl -s https://codecov.io/bash); fi
 
 notifications:
   email: false
-
-  

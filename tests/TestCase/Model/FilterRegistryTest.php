@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -14,10 +16,11 @@ namespace PlumSearch\Test\TestCase\Model;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
 use PlumSearch\Model\Filter\LikeFilter;
 use PlumSearch\Model\Filter\ValueFilter;
+use PlumSearch\Model\FilterRegistry;
+use RuntimeException;
 
 /**
  * PlumSearch\Model\FilterRegistry Test Case
@@ -34,14 +37,24 @@ class FilterRegistryTest extends TestCase
     ];
 
     /**
+     * @var \Cake\ORM\Table
+     */
+    protected $Table;
+
+    /**
+     * @var FilterRegistry
+     */
+    protected $FilterRegistry;
+
+    /**
      * setUp method
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
-        $this->Table = TableRegistry::get('Articles');
+        $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         Configure::write('App.namespace', 'TestApp');
     }
@@ -51,7 +64,7 @@ class FilterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Table, $this->FilterRegistry);
         parent::tearDown();
@@ -73,23 +86,23 @@ class FilterRegistryTest extends TestCase
     /**
      * Test load unexists class  method
      *
-     * @expectedException \PlumSearch\Model\Filter\Exception\MissingFilterException
      * @return void
      */
     public function testLoadWrongClass()
     {
+        $this->expectException(MissingFilterException::class);
         $this->FilterRegistry->load('name1', ['className' => 'Value2']);
     }
 
     /**
      * Test load twice class  method
      *
-     * @expectedException RuntimeException
      * @return void
      */
     public function testLoadTwice()
     {
         $this->FilterRegistry->load('name', ['className' => 'Value']);
+        $this->expectException(RuntimeException::class);
         $this->FilterRegistry->load('name', ['className' => 'Like']);
     }
 }

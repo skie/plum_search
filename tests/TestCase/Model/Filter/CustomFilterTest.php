@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -11,11 +13,12 @@
  */
 namespace PlumSearch\Test\TestCase\Model\Filter;
 
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use PlumSearch\Model;
-use PlumSearch\Model\FilterRegistry;
 use PlumSearch\Model\Filter\CustomFilter;
+use PlumSearch\Model\Filter\Exception\MissingFilterException;
+use PlumSearch\Model\FilterRegistry;
 
 /**
  * PlumSearch\Model\Filter\CustomFilter Test Case
@@ -27,29 +30,44 @@ class CustomFilterTest extends TestCase
     ];
 
     /**
+     * @var Table
+     */
+    protected $Table;
+
+    /**
+     * @var FilterRegistry
+     */
+    protected $FilterRegistry;
+
+    /**
      * setUp method
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Table = TableRegistry::get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => function ($query, $data) {
+            'method' => function ($query, $data): Query {
                 return $query;
-            }
+            },
         ]);
     }
+
+    /**
+     * @var CustomFilter
+     */
+    protected $CustomFilter;
 
     /**
      * tearDown method
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->CustomFilter);
         parent::tearDown();
@@ -58,11 +76,11 @@ class CustomFilterTest extends TestCase
     /**
      * Test constructor method
      *
-     * @expectedException \PlumSearch\Model\Filter\Exception\MissingFilterException
      * @return void
      */
     public function testConstruct()
     {
+        $this->expectException(MissingFilterException::class);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, ['name' => 'id']);
     }
 
@@ -75,7 +93,7 @@ class CustomFilterTest extends TestCase
     {
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => function ($query, $field, $value, $data, $config) {
+            'method' => function ($query, $field, $value, $data, $config): Query {
                 return $query
                     ->where([
                         'OR' => [
@@ -83,7 +101,7 @@ class CustomFilterTest extends TestCase
                             'decription LIKE ' => $value,
                         ],
                     ]);
-            }
+            },
         ]);
 
         $query = $this->Table->find('all');

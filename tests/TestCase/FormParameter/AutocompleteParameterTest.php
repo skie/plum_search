@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -11,9 +13,10 @@
  */
 namespace PlumSearch\Test\TestCase\FormParameter;
 
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use PlumSearch\FormParameter\AutocompleteParameter;
+use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\HiddenParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
 
@@ -23,34 +26,43 @@ use PlumSearch\FormParameter\ParameterRegistry;
  *
  * @package PlumSearch\Test\TestCase\FormParameter
  */
-class AutocompleteParamTest extends TestCase
+class AutocompleteParameterTest extends TestCase
 {
+    /**
+     * @var ParameterRegistry
+     */
+    protected $ParameterRegistry;
+
+    /**
+     * @var \PlumSearch\FormParameter\AutocompleteParameter
+     */
+    protected $AutocompleteParam;
 
     /**
      * setUp method
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $controller = $this->getMockBuilder('Cake\Controller\Controller')
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->request = new Request([
+        $controller->setRequest(new ServerRequest([
             'webroot' => '/dir/',
             'query' => [
                 'item_id' => 7,
                 'item_id_lookup' => 'cool item',
             ],
-        ]);
+        ]));
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->AutocompleteParam = new AutocompleteParameter($this->ParameterRegistry, [
             'name' => 'item_id',
             'autocompleteAction' => function () {
                 return [];
-            }
+            },
         ]);
     }
 
@@ -59,20 +71,21 @@ class AutocompleteParamTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
-        unset($this->InputParam);
+        unset($this->AutocompleteParam);
+        unset($this->ParameterRegistry);
         parent::tearDown();
     }
 
     /**
      * Test constructor method
      *
-     * @expectedException \PlumSearch\FormParameter\Exception\MissingParameterException
      * @return void
      */
     public function testConstruct()
     {
+        $this->expectException(MissingParameterException::class);
         $this->AutocompleteParam = new AutocompleteParameter($this->ParameterRegistry, ['name' => 'item_id']);
     }
 
@@ -120,7 +133,7 @@ class AutocompleteParamTest extends TestCase
     {
         $this->assertEquals($this->AutocompleteParam->values(), [
             'item_id_lookup' => 'cool item',
-            'item_id' => 7
+            'item_id' => 7,
         ]);
     }
 

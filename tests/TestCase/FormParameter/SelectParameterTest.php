@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -11,9 +13,10 @@
  */
 namespace PlumSearch\Test\TestCase\FormParameter;
 
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\ParameterRegistry;
 use PlumSearch\FormParameter\SelectParameter;
 
@@ -56,22 +59,22 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $controller = $this->getMockBuilder('Cake\Controller\Controller')
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->request = new Request([
+        $controller->setRequest(new ServerRequest([
             'webroot' => '/dir/',
             'query' => ['username' => 'admin'],
-        ]);
+        ]));
         $articles = TableRegistry::get('Articles');
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->SelectParam = new SelectParameter($this->ParameterRegistry, [
             'name' => 'username',
-            'finder' => $articles->find('list')
+            'finder' => $articles->find('list'),
         ]);
     }
 
@@ -80,7 +83,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->SelectParam);
         parent::tearDown();
@@ -89,13 +92,13 @@ class SelectParameterTest extends TestCase
     /**
      * Test __construct method
      *
-     * @expectedException \PlumSearch\FormParameter\Exception\MissingParameterException
      * @return void
      */
     public function testConstruct()
     {
+        $this->expectException(MissingParameterException::class);
         $this->SelectParam = new SelectParameter($this->ParameterRegistry, [
-            'name' => 'username'
+            'name' => 'username',
         ]);
     }
 

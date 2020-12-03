@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * PlumSearch plugin for CakePHP Rapid Development Framework
  *
@@ -25,19 +27,18 @@ use PlumSearch\FormParameter\ParameterRegistry;
  */
 class SearchHelper extends Helper
 {
-
     /**
      * Builds Form::controls structure.
      *
-     * @param ParameterRegistry $parameters Form parameters collection.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $parameters Form parameters collection.
      * @param array $options Additional input options.
      * @return array
      */
-    public function controls(ParameterRegistry $parameters, $options = [])
+    public function controls(ParameterRegistry $parameters, array $options = []): array
     {
         $result = [];
-        $entityName = Inflector::singularize($parameters->formName);
-        $collection = $parameters->collection(isset($options['collectionMethod']) ? $options['collectionMethod'] : null);
+        $entityName = Inflector::singularize($parameters->getFormName());
+        $collection = $parameters->collection($options['collectionMethod'] ?? null);
         foreach ($collection as $primaryParameter) {
             foreach ($primaryParameter->viewValues() as $param) {
                 $name = $param->getConfig('name');
@@ -57,12 +58,12 @@ class SearchHelper extends Helper
     /**
      * Builds Form::controls structure.
      *
-     * @param ParameterRegistry $parameters Form parameters collection.
+     * @param \PlumSearch\FormParameter\ParameterRegistry $parameters Form parameters collection.
      * @param array $options Additional input options.
      * @return array
      * @deprecated 3.6.0 Use SearchHelper::controls() instead.
      */
-    public function inputs(ParameterRegistry $parameters, $options = [])
+    public function inputs(ParameterRegistry $parameters, array $options = []): array
     {
         deprecationWarning(
             'SearchHelper::inputs() is deprecated. ' .
@@ -75,11 +76,11 @@ class SearchHelper extends Helper
     /**
      * Generates input for parameter
      *
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @param array $options Additional input options.
      * @return array
      */
-    public function input(BaseParameter $param, $options = [])
+    public function input(BaseParameter $param, array $options = []): array
     {
         $input = $this->_defaultInput($param);
         $this->_setValue($input, $param);
@@ -93,17 +94,17 @@ class SearchHelper extends Helper
     /**
      * Generates default input for parameter
      *
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _defaultInput($param)
+    protected function _defaultInput(BaseParameter $param): array
     {
         $input = $param->formInputConfig();
-        $name = $param->getConfig('name');
+        $name = (string)$param->getConfig('name');
         $input += [
             'type' => 'text',
             'required' => false,
-            'label' => Inflector::humanize(preg_replace('/_id$/', '', $name)),
+            'label' => Inflector::humanize((string)preg_replace('/_id$/', '', $name)),
         ];
         if (!$param->visible()) {
             $input['type'] = 'hidden';
@@ -116,10 +117,10 @@ class SearchHelper extends Helper
      * Set value for field
      *
      * @param array $input Field options.
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _setValue(&$input, $param)
+    protected function _setValue(array &$input, BaseParameter $param): array
     {
         $value = $param->value();
         if (!$param->isEmpty()) {
@@ -135,10 +136,10 @@ class SearchHelper extends Helper
      * Set options for field
      *
      * @param array $input Field options.
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _setOptions(&$input, $param)
+    protected function _setOptions(array &$input, BaseParameter $param): array
     {
         if ($param->hasOptions() && !isset($input['empty'])) {
             $input['empty'] = true;
@@ -151,10 +152,10 @@ class SearchHelper extends Helper
      * Set autocomplete settings for field
      *
      * @param array $input Field options.
-     * @param BaseParameter $param Form parameter.
+     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _applyAutocompleteOptions(&$input, $param)
+    protected function _applyAutocompleteOptions(array &$input, BaseParameter $param): array
     {
         if ($param instanceof AutocompleteParameter) {
             $input['data-url'] = $param->autocompleteUrl();
