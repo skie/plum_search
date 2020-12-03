@@ -1,6 +1,6 @@
 # CakePHP PlumSearch Plugin
 
-[![Travis Status](https://api.travis-ci.org/skie/plum_search.png?branch=master)](http://travis-ci.org/skie/plum_search)
+[![Travis Status](https://api.travis-ci.com/skie/plum_search.png?branch=master)](http://travis-ci.com/skie/plum_search)
 [![Downloads](https://poser.pugx.org/skie/cakephp-search/d/total.png)](https://packagist.org/packages/skie/cakephp-search)
 [![Current Version](https://poser.pugx.org/skie/cakephp-search/v/stable.png)](https://packagist.org/packages/skie/cakephp-search)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
@@ -10,7 +10,7 @@ Plugin implements highly configurable search strategy.
 
 ### What is this plugin for?
 
-This plugin implements custom, flexible search with multiple ways of search configuration for cakephp 3.* 
+This plugin implements custom, flexible search with multiple ways of search configuration for cakephp 3.*
 Plugin provides search support on tables, controllers and templates layers.
 
 ### Provided features
