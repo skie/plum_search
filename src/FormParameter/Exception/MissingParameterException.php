@@ -18,17 +18,16 @@ use Cake\Core\Exception\Exception;
 /**
  * Missing Param exception - used when a form parameter
  * cannot be found.
- *
  */
 class MissingParameterException extends Exception
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected $_messageTemplate = 'Filter %s::%s() could not be found.';
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function __construct($message, int $code = 404)
     {

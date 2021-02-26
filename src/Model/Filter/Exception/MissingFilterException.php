@@ -18,17 +18,16 @@ use Cake\Core\Exception\Exception;
 /**
  * Missing Filter exception - used when a search filter
  * cannot be found.
- *
  */
 class MissingFilterException extends Exception
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected $_messageTemplate = 'Filter %s::%s() could not be found.';
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function __construct($message, int $code = 404)
     {

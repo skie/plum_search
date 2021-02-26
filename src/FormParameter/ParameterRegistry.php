@@ -240,6 +240,7 @@ class ParameterRegistry extends ObjectRegistry
 
     /**
      * Override to allow serialization
+     *
      * @return array
      */
     public function __sleep(): array
