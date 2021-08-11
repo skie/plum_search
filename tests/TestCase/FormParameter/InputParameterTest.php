@@ -26,15 +26,9 @@ use PlumSearch\FormParameter\ParameterRegistry;
  */
 class InputParameterTest extends TestCase
 {
-    /**
-     * @var ParameterRegistry
-     */
-    protected $ParameterRegistry;
+    protected \PlumSearch\FormParameter\ParameterRegistry $ParameterRegistry;
 
-    /**
-     * @var \PlumSearch\FormParameter\InputParameter
-     */
-    protected $InputParam;
+    protected \PlumSearch\FormParameter\InputParameter $InputParam;
 
     /**
      * setUp method
@@ -44,7 +38,7 @@ class InputParameterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder('Cake\Controller\Controller')
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';

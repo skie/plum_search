@@ -34,11 +34,9 @@ class TagsFilter extends AbstractFilter
         $idName = $query->getRepository()->aliasField('id');
 
         $tags = TableRegistry::get('ArticlesTags')->find('all')
-        ->matching('Tags', function ($q) use ($value, $idName) {
-            return $q->where([
-                'Tags.name' => $value,
-            ]);
-        })
+        ->matching('Tags', fn($q) => $q->where([
+            'Tags.name' => $value,
+        ]))
         ->where([
             "ArticlesTags.article_id = $idName",
         ]);

@@ -29,15 +29,9 @@ class CustomFilterTest extends TestCase
         'plugin.PlumSearch.Articles',
     ];
 
-    /**
-     * @var Table
-     */
-    protected $Table;
+    protected \Cake\ORM\Table $Table;
 
-    /**
-     * @var FilterRegistry
-     */
-    protected $FilterRegistry;
+    protected \PlumSearch\Model\FilterRegistry $FilterRegistry;
 
     /**
      * setUp method
@@ -51,16 +45,11 @@ class CustomFilterTest extends TestCase
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => function ($query, $data): Query {
-                return $query;
-            },
+            'method' => fn($query, $data): Query => $query,
         ]);
     }
 
-    /**
-     * @var CustomFilter
-     */
-    protected $CustomFilter;
+    protected \PlumSearch\Model\Filter\CustomFilter $CustomFilter;
 
     /**
      * tearDown method
@@ -93,15 +82,13 @@ class CustomFilterTest extends TestCase
     {
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => function ($query, $field, $value, $data, $config): Query {
-                return $query
-                    ->where([
-                        'OR' => [
-                            'title LIKE' => $value,
-                            'decription LIKE ' => $value,
-                        ],
-                    ]);
-            },
+            'method' => fn($query, $field, $value, $data, $config): Query => $query
+                ->where([
+                    'OR' => [
+                        'title LIKE' => $value,
+                        'decription LIKE ' => $value,
+                    ],
+                ]),
         ]);
 
         $query = $this->Table->find('all');

@@ -50,10 +50,8 @@ class FilterComponentTest extends TestCase
 
     /**
      * Component
-     *
-     * @var \PlumSearch\Controller\Component\FilterComponent
      */
-    public $Component;
+    public \PlumSearch\Controller\Component\FilterComponent $Component;
 
     /**
      * setUp method
@@ -63,7 +61,7 @@ class FilterComponentTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
+        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
             ->getMock();
         $registry = new ComponentRegistry($this->Controller);
@@ -127,7 +125,7 @@ class FilterComponentTest extends TestCase
      */
     public function testPrgPost()
     {
-        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
+        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -189,7 +187,7 @@ class FilterComponentTest extends TestCase
             ],
         ]);
         $response = new Response();
-        $this->Controller = $this->getMockBuilder('PlumSearch\Test\App\Controller\ArticlesController')
+        $this->Controller = $this->getMockBuilder(\PlumSearch\Test\App\Controller\ArticlesController::class)
             ->setMethods(['redirect'])
             ->setConstructorArgs([$request, $response, 'Articles'])
             ->getMock();
@@ -233,7 +231,7 @@ class FilterComponentTest extends TestCase
         $this->Controller = new ArticlesController($request, new Response());
         $this->Controller->index();
 
-        $this->assertEquals(count($this->Controller->viewBuilder()->getVar('articles')), 1);
+        $this->assertEquals(is_countable($this->Controller->viewBuilder()->getVar('articles')) ? count($this->Controller->viewBuilder()->getVar('articles')) : 0, 1);
         $article = $this->Controller->viewBuilder()->getVar('articles')->toArray()[0];
         $this->assertEquals($article->id, 3);
     }
@@ -247,7 +245,7 @@ class FilterComponentTest extends TestCase
     {
         $this->assertEquals($this->Component->values(), []);
 
-        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
+        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';

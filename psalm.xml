@@ -25,8 +25,8 @@
             <errorLevel type="suppress">
                 <file name="vendor/cakephp/cakephp/src/Core/BasePlugin.php" />
             </errorLevel>
-        </PropertyNotSetInConstructor> 
-        
+        </PropertyNotSetInConstructor>
+
         <PropertyNotSetInConstructor errorLevel="info" />
         <MissingConstructor>
         </MissingConstructor>
@@ -47,7 +47,6 @@
 
         <MoreSpecificReturnType errorLevel="info" />
         <LessSpecificReturnStatement errorLevel="info" />
-        <TypeCoercion errorLevel="info" />
 
         <PossiblyInvalidArrayAccess errorLevel="info" />
         <PossiblyInvalidArrayOffset errorLevel="info" />
@@ -71,7 +70,7 @@
                 <file name="vendor/cakephp/cakephp/src/ORM/Behavior.php" />
             </errorLevel>
         </PossiblyNullIterator>
-        
+
 
         <!-- level 5 issues - should be avoided at mosts costs... -->
 

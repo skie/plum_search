@@ -29,20 +29,11 @@ class ValueFilterTest extends TestCase
         'plugin.PlumSearch.Articles',
     ];
 
-    /**
-     * @var \Cake\ORM\Table
-     */
-    protected $Table;
+    protected \Cake\ORM\Table $Table;
 
-    /**
-     * @var FilterRegistry
-     */
-    protected $FilterRegistry;
+    protected \PlumSearch\Model\FilterRegistry $FilterRegistry;
 
-    /**
-     * @var \PlumSearch\Model\Filter\AbstractFilter
-     */
-    protected $ValueFilter;
+    protected \PlumSearch\Model\Filter\ValueFilter $ValueFilter;
 
     /**
      * setUp method

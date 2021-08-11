@@ -28,20 +28,11 @@ class LikeFilterTest extends TestCase
         'plugin.PlumSearch.Articles',
     ];
 
-    /**
-     * @var \Cake\ORM\Table
-     */
-    protected $Table;
+    protected \Cake\ORM\Table $Table;
 
-    /**
-     * @var FilterRegistry
-     */
-    protected $FilterRegistry;
+    protected \PlumSearch\Model\FilterRegistry $FilterRegistry;
 
-    /**
-     * @var \PlumSearch\Model\Filter\AbstractFilter
-     */
-    protected $LikeFilter;
+    protected \PlumSearch\Model\Filter\LikeFilter $LikeFilter;
 
     /**
      * setUp method

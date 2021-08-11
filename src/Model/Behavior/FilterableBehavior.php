@@ -27,10 +27,8 @@ class FilterableBehavior extends Behavior
 {
     /**
      * FilterRegistry for this table
-     *
-     * @var \PlumSearch\Model\FilterRegistry
      */
-    protected $_searchFilters;
+    protected \PlumSearch\Model\FilterRegistry $_searchFilters;
 
     /**
      * Table instance

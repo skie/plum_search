@@ -35,17 +35,15 @@ abstract class BaseParameter
 
     /**
      * ParameterRegistry instance
-     *
-     * @var \PlumSearch\FormParameter\ParameterRegistry
      */
-    protected $_registry;
+    protected \PlumSearch\FormParameter\ParameterRegistry $_registry;
 
     /**
      * List of dependent parameters
      *
      * @var \PlumSearch\FormParameter\BaseParameter[]
      */
-    protected $_dependentParameters = [];
+    protected array $_dependentParameters = [];
 
     /**
      * Parameter value
@@ -56,10 +54,8 @@ abstract class BaseParameter
 
     /**
      * Process flag
-     *
-     * @var bool
      */
-    protected $_processed = false;
+    protected bool $_processed = false;
 
     /**
      * Constructor

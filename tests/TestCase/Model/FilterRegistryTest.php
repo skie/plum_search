@@ -36,15 +36,9 @@ class FilterRegistryTest extends TestCase
         'plugin.PlumSearch.Articles',
     ];
 
-    /**
-     * @var \Cake\ORM\Table
-     */
-    protected $Table;
+    protected \Cake\ORM\Table $Table;
 
-    /**
-     * @var FilterRegistry
-     */
-    protected $FilterRegistry;
+    protected \PlumSearch\Model\FilterRegistry $FilterRegistry;
 
     /**
      * setUp method

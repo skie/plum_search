@@ -32,9 +32,7 @@ class LikeFilter extends AbstractFilter
         $value = '%' . $value . '%';
 
         return $query->where(
-            function (QueryExpression $exp) use ($field, $value): QueryExpression {
-                return $exp->like($field, $value);
-            }
+            fn(QueryExpression $exp): QueryExpression => $exp->like($field, $value)
         );
     }
 }

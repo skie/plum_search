@@ -26,17 +26,13 @@ class FilterComponent extends Component
 {
     /**
      * Parameters Registry
-     *
-     * @var \PlumSearch\FormParameter\ParameterRegistry
      */
-    protected $_searchParameters;
+    protected ?\PlumSearch\FormParameter\ParameterRegistry $_searchParameters = null;
 
     /**
      * Controller instance
-     *
-     * @var \Cake\Controller\Controller
      */
-    protected $_controller;
+    protected \Cake\Controller\Controller $_controller;
 
     /**
      * Default config

@@ -58,34 +58,28 @@ class MultipleFilter extends AbstractFilter
         $typesMap = $this->getConfig('fieldTypes');
         $types = [];
         foreach ($fields as $field) {
-            if (is_array($typesMap) && array_key_exists($field, $typesMap)) {
-                $types[$field] = $typesMap[$field];
-            } else {
-                $types[$field] = null;
-            }
+            $types[$field] = is_array($typesMap) && array_key_exists($field, $typesMap) ? $typesMap[$field] : null;
         }
         if (empty($type)) {
             $type = 'and';
         }
 
         return $query->where(
-            function (QueryExpression $exp) use ($value, $type, $fields, $types, $rawValue): QueryExpression {
-                return $exp->{$type}(
-                    function (QueryExpression $ex) use ($value, $fields, $types, $rawValue): QueryExpression {
-                        collection($fields)->each(
-                            function (string $field) use ($value, &$ex, $types, $rawValue): QueryExpression {
-                                if (in_array($types[$field], ['integer', 'int', 'float'])) {
-                                    return $ex->eq($field, $rawValue, $types[$field]);
-                                } else {
-                                    return $ex->like($field, $value, $types[$field]);
-                                }
+            fn(QueryExpression $exp): QueryExpression => $exp->{$type}(
+                function (QueryExpression $ex) use ($value, $fields, $types, $rawValue): QueryExpression {
+                    collection($fields)->each(
+                        function (string $field) use ($value, &$ex, $types, $rawValue): QueryExpression {
+                            if (in_array($types[$field], ['integer', 'int', 'float'])) {
+                                return $ex->eq($field, $rawValue, $types[$field]);
+                            } else {
+                                return $ex->like($field, $value, $types[$field]);
                             }
-                        );
+                        }
+                    );
 
-                        return $ex;
-                    }
-                );
-            }
+                    return $ex;
+                }
+            )
         );
     }
 }

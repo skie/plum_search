@@ -21,6 +21,7 @@ use Cake\TestSuite\IntegrationTestCase;
  */
 class AutocompleteTraitTest extends IntegrationTestCase
 {
+    public $Controller;
     /**
      * Test fixtures
      *
@@ -64,7 +65,7 @@ class AutocompleteTraitTest extends IntegrationTestCase
     {
         $this->useHttpServer(true);
         $this->get('/ExtArticles/autocomplete?query=r&parameter=author_id');
-        $response = json_decode((string)$this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('success', $response['status']);
         $this->assertEquals([
             ['id' => 2, 'value' => 'mark'],
@@ -81,7 +82,7 @@ class AutocompleteTraitTest extends IntegrationTestCase
     {
         $this->useHttpServer(true);
         $this->get('/ExtArticles/autocomplete?query=%');
-        $response = json_decode((string)$this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals([], $response['data']);
         $this->assertEquals('error', $response['status']);
         $this->assertEquals('Field not found', $response['message']);

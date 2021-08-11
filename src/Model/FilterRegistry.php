@@ -29,10 +29,8 @@ class FilterRegistry extends ObjectRegistry
 {
     /**
      * The table that this collection was initialized with.
-     *
-     * @var \Cake\ORM\Table
      */
-    protected $_Table;
+    protected \Cake\ORM\Table $_Table;
 
     /**
      * Constructor.
@@ -96,9 +94,8 @@ class FilterRegistry extends ObjectRegistry
         if (empty($config['name'])) {
             $config['name'] = $alias;
         }
-        $instance = new $class($this, $config);
 
-        return $instance;
+        return new $class($this, $config);
     }
 
     /**

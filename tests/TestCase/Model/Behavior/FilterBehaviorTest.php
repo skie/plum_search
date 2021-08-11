@@ -36,10 +36,7 @@ class FilterBehaviorTest extends TestCase
         'plugin.PlumSearch.Authors',
     ];
 
-    /**
-     * @var ArticlesTable
-     */
-    public $Articles;
+    public \Cake\ORM\Table $Articles;
 
     /**
      * setUp method
@@ -108,8 +105,8 @@ class FilterBehaviorTest extends TestCase
      */
     public function testFindFilter()
     {
-        $result = $this->Articles->find('filters', [])->enableHydration(false)->toArray();
-        $this->assertEquals(count($result), 3);
+        $result = $this->Articles->find('filters')->enableHydration(false)->toArray();
+        $this->assertEquals(is_countable($result) ? count($result) : 0, 3);
 
         $filterParameters = [
             'title' => 'First',

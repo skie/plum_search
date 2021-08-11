@@ -66,8 +66,7 @@ class SearchHelper extends Helper
     public function inputs(ParameterRegistry $parameters, array $options = []): array
     {
         deprecationWarning(
-            'SearchHelper::inputs() is deprecated. ' .
-            'Use SearchHelper::controls() instead.'
+            'SearchHelper::inputs() is deprecated. Use SearchHelper::controls() instead.'
         );
 
         return $this->controls($parameters, $options);
@@ -86,9 +85,8 @@ class SearchHelper extends Helper
         $this->_setValue($input, $param);
         $this->_setOptions($input, $param);
         $this->_applyAutocompleteOptions($input, $param);
-        $input = Hash::merge($input, $options);
 
-        return $input;
+        return Hash::merge($input, $options);
     }
 
     /**
@@ -123,11 +121,7 @@ class SearchHelper extends Helper
     protected function _setValue(array &$input, BaseParameter $param): array
     {
         $value = $param->value();
-        if (!$param->isEmpty()) {
-            $input['value'] = $value;
-        } else {
-            $input['value'] = '';
-        }
+        $input['value'] = $param->isEmpty() ? '' : $value;
 
         return $input;
     }

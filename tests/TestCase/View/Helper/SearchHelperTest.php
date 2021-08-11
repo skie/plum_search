@@ -45,15 +45,9 @@ class SearchHelperTest extends TestCase
      */
     protected $Controller;
 
-    /**
-     * @var \Cake\View\View
-     */
-    protected $View;
+    protected \Cake\View\View $View;
 
-    /**
-     * @var SearchHelper
-     */
-    protected $Search;
+    protected \PlumSearch\View\Helper\SearchHelper $Search;
 
     /**
      * setUp method

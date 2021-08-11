@@ -30,17 +30,13 @@ abstract class AbstractFilter
     /**
      * Default configuration
      * These are merged with user-provided configuration when the behavior is used.
-     *
-     * @var array
      */
-    protected $_defaultConfig = [];
+    protected array $_defaultConfig = [];
 
     /**
      * FilterRegistry storage.
-     *
-     * @var \PlumSearch\Model\FilterRegistry
      */
-    protected $registry;
+    protected \PlumSearch\Model\FilterRegistry $registry;
 
     /**
      * Filter constructor

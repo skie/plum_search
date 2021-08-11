@@ -28,10 +28,8 @@ class ParameterRegistry extends ObjectRegistry
 {
     /**
      * The table that this collection was initialized with.
-     *
-     * @var \Cake\Controller\Controller
      */
-    protected $_Controller;
+    protected \Cake\Controller\Controller $_Controller;
 
     /**
      * Form name
@@ -113,9 +111,8 @@ class ParameterRegistry extends ObjectRegistry
         if (empty($config['name'])) {
             $config['name'] = $alias;
         }
-        $instance = new $class($this, $config);
 
-        return $instance;
+        return new $class($this, $config);
     }
 
     /**
@@ -168,7 +165,7 @@ class ParameterRegistry extends ObjectRegistry
     {
         $result = [];
         foreach ($this->collection() as $param) {
-            $result = $result + (array)$param->values();
+            $result += (array)$param->values();
         }
 
         return $result;
@@ -183,7 +180,7 @@ class ParameterRegistry extends ObjectRegistry
     {
         $result = [];
         foreach ($this->collection() as $param) {
-            $result = $result + (array)$param->viewValues();
+            $result += (array)$param->viewValues();
         }
 
         return $result;

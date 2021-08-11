@@ -19,13 +19,14 @@
     ],
     "minimum-stability": "dev",
     "require":{
-        "php": ">=7.3.0",
+        "php": ">=7.4",
         "cakephp/cakephp": "4.*",
         "cakephp/plugin-installer": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0",
         "vlucas/phpdotenv": "^3.3",
+        "rector/rector": "^0.11.2",
         "cakephp/cakephp-codesniffer": "^4.0"
     },
     "autoload": {
@@ -61,6 +62,6 @@
         "stan": "phpstan analyse src/",
         "stan-test": "phpstan analyse tests/",
         "psalm": "php vendor/psalm/phar/psalm.phar --show-info=false src/ ",
-        "stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:0.12.58 psalm/phar:~4.3.0 && mv composer.backup composer.json",         "coverage-test": "phpunit --stderr --coverage-clover=clover.xml"
+        "stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:0.12.94 psalm/phar:~4.9.2 && mv composer.backup composer.json",         "coverage-test": "phpunit --stderr --coverage-clover=clover.xml"
     }
 }

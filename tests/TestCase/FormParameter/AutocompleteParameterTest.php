@@ -28,15 +28,9 @@ use PlumSearch\FormParameter\ParameterRegistry;
  */
 class AutocompleteParameterTest extends TestCase
 {
-    /**
-     * @var ParameterRegistry
-     */
-    protected $ParameterRegistry;
+    protected \PlumSearch\FormParameter\ParameterRegistry $ParameterRegistry;
 
-    /**
-     * @var \PlumSearch\FormParameter\AutocompleteParameter
-     */
-    protected $AutocompleteParam;
+    protected \PlumSearch\FormParameter\AutocompleteParameter $AutocompleteParam;
 
     /**
      * setUp method
@@ -46,7 +40,7 @@ class AutocompleteParameterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder('Cake\Controller\Controller')
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -60,9 +54,7 @@ class AutocompleteParameterTest extends TestCase
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->AutocompleteParam = new AutocompleteParameter($this->ParameterRegistry, [
             'name' => 'item_id',
-            'autocompleteAction' => function () {
-                return [];
-            },
+            'autocompleteAction' => fn() => [],
         ]);
     }
 

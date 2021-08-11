@@ -27,10 +27,7 @@ use RuntimeException;
  */
 class ParameterRegistryTest extends TestCase
 {
-    /**
-     * @var \PlumSearch\FormParameter\ParameterRegistry
-     */
-    protected $ParameterRegistry;
+    protected \PlumSearch\FormParameter\ParameterRegistry $ParameterRegistry;
 
     /**
      * setUp method
@@ -40,7 +37,7 @@ class ParameterRegistryTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder('Cake\Controller\Controller')
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
             ->getMock();
         $this->ParameterRegistry = new ParameterRegistry($controller);

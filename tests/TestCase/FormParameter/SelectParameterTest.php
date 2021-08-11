@@ -42,17 +42,13 @@ class SelectParameterTest extends TestCase
 
     /**
      * Parameter
-     *
-     * @var \PlumSearch\FormParameter\SelectParameter
      */
-    public $SelectParam;
+    public \PlumSearch\FormParameter\SelectParameter $SelectParam;
 
     /**
      * Parameter Registry
-     *
-     * @var \PlumSearch\FormParameter\ParameterRegistry
      */
-    public $ParameterRegistry;
+    public \PlumSearch\FormParameter\ParameterRegistry $ParameterRegistry;
 
     /**
      * setUp method
@@ -62,7 +58,7 @@ class SelectParameterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder('Cake\Controller\Controller')
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
