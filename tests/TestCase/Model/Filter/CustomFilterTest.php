@@ -94,6 +94,6 @@ class CustomFilterTest extends TestCase
         $query = $this->Table->find('all');
         $this->CustomFilter->apply($query, ['id' => 1]);
 
-        $this->assertRegExp('/WHERE \(title like :c0 OR decription like :c1\)/', $query->sql());
+        $this->assertMatchesRegularExpression('/WHERE \(title like :c0 OR decription like :c1\)/', $query->sql());
     }
 }
