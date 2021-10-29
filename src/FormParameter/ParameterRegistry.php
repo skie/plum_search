@@ -34,7 +34,7 @@ class ParameterRegistry extends ObjectRegistry
     /**
      * Form name
      *
-     * @var string
+     * @var string|null
      */
     protected $formName;
 

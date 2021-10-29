@@ -39,7 +39,7 @@ class FilterComponent extends Component
      *
      * These are merged with user-provided configuration when the behavior is used.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $_defaultConfig = [
         'formName' => null,
@@ -64,9 +64,9 @@ class FilterComponent extends Component
     /**
      * Returns parameters registry instance.
      *
-     * @return \PlumSearch\FormParameter\ParameterRegistry
+     * @return \PlumSearch\FormParameter\ParameterRegistry|null
      */
-    public function parameters(): ParameterRegistry
+    public function parameters(): ?ParameterRegistry
     {
         return $this->_searchParameters;
     }
