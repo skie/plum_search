@@ -166,7 +166,9 @@ class SearchHelperTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        Router::scope('/', function ($routes) {
+        Router::reload();
+        $builder = Router::createRouteBuilder('/');
+        $builder->scope('/', function ($routes) {
             $routes->connect(
                 '/articles/autocomplete',
                 ['controller' => 'Articles', 'action' => 'autocomplete']

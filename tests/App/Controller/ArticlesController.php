@@ -41,7 +41,7 @@ class ArticlesController extends AppController
                 ],
             ],
         ]);
-        $this->viewBuilder()->setHelpers([
+        $this->viewBuilder()->addHelpers([
             'PlumSearch.Search',
         ]);
     }

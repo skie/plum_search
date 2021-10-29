@@ -83,3 +83,11 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
     'url' => getenv('db_dsn'),
     'timezone' => 'UTC',
 ]);
+
+// Create test database schema
+use Cake\TestSuite\Fixture\SchemaLoader;
+
+if (env('FIXTURE_SCHEMA_METADATA')) {
+    $loader = new SchemaLoader();
+    $loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
+}

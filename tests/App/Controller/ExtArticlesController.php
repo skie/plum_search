@@ -37,7 +37,7 @@ class ExtArticlesController extends AppController
         $Articles = TableRegistry::getTableLocator()->get('Articles');
         $author = $Articles->Authors;
         $this->loadComponent('Paginator');
-        $this->viewBuilder()->setHelpers([
+        $this->viewBuilder()->addHelpers([
             'PlumSearch.Search',
         ]);
         $this->loadComponent('PlumSearch.Filter', [
