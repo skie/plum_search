@@ -10,7 +10,7 @@ Plugin implements highly configurable search strategy.
 
 ### What is this plugin for?
 
-This plugin implements custom, flexible search with multiple ways of search configuration for cakephp 3.*
+This plugin implements custom, flexible search with multiple ways of search configuration for cakephp 4.3+
 Plugin provides search support on tables, controllers and templates layers.
 
 ### Provided features

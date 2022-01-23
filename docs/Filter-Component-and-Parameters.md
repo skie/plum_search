@@ -7,8 +7,8 @@ Component provides search parameters management, post-redirect-get pattern imple
 The component configuration contains next settings:
 
 * **formName:** Defines form name, if not null search form supposed to have name defined. (Default: ```null```)
-* **action:** Action for redirect, if not defined used same action as post. (Default: ```null```)
-* **prohibitedParams:** List of parameters that should be cleaned up befeore redirect. (Default: ```['page']```)
+* **action:** Action for redirect, if not defined, uses the same action as post. (Default: ```null```)
+* **prohibitedParams:** List of parameters that should be cleaned up before redirection. (Default: ```['page']```)
 
 ### Component methods
 
@@ -19,7 +19,7 @@ The component configuration contains next settings:
 ```
 
 Required configuration argument is `className`. It is defined without `Parameter` suffix, and searches in two folders: in PlumSearch.FormParameter, and in src/FormParameter for application itself.
-Other options are depend from Param class.
+Other options depend from Param class.
 
 * ```removeParam($name)``` - Removes a parameter from ParameterRegistry.
 
@@ -27,7 +27,7 @@ Other options are depend from Param class.
     $this->Filter->removeParam('field']);
 ```
 
-* ```prg($table, $options = [])``` - Implements Post Redirect Get flow method. For POST requests builds redirection url and perform redirect to get action. For GET requests add filters finder to passed into the method query and returns it.
+* ```prg($table, $options = [])``` - Implements Post Redirect Get flow method. For POST requests build a redirection url and perform redirection to get action. For GET requests add filters finder to pass into the method query and return it.
 
 ```php
     public function index()
@@ -51,8 +51,8 @@ Form parameters represents search input fields and embed logic for getting addit
 Each  parameter have next settings:
 
 * **name:** Unique parameter name.
-* **field:** String defines unique parameter name in form or query parameter.
-* **visible:** Defines parameter visibility in form. If false parameter is hidden.
+* **field:** String defines a unique parameter name in form or query parameter.
+* **visible:** Defines parameter visibility in form. If its value is false, the parameter is hidden.
 * **formConfig:** Contains Form::input ```$options``` settings like class, input type, label name...
 
 ### Input parameter
@@ -61,19 +61,27 @@ InputParam is a text input form parameter.
 
 ### Select and Multiple parameters
 
-SelectParam is select box input form parameter.
-MultipleParam used for multiple selectbox or multiple checkbox.
+SelectParam is a select box input form parameter.
+MultipleParam used for multiple select box or multiple checkbox.
 
 #### Additional constructor options:
 
-Option **finder** is a query to ORM to get list of options for select input generation.
-Option **options** is a key-value array in list format for select input generate.
+Option **finder** is a query to ORM to get a list of options for select input generation.
+Option **options** is a key-value array in list format for select input generation.
 
 One of **finder** or **options** parameters are required
 
+### Range parameter
+
+RangeParam is a generic input having two inputs. It should be used in pairs with RangeFilter.
+
+#### Additional constructor options:
+
+**postRenderCallback** is callable, accepting BaseParameter instance as first argument, and View class instance as second. This method could be used to decorate parameters with additional javascript logic or for any different post processing purposes.
+
 ### Autocomplete parameter
 
-Autocomplete parameter serve both server and client side autocomplete field management.
+Autocomplete parameter serves both server and client side autocomplete field management.
 
 Autocomplete parameter internally create additional hidden parameter with have exact equal to parameter name and autocomplete input widget field is postfixed by **_lookup**.
 
@@ -81,13 +89,13 @@ Client side code has only **jQuery** library dependency.
 
 #### Additional constructor options:
 
-Option **autocompleteAction** is a callable function that accepts single arguments that contains user search string for autocomplete field, and returns array where each row contains at least two keys: ```id``` and ```value```.
+Option **autocompleteAction** is a callable function that accepts single arguments that contains a user search string for an autocomplete field, and returns an array where each row contains at least two keys: ```id``` and ```value```.
 
 #### Autocomplete trait
 
-Trait could be included into controllers that use autocomplete parameters. It provides ```autocomplete``` action method.
+Trait could be included into controllers that use autocomplete parameters. It provides an ```autocomplete``` action method.
 
-Autocomplete action returns json object. This action accept two query string parameters: ```paramName``` and ```query```. First used to get correct AutocompleteParameter instance and second used to pass to the method defined by **autocompleteAction** setting.
+Autocomplete action returns json object. This action accepts two query string parameters: ```paramName``` and ```query```. First used to get correct AutocompleteParameter instance and second used to pass to the method defined by **autocompleteAction** setting.
 
 #### Autocomplete example
 
@@ -97,7 +105,7 @@ In controller load trait and define autocomplete parameter:
 class UsersController extends AppController {
 
     use AutocompleteTrait;
-    
+
     public function initialize() {
         $role = $this->Users->Roles;
         $this->loadComponent('PlumSearch.Filter', [
@@ -118,7 +126,7 @@ class UsersController extends AppController {
                                 });
                             });
                     }
-                ]                    
+                ]
             ]
         ]);
     }
@@ -135,4 +143,3 @@ echo $this->Html->script('PlumSearch.autocomplete');
 
 echo $this->element('PlumSearch.search');
 ```
-
