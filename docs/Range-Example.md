@@ -2,12 +2,12 @@ As a result of next steps we get form with two fields.
 
 To implement search form you need perform next steps:
 
-## 1. In Table::initialize Range filter could be added like this.
+#### 1. In Table::initialize Range filter could be added like this.
 ```php
 	$this->addFilter('created', ['className' => 'Range']);
 ```
 
-## 2. Load component and define range search parameter in controller initialize method.
+#### 2. Load component and define range search parameter in controller initialize method.
 
 ```php
     public function initialize(): void {
@@ -35,7 +35,7 @@ To implement search form you need perform next steps:
 	}
 ```
 
-## 3. For this example in layout was loaded next javascript libraries. Of course if you use any other library, it should support interaction with rendered html markup.
+#### 3. For this example in layout was loaded next javascript libraries. Of course if you use any other library, it should support interaction with rendered html markup.
 
 ```php
     <?= $this->Html->script([
