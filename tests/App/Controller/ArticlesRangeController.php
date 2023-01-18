@@ -13,6 +13,8 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\App\Controller;
 
+use PlumSearch\Test\App\Model\Table\ArticlesTable;
+
 /**
  * Articles Controller
  *
@@ -21,6 +23,9 @@ namespace PlumSearch\Test\App\Controller;
  */
 class ArticlesRangeController extends AppController
 {
+
+    protected ArticlesTable $Articles;
+
     /**
      * initialize callback
      *
