@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\TestCase\FormParameter;
 
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\InputParameter;
@@ -37,8 +38,10 @@ class ParameterRegistryTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $request = new ServerRequest();
         $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
+            ->setConstructorArgs([$request])
             ->getMock();
         $this->ParameterRegistry = new ParameterRegistry($controller);
     }

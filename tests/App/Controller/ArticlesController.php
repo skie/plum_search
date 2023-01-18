@@ -29,7 +29,6 @@ class ArticlesController extends AppController
     public function initialize(): void
     {
         $author = $this->Articles->Authors;
-        $this->loadComponent('Paginator');
         $this->loadComponent('PlumSearch.Filter', [
             'formName' => 'Article',
             'parameters' => [
@@ -53,7 +52,7 @@ class ArticlesController extends AppController
      */
     public function index()
     {
-        $this->set('articles', $this->Paginator->paginate($this->Filter->prg($this->Articles)));
+        $this->set('articles', $this->paginate($this->Filter->prg($this->Articles)));
     }
 
     /**
@@ -64,6 +63,6 @@ class ArticlesController extends AppController
     public function search()
     {
         $query = $this->Filter->prg($this->Articles->find('withAuthors'));
-        $this->set('articles', $this->Paginator->paginate($query));
+        $this->set('articles', $this->paginate($query));
     }
 }

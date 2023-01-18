@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace PlumSearch\Model\Behavior;
 
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use PlumSearch\Model\FilterRegistry;
 
@@ -35,7 +35,7 @@ class FilterableBehavior extends Behavior
      *
      * @var \Cake\ORM\Table
      */
-    protected $_table;
+    protected \Cake\ORM\Table $_table;
 
     /**
      * Default config
@@ -44,7 +44,7 @@ class FilterableBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'implementedFinders' => [
             'filters' => 'findFilter',
         ],
@@ -129,11 +129,11 @@ class FilterableBehavior extends Behavior
     /**
      * Results for this finder will be query filtered by search parameters
      *
-     * @param \Cake\ORM\Query $query   Query.
+     * @param \Cake\ORM\Query\SelectQuery $query   Query.
      * @param array $options Array of options as described above.
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findFilter(Query $query, array $options): Query
+    public function findFilter(SelectQuery $query, array $options): SelectQuery
     {
         foreach ($this->filters()->collection() as $name => $filter) {
             $filter->apply($query, $options);

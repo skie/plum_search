@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\TestCase\Model\Filter;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use PlumSearch\Model\Filter\CustomFilter;
@@ -25,7 +25,7 @@ use PlumSearch\Model\FilterRegistry;
  */
 class CustomFilterTest extends TestCase
 {
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
     ];
 
@@ -41,11 +41,11 @@ class CustomFilterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->Table = TableRegistry::get('Articles');
+        $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => fn($query, $data): Query => $query,
+            'method' => fn($query, $data): SelectQuery => $query,
         ]);
     }
 
@@ -82,7 +82,7 @@ class CustomFilterTest extends TestCase
     {
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => fn($query, $field, $value, $data, $config): Query => $query
+            'method' => fn($query, $field, $value, $data, $config): SelectQuery => $query
                 ->where([
                     'OR' => [
                         'title LIKE' => $value,
@@ -94,6 +94,6 @@ class CustomFilterTest extends TestCase
         $query = $this->Table->find('all');
         $this->CustomFilter->apply($query, ['id' => 1]);
 
-        $this->assertMatchesRegularExpression('/WHERE \(title like :c0 OR decription like :c1\)/', $query->sql());
+        $this->assertMatchesRegularExpression('/WHERE \(title LIKE :c0 OR decription LIKE :c1\)/', $query->sql());
     }
 }

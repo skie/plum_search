@@ -25,7 +25,7 @@ use PlumSearch\Model\FilterRegistry;
  */
 class ValueFilterTest extends TestCase
 {
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
     ];
 
@@ -136,7 +136,7 @@ class ValueFilterTest extends TestCase
             $store = $d;
         }, ['where']);
         $binder = $query->getValueBinder();
-        $this->assertEquals($store->sql($binder), 'Articles.id in (:c0,:c1)');
+        $this->assertEquals($store->sql($binder), 'Articles.id IN (:c0,:c1)');
         $this->assertEquals(Hash::get($binder->bindings(), ':c0.value'), '1');
         $this->assertEquals(Hash::get($binder->bindings(), ':c1.value'), '2');
     }

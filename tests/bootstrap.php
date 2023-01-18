@@ -42,10 +42,9 @@ Cake\Core\Configure::write('App', ['namespace' => 'PlumSearch\Test\App']);
 // Cake\Core\Configure::write('Error', ['errorLevel' => E_ALL ^ E_USER_DEPRECATED]);
 Cake\Core\Configure::write('debug', true);
 
-$TMP = new \Cake\Filesystem\Folder(TMP);
-$TMP->create(TMP . 'cache/models', 0777);
-$TMP->create(TMP . 'cache/persistent', 0777);
-$TMP->create(TMP . 'cache/views', 0777);
+@mkdir(TMP . 'cache/models', 0777);
+@mkdir(TMP . 'cache/persistent', 0777);
+@mkdir(TMP . 'cache/views', 0777);
 
 $cache = [
     'default' => [

@@ -3,9 +3,8 @@ language: php
 dist: xenial
 
 php:
-  - 7.3
-  - 7.4
-  - 8.0
+  - 8.1
+  - 8.2
 
 services:
   - postgresql
@@ -28,13 +27,13 @@ jobs:
     - php: hhvm-nightly
   fast_finish: true
   include:
-    - php: 7.4
+    - php: 8.1
       env: PHPCS=1 DEFAULT=0
 
-    - php: 7.4
+    - php: 8.1
       env: PHPSTAN=1 DEFAULT=0
 
-    - php: 7.4
+    - php: 8.1
       env: COVERAGE=1 DEFAULT=0 DB=mysql db_dsn='mysql://travis@0.0.0.0/cakephp_test'
 
 before_script:

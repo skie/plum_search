@@ -23,6 +23,8 @@ use PlumSearch\FormParameter\Exception\MissingParameterException;
  * ParameterRegistry is a registry for loaded parameters
  *
  * Handles loading, constructing  for param class objects.
+ *
+ * @extends \Cake\Core\ObjectRegistry<\PlumSearch\FormParameter\BaseParameter>
  */
 class ParameterRegistry extends ObjectRegistry
 {

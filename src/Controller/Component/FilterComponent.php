@@ -41,7 +41,7 @@ class FilterComponent extends Component
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'formName' => null,
         'action' => null,
         'filterEmptyParams' => true,
@@ -135,7 +135,7 @@ class FilterComponent extends Component
      * For POST requests builds redirection url and perform redirect to get action.
      * For GET requests add filters finder to passed into the method query and returns it.
      *
-     * @param \Cake\ORM\Table|\Cake\ORM\Query $table Table instance.
+     * @param \Cake\ORM\Table|\Cake\ORM\Query\SelectQuery $table Table instance.
      * @param array $options Search parameters.
      * @return mixed
      */

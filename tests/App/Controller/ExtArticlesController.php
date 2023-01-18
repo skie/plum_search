@@ -36,7 +36,7 @@ class ExtArticlesController extends AppController
     {
         $Articles = TableRegistry::getTableLocator()->get('Articles');
         $author = $Articles->Authors;
-        $this->loadComponent('Paginator');
+        // $this->loadComponent('Paginator');
         $this->viewBuilder()->addHelpers([
             'PlumSearch.Search',
         ]);
@@ -67,6 +67,6 @@ class ExtArticlesController extends AppController
     public function index()
     {
         $Articles = TableRegistry::getTableLocator()->get('Articles');
-        $this->set('articles', $this->Paginator->paginate($this->Filter->prg($Articles)));
+        $this->set('articles', $this->paginate($this->Filter->prg($Articles)));
     }
 }

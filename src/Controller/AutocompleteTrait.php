@@ -31,7 +31,6 @@ trait AutocompleteTrait
      */
     public function autocomplete(): void
     {
-        $this->loadComponent('RequestHandler');
         $this->viewBuilder()->setClassName('Json');
         $data = [];
         $paramName = (string)$this->getRequest()->getQuery('parameter');

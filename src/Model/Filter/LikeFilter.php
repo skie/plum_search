@@ -14,20 +14,20 @@ declare(strict_types=1);
 namespace PlumSearch\Model\Filter;
 
 use Cake\Database\Expression\QueryExpression;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 class LikeFilter extends AbstractFilter
 {
     /**
      * Returns query with applied filter
      *
-     * @param  \Cake\ORM\Query $query Query.
+     * @param  \Cake\ORM\Query\SelectQuery $query Query.
      * @param  string $field Field name.
      * @param  string $value Field value.
      * @param  array  $data Filters values.
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query
+    protected function _buildQuery(SelectQuery $query, string $field, $value, array $data = []): SelectQuery
     {
         $value = '%' . $value . '%';
 

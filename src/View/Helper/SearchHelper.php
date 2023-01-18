@@ -94,23 +94,6 @@ class SearchHelper extends Helper
     }
 
     /**
-     * Generates input for parameter
-     *
-     * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
-     * @param array $options Additional input options.
-     * @return array
-     * @deprecated 4.3.0 Use SearchHelper::control() instead.
-     */
-    public function input(BaseParameter $param, array $options = []): array
-    {
-        deprecationWarning(
-            'SearchHelper::input() is deprecated. Use SearchHelper::control() instead.'
-        );
-
-        return $this->control($param, $options);
-    }
-
-    /**
      * Generates default control for parameter
      *
      * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.

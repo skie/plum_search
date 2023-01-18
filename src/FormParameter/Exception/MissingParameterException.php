@@ -24,7 +24,7 @@ class MissingParameterException extends CakeException
     /**
      * @inheritDoc
      */
-    protected $_messageTemplate = 'Filter %s::%s() could not be found.';
+    protected string $_messageTemplate = 'Filter %s::%s() could not be found.';
 
     /**
      * @inheritDoc

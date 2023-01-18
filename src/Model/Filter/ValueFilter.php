@@ -13,20 +13,20 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Model\Filter;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 class ValueFilter extends AbstractFilter
 {
     /**
      * Returns query with applied filter
      *
-     * @param \Cake\ORM\Query $query Query.
+     * @param \Cake\ORM\Query\SelectQuery $query Query.
      * @param string $field Field name.
      * @param string|array $value Field value.
      * @param array $data Filters values.
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query
+    protected function _buildQuery(SelectQuery $query, string $field, $value, array $data = []): SelectQuery
     {
         if (is_array($value)) {
             $field .= ' IN';

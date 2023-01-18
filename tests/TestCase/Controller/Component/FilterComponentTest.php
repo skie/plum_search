@@ -34,7 +34,7 @@ class FilterComponentTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
@@ -61,8 +61,10 @@ class FilterComponentTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $request = new ServerRequest();
         $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
             ->setMethods(['redirect'])
+            ->setConstructorArgs([$request])
             ->getMock();
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
@@ -113,7 +115,7 @@ class FilterComponentTest extends TestCase
         $this->Component->addParam('name', ['className' => 'Input']);
         $this->Component->removeParam('name');
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unknown object "name"');
+        $this->expectExceptionMessage('Unknown object `name`');
         $input = $this->Component->parameters()->get('name');
         $this->assertNull($input);
     }
@@ -125,11 +127,7 @@ class FilterComponentTest extends TestCase
      */
     public function testPrgPost()
     {
-        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
-            ->getMock();
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->Controller->setRequest(new ServerRequest([
+        $request = new ServerRequest([
             'environment' => [
                 'REQUEST_METHOD' => 'POST',
             ],
@@ -141,7 +139,12 @@ class FilterComponentTest extends TestCase
             'post' => [
                 'username' => 'admin',
             ],
-        ]));
+        ]);
+        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->setMethods(['redirect'])
+            ->setConstructorArgs([$request])
+            ->getMock();
+        $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->Controller->setResponse(new Response());
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
@@ -158,7 +161,7 @@ class FilterComponentTest extends TestCase
             ->method('redirect')
             ->with($redirectExpectation)
             ->will($this->returnValue($this->Controller->getResponse()));
-        $table = TableRegistry::get('Articles');
+        $table = TableRegistry::getTableLocator()->get('Articles');
         $this->Component->prg($table);
     }
 
@@ -189,7 +192,7 @@ class FilterComponentTest extends TestCase
         $response = new Response();
         $this->Controller = $this->getMockBuilder(\PlumSearch\Test\App\Controller\ArticlesController::class)
             ->setMethods(['redirect'])
-            ->setConstructorArgs([$request, $response, 'Articles'])
+            ->setConstructorArgs([$request, 'Articles'])
             ->getMock();
 
         $redirectExpectation = [
@@ -228,7 +231,7 @@ class FilterComponentTest extends TestCase
             ],
         ]);
         $this->Controller->setRequest($request);
-        $this->Controller = new ArticlesController($request, new Response());
+        $this->Controller = new ArticlesController($request);
         $this->Controller->index();
 
         $this->assertEquals(is_countable($this->Controller->viewBuilder()->getVar('articles')) ? count($this->Controller->viewBuilder()->getVar('articles')) : 0, 1);
@@ -245,11 +248,7 @@ class FilterComponentTest extends TestCase
     {
         $this->assertEquals($this->Component->values(), []);
 
-        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
-            ->getMock();
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $this->Controller->setRequest(new ServerRequest([
+        $request = new ServerRequest([
             'environment' => [
                 'REQUEST_METHOD' => 'GET',
             ],
@@ -257,7 +256,12 @@ class FilterComponentTest extends TestCase
             'query' => [
                 'username' => 'admin',
             ],
-        ]));
+        ]);
+        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->setMethods(['redirect'])
+            ->setConstructorArgs([$request])
+            ->getMock();
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
         $this->Component->addParam('username', ['className' => 'Input']);

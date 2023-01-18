@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Model\Filter;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
 use PlumSearch\Model\FilterRegistry;
 
@@ -44,13 +44,13 @@ class CustomFilter extends AbstractFilter
     /**
      * Returns query with applied filter
      *
-     * @param  \Cake\ORM\Query $query Query.
+     * @param  \Cake\ORM\Query\SelectQuery $query Query.
      * @param  string $field Field name.
      * @param string|array $value Field value.
      * @param  array $data Filters values.
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query
+    protected function _buildQuery(SelectQuery $query, string $field, $value, array $data = []): SelectQuery
     {
         $method = $this->getConfig('method');
         if (is_callable($method)) {

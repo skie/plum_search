@@ -24,6 +24,8 @@ use PlumSearch\Model\Filter\Exception\MissingFilterException;
  * FilterRegistry is a registry for loaded filters
  *
  * Handles loading, constructing  for filter class objects.
+ *
+ * @extends \Cake\Core\ObjectRegistry<\PlumSearch\Model\Filter\AbstractFilter>
  */
 class FilterRegistry extends ObjectRegistry
 {

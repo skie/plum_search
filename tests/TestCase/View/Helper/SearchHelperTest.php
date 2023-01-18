@@ -13,9 +13,8 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\TestCase\View\Helper;
 
-use Cake\Http\Response;
 use Cake\Http\ServerRequest;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
@@ -34,7 +33,7 @@ class SearchHelperTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
@@ -94,13 +93,13 @@ class SearchHelperTest extends TestCase
             ],
         ]);
 
-        $this->Controller = new ArticlesController($request, new Response());
+        $this->Controller = new ArticlesController($request);
         $this->Controller->index();
         $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
 
         $inputs = $this->Search->controls($parameters);
         $this->assertEquals(count($inputs), 2);
-        $this->assertTrue($inputs['Article.author_id']['options'] instanceof Query);
+        $this->assertTrue($inputs['Article.author_id']['options'] instanceof SelectQuery);
         $inputs['Article.author_id']['options'] = $inputs['Article.author_id']['options']->toArray();
         $expected = [
             'Article.title' => [
@@ -145,7 +144,7 @@ class SearchHelperTest extends TestCase
             ],
         ]);
 
-        $this->Controller = new ArticlesRangeController($request, new Response());
+        $this->Controller = new ArticlesRangeController($request);
         $this->Controller->index();
         $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
 
@@ -191,7 +190,7 @@ class SearchHelperTest extends TestCase
             ],
         ]);
 
-        $this->Controller = new ArticlesController($request, new Response());
+        $this->Controller = new ArticlesController($request);
         $this->Controller->index();
         $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
         $input = $this->Search->control($parameters->get('title'));
@@ -234,7 +233,7 @@ class SearchHelperTest extends TestCase
             ],
         ]);
 
-        $this->Controller = new ExtArticlesController($request, new Response());
+        $this->Controller = new ExtArticlesController($request);
         $this->Controller->index();
         $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
         $input = $this->Search->control($parameters->get('title'));

@@ -33,7 +33,7 @@ class SelectParameterTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
@@ -58,15 +58,16 @@ class SelectParameterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
-            ->getMock();
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->setRequest(new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/dir/',
             'query' => ['username' => 'admin'],
-        ]));
-        $articles = TableRegistry::get('Articles');
+        ]);
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->setMethods(['redirect'])
+            ->setConstructorArgs([$request])
+            ->getMock();
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $articles = TableRegistry::getTableLocator()->get('Articles');
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->SelectParam = new SelectParameter($this->ParameterRegistry, [
             'name' => 'username',

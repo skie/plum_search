@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace PlumSearch\Test\App\Model\Filter;
 
 use Cake\Database\Expression\UnaryExpression;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\TableRegistry;
 use PlumSearch\Model\Filter\AbstractFilter;
 
@@ -27,13 +27,13 @@ class TagsFilter extends AbstractFilter
      * @param string $field Field name.
      * @param string $value Field value.
      * @param array $data Filters values.
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    protected function _buildQuery(Query $query, string $field, $value, array $data = []): \Cake\ORM\Query
+    protected function _buildQuery(SelectQuery $query, string $field, $value, array $data = []): SelectQuery
     {
         $idName = $query->getRepository()->aliasField('id');
 
-        $tags = TableRegistry::get('ArticlesTags')->find('all')
+        $tags = TableRegistry::getTableLocator()->get('ArticlesTags')->find('all')
         ->matching('Tags', fn($q) => $q->where([
             'Tags.name' => $value,
         ]))

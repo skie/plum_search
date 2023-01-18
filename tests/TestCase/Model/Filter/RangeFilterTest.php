@@ -25,7 +25,7 @@ use PlumSearch\Model\FilterRegistry;
  */
 class RangeFilterTest extends TestCase
 {
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
     ];
 

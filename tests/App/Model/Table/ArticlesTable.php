@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 /**
  * Articles Table
@@ -52,7 +52,7 @@ class ArticlesTable extends \Cake\ORM\Table
      * @param  Query $query query object instance
      * @return $this
      */
-    public function findWithAuthors(Query $query)
+    public function findWithAuthors(SelectQuery $query)
     {
         return $query->matching('Authors');
     }

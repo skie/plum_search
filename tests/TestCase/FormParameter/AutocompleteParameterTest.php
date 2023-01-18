@@ -40,17 +40,18 @@ class AutocompleteParameterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
-            ->getMock();
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->setRequest(new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/dir/',
             'query' => [
                 'item_id' => 7,
                 'item_id_lookup' => 'cool item',
             ],
-        ]));
+        ]);
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->setMethods(['redirect'])
+            ->setConstructorArgs([$request])
+            ->getMock();
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->AutocompleteParam = new AutocompleteParameter($this->ParameterRegistry, [
             'name' => 'item_id',

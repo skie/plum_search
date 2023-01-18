@@ -24,7 +24,7 @@ use PlumSearch\Model\FilterRegistry;
  */
 class LikeFilterTest extends TestCase
 {
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
     ];
 

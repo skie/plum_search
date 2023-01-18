@@ -29,7 +29,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
@@ -46,7 +46,7 @@ class FilterBehaviorTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->Articles = TableRegistry::get('Articles');
+        $this->Articles = TableRegistry::getTableLocator()->get('Articles');
     }
 
     /**
@@ -57,7 +57,7 @@ class FilterBehaviorTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        TableRegistry::clear();
+        TableRegistry::getTableLocator()->clear();
     }
 
     /**
@@ -93,7 +93,7 @@ class FilterBehaviorTest extends TestCase
         $this->Articles->addFilter('name', ['className' => 'Value']);
         $this->Articles->removeFilter('name');
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unknown object "name"');
+        $this->expectExceptionMessage('Unknown object `name`');
         $input = $this->Articles->filters()->get('name');
         $this->assertNull($input);
     }

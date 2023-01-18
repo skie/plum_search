@@ -38,16 +38,17 @@ class RangeParameterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
-            ->getMock();
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->setRequest(new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/dir/',
             'query' => [
                 'created' => '2001-01-01',
             ],
-        ]));
+        ]);
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->setMethods(['redirect'])
+            ->setConstructorArgs([$request])
+            ->getMock();
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->RangeParam = new RangeParameter($this->ParameterRegistry, [
             'name' => 'created',
