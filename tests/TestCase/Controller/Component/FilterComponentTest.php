@@ -63,7 +63,7 @@ class FilterComponentTest extends TestCase
         parent::setUp();
         $request = new ServerRequest();
         $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
+            ->onlyMethods(['redirect'])
             ->setConstructorArgs([$request])
             ->getMock();
         $registry = new ComponentRegistry($this->Controller);
@@ -141,7 +141,7 @@ class FilterComponentTest extends TestCase
             ],
         ]);
         $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
+            ->onlyMethods(['redirect'])
             ->setConstructorArgs([$request])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -191,7 +191,7 @@ class FilterComponentTest extends TestCase
         ]);
         $response = new Response();
         $this->Controller = $this->getMockBuilder(\PlumSearch\Test\App\Controller\ArticlesController::class)
-            ->setMethods(['redirect'])
+            ->onlyMethods(['redirect'])
             ->setConstructorArgs([$request, 'Articles'])
             ->getMock();
 
@@ -257,8 +257,10 @@ class FilterComponentTest extends TestCase
                 'username' => 'admin',
             ],
         ]);
+        // $command = $this->createPartialMock(\Cake\Controller\Controller::class, ['redirect']);
+
         $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
+            ->onlyMethods(['redirect'])
             ->setConstructorArgs([$request])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';

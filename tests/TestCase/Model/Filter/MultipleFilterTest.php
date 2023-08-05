@@ -63,7 +63,7 @@ class MultipleFilterTest extends TestCase
      *
      * @return array
      */
-    public function applyDataProvider()
+    public static function applyDataProvider()
     {
         return [
             [false, 'OR'],

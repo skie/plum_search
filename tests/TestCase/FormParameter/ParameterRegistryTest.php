@@ -40,7 +40,7 @@ class ParameterRegistryTest extends TestCase
         parent::setUp();
         $request = new ServerRequest();
         $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
+            ->onlyMethods(['redirect'])
             ->setConstructorArgs([$request])
             ->getMock();
         $this->ParameterRegistry = new ParameterRegistry($controller);

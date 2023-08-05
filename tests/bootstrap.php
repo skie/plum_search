@@ -90,3 +90,13 @@ if (env('FIXTURE_SCHEMA_METADATA')) {
     $loader = new SchemaLoader();
     $loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
 }
+
+$error = [
+    'errorLevel' => E_ALL,
+    'skipLog' => [],
+    'log' => true,
+    'trace' => true,
+    'ignoredDeprecationPaths' => [],
+];
+(new Cake\Error\ErrorTrap($error))->register();
+// (new Cake\Error\ExceptionTrap($error))->register();

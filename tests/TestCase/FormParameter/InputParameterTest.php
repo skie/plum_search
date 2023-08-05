@@ -43,7 +43,7 @@ class InputParameterTest extends TestCase
             'query' => ['username' => 'admin'],
         ]);
         $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
-            ->setMethods(['redirect'])
+            ->onlyMethods(['redirect'])
             ->setConstructorArgs([$request])
             ->getMock();
         $_SERVER['REQUEST_METHOD'] = 'GET';
