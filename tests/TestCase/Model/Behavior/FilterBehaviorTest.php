@@ -105,14 +105,14 @@ class FilterBehaviorTest extends TestCase
      */
     public function testFindFilter()
     {
-        $result = $this->Articles->find('filters')->enableHydration(false)->toArray();
+        $result = $this->Articles->find('filters', params: [])->enableHydration(false)->toArray();
         $this->assertEquals(is_countable($result) ? count($result) : 0, 3);
 
         $filterParameters = [
             'title' => 'First',
             'tag' => 'tag1',
         ];
-        $result = $this->Articles->find('filters', options: $filterParameters)->enableHydration(false)->toArray();
+        $result = $this->Articles->find('filters', params: $filterParameters)->enableHydration(false)->toArray();
         $expected = [[
             'id' => 1,
             'author_id' => 1,
@@ -126,7 +126,7 @@ class FilterBehaviorTest extends TestCase
             'title' => 'First',
             'tag' => 'tag3',
         ];
-        $result = $this->Articles->find('filters', options: $filterParameters)->enableHydration(false)->toArray();
+        $result = $this->Articles->find('filters', params: $filterParameters)->enableHydration(false)->toArray();
         $expected = [];
         $this->assertEquals($expected, $result);
 
@@ -138,7 +138,7 @@ class FilterBehaviorTest extends TestCase
             'author_name' => 'larry',
             'tag' => 'tag3',
         ];
-        $result = $this->Articles->find('withAuthors')->find('filters', options: $filterParameters)->enableHydration(false)->toArray();
+        $result = $this->Articles->find('withAuthors')->find('filters', params: $filterParameters)->enableHydration(false)->toArray();
         $expected = [[
             'id' => 2,
             'author_id' => 3,

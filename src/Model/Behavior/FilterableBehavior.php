@@ -95,12 +95,12 @@ class FilterableBehavior extends Behavior
      * Filters are generally loaded during Table::initialize().
      *
      * @param string $name The name of the filter.
-     * @param array $options The options for the filter to use.
+     * @param array $params The options for the filter to use.
      * @return \Cake\ORM\Table
      */
-    public function addFilter(string $name, array $options = []): Table
+    public function addFilter(string $name, array $params = []): Table
     {
-        $this->filters()->load($name, $options);
+        $this->filters()->load($name, $params);
 
         return $this->_table;
     }
@@ -130,13 +130,13 @@ class FilterableBehavior extends Behavior
      * Results for this finder will be query filtered by search parameters
      *
      * @param \Cake\ORM\Query\SelectQuery $query   Query.
-     * @param array $options Array of options as described above.
+     * @param array $params Array of options as described above.
      * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findFilter(SelectQuery $query, array $options): SelectQuery
+    public function findFilter(SelectQuery $query, array $params): SelectQuery
     {
         foreach ($this->filters()->collection() as $name => $filter) {
-            $filter->apply($query, $options);
+            $filter->apply($query, $params);
         }
 
         return $query;
