@@ -47,7 +47,7 @@ class SelectParameter extends BaseParameter
         if ($this->_allowedEmptyOptions()) {
             return;
         }
-        if ((!isset($config['options']) || !is_array($config['options'])) && empty($config['finder'])) {
+        if ((!isset($config['bypass']) || !isset($config['options']) || !is_array($config['options'])) && empty($config['finder'])) {
             throw new MissingParameterException(
                 __('Missed "finder" configuration setting for select param `{0}`', $this->getConfig('name'))
             );
@@ -72,8 +72,8 @@ class SelectParameter extends BaseParameter
     public function formInputConfig(): array
     {
         $formConfig = parent::formInputConfig();
-
-        if (!array_key_exists('options', $formConfig)) {
+        $bypass = $this->getConfig('bypass') ?? false;
+        if (!array_key_exists('options', $formConfig) && !$bypass) {
             $options = $this->getConfig('options');
             $finder = $this->getConfig('finder');
             if (!empty($options) && is_array($options)) {

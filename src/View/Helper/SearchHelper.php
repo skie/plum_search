@@ -18,6 +18,7 @@ use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use PlumSearch\FormParameter\AutocompleteParameter;
 use PlumSearch\FormParameter\BaseParameter;
+use PlumSearch\FormParameter\LookupParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
@@ -159,6 +160,16 @@ class SearchHelper extends Helper
             $input['data-url'] = $param->autocompleteUrl();
             $input['class'] = 'autocomplete';
             $input['data-name'] = $param->getConfig('name');
+        }
+        if ($param instanceof LookupParameter) {
+            $input['data-url'] = $param->autocompleteUrl();
+            $input['data-id-name'] = $param->getConfig('idName');
+            $input['data-value-name'] = $param->getConfig('valueName');
+            $input['data-query'] = $param->getConfig('query');
+            $input['data-wildcard'] = $param->getConfig('wildcard');
+            $input['data-min-length'] = $param->getConfig('minLength');
+            $input['data-delay'] = $param->getConfig('delay');
+            $input['class'] = 'lookup-autocomplete';
         }
 
         return $input;

@@ -50,7 +50,7 @@ $cache = [
     'default' => [
         'engine' => 'File',
     ],
-    '_cake_core_' => [
+    '_cake_translations_' => [
         'className' => 'File',
         'prefix' => 'search_myapp_cake_core_',
         'path' => CACHE . 'persistent/',

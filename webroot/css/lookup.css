@@ -1,0 +1,108 @@
+.lookup-suggestions {
+    position: absolute;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: white;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.lookup-item {
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.lookup-item:hover, .lookup-item.active {
+    background-color: #f8f9fa;
+}
+
+.lookup-autocomplete {
+    position: relative;
+}
+
+:root {
+    --search-color-white: #fff;
+    --search-color-gray-100: #f8f9fa;
+    --search-color-gray-200: #e9ecef;
+    --search-color-gray-800: #343a40;
+    --search-color-gray-900: #212529;
+}
+
+
+/* lookup widget */
+.lookup-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.lookup-wrapper input {
+    width: 100%;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: block;
+    padding: 0.3125rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: var(--search-color-white);
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    max-height: 12.5rem;
+    overflow-y: auto;
+}
+
+.suggestions-list li {
+    padding: 0.2rem 1.25rem;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--search-color-gray-900);
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    color: var(--search-color-gray-800);
+    text-decoration: none;
+    background-color: var(--search-color-gray-100);
+}
+
+.suggestions-list .is-active {
+  background-color: var(--search-color-gray-200);
+}
+.lookup-wrapper {
+    position: relative;
+}
+.input-wrapper {
+    position: relative;
+}
+.loading-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.loading-spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
