@@ -43,11 +43,14 @@ class SelectParameter extends BaseParameter
      */
     public function __construct(ParameterRegistry $registry, array $config = [])
     {
+        if (!isset($config['bypass'])) {
+            $config['bypass'] = false;
+        }
         parent::__construct($registry, $config);
         if ($this->_allowedEmptyOptions()) {
             return;
         }
-        if ((!isset($config['bypass']) || !isset($config['options']) || !is_array($config['options'])) && empty($config['finder'])) {
+        if (!$config['bypass'] && (!isset($config['options']) || !is_array($config['options'])) && empty($config['finder'])) {
             throw new MissingParameterException(
                 __('Missed "finder" configuration setting for select param `{0}`', $this->getConfig('name'))
             );
