@@ -53,14 +53,12 @@ class LookupParameter extends BaseParameter
      */
     public function __construct(\PlumSearch\FormParameter\ParameterRegistry $registry, array $config = [])
     {
-        parent::__construct($registry, $config);
         $config['field'] = $config['name'] . '_lookup';
-        $this->setConfig($config);
+        parent::__construct($registry, $config);
 
         if ($this->getConfig('parentField')) {
             $this->initializeParentField();
         }
-
         if (!empty($this->getConfig('additionalParents'))) {
             $this->initializeAdditionalParents();
         }
