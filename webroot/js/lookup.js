@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const wildcard = field.dataset.wildcard || '%QUERY';
         const minLength = parseInt(field.dataset.minLength || '2', 10);
         const delay = parseInt(field.dataset.delay || '300', 10);
+        const parentField = field.dataset.parentField;
+        const parentIdParam = field.dataset.parentIdParam;
+        const dependentFields = JSON.parse(field.dataset.dependentFields || '[]');
+        const additionalParents = JSON.parse(field.dataset.additionalParents || '{}');
 
         const hiddenFieldName = field.name.replace('_lookup', '');
         const hiddenField = document.querySelector(`input[name="${hiddenFieldName}"]`);
@@ -53,8 +57,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let debounceTimer;
 
+        const resetDependentFields = () => {
+            dependentFields.forEach(fieldName => {
+                const dependentField = document.querySelector(`input[name="${fieldName}_lookup"]`);
+                const dependentHidden = document.querySelector(`input[name="${fieldName}"]`);
+                if (dependentField) {
+                    dependentField.value = '';
+                    dependentField.disabled = true;
+                }
+                if (dependentHidden) {
+                    dependentHidden.value = '';
+                }
+            });
+        };
+
+        const resetField = () => {
+            field.value = '';
+            hiddenField.value = '';
+            resetDependentFields();
+        };
+
+        if (parentField) {
+            const parentWrapper = document.querySelector(`input[name="${parentField}_lookup"]`)?.closest('.lookup-wrapper');
+            if (parentWrapper) {
+                parentWrapper.addEventListener('lookup.changed', () => {
+                    field.disabled = false;
+                    resetField();
+                });
+                parentWrapper.addEventListener('lookup.reset', () => {
+                    field.disabled = true;
+                    resetField();
+                });
+            }
+        }
+
+        Object.keys(additionalParents).forEach(fieldName => {
+            const additionalWrapper = document.querySelector(`input[name="${fieldName}_lookup"]`)?.closest('.lookup-wrapper');
+            if (additionalWrapper) {
+                additionalWrapper.addEventListener('lookup.changed', resetField);
+                additionalWrapper.addEventListener('lookup.reset', resetField);
+            }
+        });
+
         const fetchSuggestions = async (searchTerm) => {
-            if (searchTerm.length < minLength) {
+            if (searchTerm.length < minLength || field.disabled) {
                 suggestionsList.style.display = 'none';
                 return;
             }
@@ -63,7 +109,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 loadingIcon.style.display = 'block';
 
                 const finalQuery = query.replace(wildcard, encodeURIComponent(searchTerm));
-                const fetchUrl = `${url}${url.includes('?') ? '&' : '?'}${finalQuery}`;
+                let fetchUrl = `${url}${url.includes('?') ? '&' : '?'}${finalQuery}`;
+
+                if (parentField) {
+                    const parentHidden = document.querySelector(`input[name="${parentField}"]`);
+                    if (parentHidden?.value) {
+                        fetchUrl += `&${parentIdParam}=${parentHidden.value}`;
+                    }
+                }
+
+                Object.entries(additionalParents).forEach(([fieldName, param]) => {
+                    const additionalHidden = document.querySelector(`input[name="${fieldName}"]`);
+                    if (additionalHidden?.value) {
+                        fetchUrl += `&${param}=${additionalHidden.value}`;
+                    }
+                });
 
                 const response = await fetch(fetchUrl);
                 let data = await response.json();
@@ -96,6 +156,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         field.value = displayValue;
                         hiddenField.value = idValue;
                         suggestionsList.style.display = 'none';
+
+                        const changeEvent = new CustomEvent('lookup.changed', {
+                            bubbles: true,
+                            detail: { id: idValue, value: displayValue }
+                        });
+                        lookupWrapper.dispatchEvent(changeEvent);
                     });
 
                     li.addEventListener('mouseenter', () => {

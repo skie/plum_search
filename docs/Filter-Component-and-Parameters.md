@@ -143,3 +143,61 @@ echo $this->Html->script('PlumSearch.autocomplete');
 
 echo $this->element('PlumSearch.search');
 ```
+
+### Lookup parameter
+
+LookupParameter provides advanced autocomplete functionality that works with existing endpoints. It creates an autocomplete field with a hidden input for storing the selected value's ID.
+
+LookupParameter internally creates an additional hidden parameter with a name equal to the parameter name, and the autocomplete input field is postfixed by **_lookup**.
+
+The client-side implementation has no external library dependencies and uses modern JavaScript.
+
+#### Additional constructor options:
+
+* **autocompleteUrl:** URL for the autocomplete endpoint. If not provided, defaults to `/admin/{paramName}s/autocomplete.json`.
+* **idName:** The name of the property in response data that contains the ID value. (Default: `id`)
+* **valueName:** The name of the property in response data that contains the display value. (Default: `name`)
+* **query:** The query string format used when making requests. (Default: `search=%QUERY`)
+* **wildcard:** The placeholder in the query to replace with the search term. (Default: `%QUERY`)
+* **minLength:** Minimum number of characters required before triggering autocomplete. (Default: `2`)
+* **delay:** Delay in milliseconds between keystrokes before triggering autocomplete. (Default: `300`)
+* **parentField:** Field name that this lookup depends on. If set, this field will be disabled until parent has a value.
+* **parentIdParam:** Parameter name for sending the parent ID to the server. If not specified, defaults to `{parentField}_id`.
+* **dependentFields:** Array of field names that depend on this lookup and should be reset when this value changes.
+* **additionalParents:** Object mapping field names to parameter names for additional parent fields.
+
+#### Lookup parameter example
+
+In controller define lookup parameter:
+
+```php
+public function initialize()
+{
+    $this->loadComponent('PlumSearch.Filter', [
+        'parameters' => [
+            [
+                'name' => 'country_id',
+                'className' => 'Lookup',
+                'autocompleteUrl' => '/countries/autocomplete.json',
+                'dependentFields' => ['city_id']
+            ],
+            [
+                'name' => 'city_id',
+                'className' => 'Lookup',
+                'autocompleteUrl' => '/cities/autocomplete.json',
+                'parentField' => 'country_id',
+                'parentFieldId' => 'country_id',
+            ]
+        ]
+    ]);
+}
+```
+
+In view load required js and css files:
+
+```php
+echo $this->Html->css('PlumSearch.lookup');
+echo $this->Html->script('PlumSearch.lookup');
+
+echo $this->element('PlumSearch.search');
+```

@@ -1,6 +1,17 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * PlumSearch plugin for CakePHP Rapid Development Framework
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author        Evgeny Tomenko
+ * @since         PlumSearch 5.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+
 namespace PlumSearch\FormParameter;
 
 use Cake\Routing\Router;
@@ -10,7 +21,7 @@ use Cake\Routing\Router;
  *
  * A custom parameter for autocomplete lookups using existing endpoints
  *
- * @package App\FormParameter
+ * @package \PlumSearch\FormParameter\FormParameter
  */
 class LookupParameter extends BaseParameter
 {
@@ -28,6 +39,10 @@ class LookupParameter extends BaseParameter
         'wildcard' => '%QUERY',
         'minLength' => 2,
         'delay' => 300,
+        'parentField' => null,
+        'parentIdParam' => null,
+        'dependentFields' => [],
+        'additionalParents' => [],
     ];
 
     /**
@@ -41,6 +56,46 @@ class LookupParameter extends BaseParameter
         parent::__construct($registry, $config);
         $config['field'] = $config['name'] . '_lookup';
         $this->setConfig($config);
+
+        if ($this->getConfig('parentField')) {
+            $this->initializeParentField();
+        }
+
+        if (!empty($this->getConfig('additionalParents'))) {
+            $this->initializeAdditionalParents();
+        }
+    }
+
+    /**
+     * Initialize parent field configuration
+     *
+     * @return void
+     */
+    protected function initializeParentField(): void
+    {
+        $parentField = $this->getConfig('parentField');
+        $parentIdParam = $this->getConfig('parentIdParam');
+
+        if (!$parentIdParam) {
+            $parentIdParam = $parentField . '_id';
+            $this->setConfig('parentIdParam', $parentIdParam);
+        }
+    }
+
+    /**
+     * Initialize additional parent fields
+     *
+     * @return void
+     */
+    protected function initializeAdditionalParents(): void
+    {
+        $additionalParents = $this->getConfig('additionalParents');
+        foreach ($additionalParents as $field => $param) {
+            if (!is_string($param)) {
+                $additionalParents[$field] = $field . '_id';
+            }
+        }
+        $this->setConfig('additionalParents', $additionalParents);
     }
 
     /**
@@ -102,6 +157,10 @@ class LookupParameter extends BaseParameter
         $config['data-min-length'] = $this->getConfig('minLength');
         $config['data-delay'] = $this->getConfig('delay');
         $config['data-url'] = $this->autocompleteUrl();
+        $config['data-parent-field'] = $this->getConfig('parentField');
+        $config['data-parent-id-param'] = $this->getConfig('parentIdParam');
+        $config['data-dependent-fields'] = json_encode($this->getConfig('dependentFields'));
+        $config['data-additional-parents'] = json_encode($this->getConfig('additionalParents'));
         $config['class'] = 'lookup-autocomplete';
 
         return $config;
