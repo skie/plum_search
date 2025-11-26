@@ -153,6 +153,7 @@ class FilterComponent extends Component
             $this->_redirect($action);
         } elseif ($this->_controller->getRequest()->is('get')) {
             $this->_setViewData($formName);
+
             return $table->find('filters', params: $this->values());
         }
 

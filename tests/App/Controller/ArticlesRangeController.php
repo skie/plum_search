@@ -23,7 +23,6 @@ use PlumSearch\Test\App\Model\Table\ArticlesTable;
  */
 class ArticlesRangeController extends AppController
 {
-
     protected ArticlesTable $Articles;
 
     /**

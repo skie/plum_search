@@ -107,6 +107,7 @@ class LookupParameter extends BaseParameter
         if (is_array($url)) {
             return Router::url($url);
         }
+
         return (string)$url;
     }
 

@@ -15,9 +15,8 @@ namespace PlumSearch\Test\TestCase\FormParameter;
 
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
-use PlumSearch\FormParameter\LookupParameter;
-use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\HiddenParameter;
+use PlumSearch\FormParameter\LookupParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
