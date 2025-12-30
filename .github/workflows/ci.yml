@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.2']
+        php-version: ['8.1', '8.2', '8.3', '8.4']
         db-type: [sqlite, mysql, pgsql]
         prefer-lowest: ['']
 
@@ -43,7 +43,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m')"
 
       - name: Cache composer dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ steps.key-date.outputs.date }}-${{ hashFiles('composer.json') }}-${{ matrix.prefer-lowest }}
@@ -72,20 +72,20 @@ jobs:
           fi
 
       - name: Submit code coverage
-        if: matrix.php-version == '8.1'
-        uses: codecov/codecov-action@v1
+        if: matrix.php-version == '8.4'
+        uses: codecov/codecov-action@v3
 
   cs-stan:
     name: Coding Standard & Static Analysis
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.4'
           extensions: mbstring, intl, apcu, memcached, redis
           tools: cs2pr
           coverage: none
@@ -99,7 +99,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m')"
 
       - name: Cache composer dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ steps.key-date.outputs.date }}-${{ hashFiles('composer.json') }}-${{ matrix.prefer-lowest }}

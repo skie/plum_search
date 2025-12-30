@@ -76,7 +76,7 @@ class AutocompleteParameterTest extends TestCase
      *
      * @return void
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $this->expectException(MissingParameterException::class);
         $this->AutocompleteParam = new AutocompleteParameter($this->ParameterRegistry, ['name' => 'item_id']);
@@ -87,7 +87,7 @@ class AutocompleteParameterTest extends TestCase
      *
      * @return void
      */
-    public function testFormInputConfig()
+    public function testFormInputConfig(): void
     {
         $this->assertEquals($this->AutocompleteParam->formInputConfig(), []);
     }
@@ -97,7 +97,7 @@ class AutocompleteParameterTest extends TestCase
      *
      * @return void
      */
-    public function testViewValues()
+    public function testViewValues(): void
     {
         $values = $this->AutocompleteParam->viewValues();
         $this->assertEquals(array_keys($values), ['item_id_lookup', 'item_id']);
@@ -110,7 +110,7 @@ class AutocompleteParameterTest extends TestCase
      *
      * @return void
      */
-    public function testVisible()
+    public function testVisible(): void
     {
         $values = $this->AutocompleteParam->viewValues();
         $this->assertTrue($values['item_id_lookup']->visible());
@@ -122,7 +122,7 @@ class AutocompleteParameterTest extends TestCase
      *
      * @return void
      */
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals($this->AutocompleteParam->values(), [
             'item_id_lookup' => 'cool item',
@@ -135,7 +135,7 @@ class AutocompleteParameterTest extends TestCase
      *
      * @return void
      */
-    public function testValue()
+    public function testValue(): void
     {
         $this->assertEquals($this->AutocompleteParam->value(), 'cool item');
     }
@@ -145,7 +145,7 @@ class AutocompleteParameterTest extends TestCase
      *
      * @return void
      */
-    public function testHasOptions()
+    public function testHasOptions(): void
     {
         $this->assertFalse($this->AutocompleteParam->hasOptions());
     }

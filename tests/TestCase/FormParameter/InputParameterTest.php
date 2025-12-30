@@ -67,7 +67,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function testVisible()
+    public function testVisible(): void
     {
         $this->assertTrue($this->InputParam->visible());
     }
@@ -77,7 +77,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function testFormInputConfig()
+    public function testFormInputConfig(): void
     {
         $this->assertEquals($this->InputParam->formInputConfig(), []);
     }
@@ -87,7 +87,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function testViewValues()
+    public function testViewValues(): void
     {
         $this->assertEquals($this->InputParam->viewValues(), ['username' => $this->InputParam]);
     }
@@ -97,7 +97,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals($this->InputParam->values(), ['username' => 'admin']);
     }
@@ -107,7 +107,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function testValue()
+    public function testValue(): void
     {
         $this->assertEquals($this->InputParam->value(), 'admin');
     }
@@ -117,7 +117,7 @@ class InputParameterTest extends TestCase
      *
      * @return void
      */
-    public function testHasOptions()
+    public function testHasOptions(): void
     {
         $this->assertFalse($this->InputParam->hasOptions());
     }

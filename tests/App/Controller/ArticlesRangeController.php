@@ -57,7 +57,7 @@ class ArticlesRangeController extends AppController
      *
      * @return void
      */
-    public function index()
+    public function index(): void
     {
         $this->set('articles', $this->paginate($this->Filter->prg($this->Articles)));
     }
@@ -67,7 +67,7 @@ class ArticlesRangeController extends AppController
      *
      * @return void
      */
-    public function search()
+    public function search(): void
     {
         $query = $this->Filter->prg($this->Articles->find('withAuthors'));
         $this->set('articles', $this->paginate($query));

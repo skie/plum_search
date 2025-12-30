@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace PlumSearch\Test\App\Model\Table;
 
 use Cake\ORM\Query\SelectQuery;
+use PlumSearch\Model\Behavior\FilterableTrait;
 
 /**
  * Articles Table
@@ -25,6 +26,8 @@ use Cake\ORM\Query\SelectQuery;
  */
 class ArticlesTable extends \Cake\ORM\Table
 {
+    use FilterableTrait;
+
     /**
      * Initialize method
      *

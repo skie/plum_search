@@ -126,7 +126,7 @@ abstract class AbstractFilter
      * @param array $data Array of options as described above.
      * @return mixed
      */
-    protected function _value(array $data)
+    protected function _value(array $data): mixed
     {
         $field = $this->getConfig('name');
         $value = $data[$field];

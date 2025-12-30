@@ -65,7 +65,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $filter = $this->Articles->filters();
         $this->assertTrue($filter instanceof FilterRegistry);
@@ -76,7 +76,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function testAddFilter()
+    public function testAddFilter(): void
     {
         $this->Articles->addFilter('name', ['className' => 'Value']);
         $input = $this->Articles->filters()->get('name');
@@ -88,7 +88,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function testRemoveFilter()
+    public function testRemoveFilter(): void
     {
         $this->Articles->addFilter('name', ['className' => 'Value']);
         $this->Articles->removeFilter('name');
@@ -103,7 +103,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function testFindFilter()
+    public function testFindFilter(): void
     {
         $result = $this->Articles->find('filters', params: [])->enableHydration(false)->toArray();
         $this->assertEquals(is_countable($result) ? count($result) : 0, 3);

@@ -27,7 +27,7 @@ class FilterComponent extends Component
     /**
      * Parameters Registry
      */
-    protected ?\PlumSearch\FormParameter\ParameterRegistry $_searchParameters = null;
+    protected \PlumSearch\FormParameter\ParameterRegistry $_searchParameters;
 
     /**
      * Controller instance
@@ -64,9 +64,9 @@ class FilterComponent extends Component
     /**
      * Returns parameters registry instance.
      *
-     * @return \PlumSearch\FormParameter\ParameterRegistry|null
+     * @return \PlumSearch\FormParameter\ParameterRegistry
      */
-    public function parameters(): ?ParameterRegistry
+    public function parameters(): ParameterRegistry
     {
         return $this->_searchParameters;
     }

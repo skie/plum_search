@@ -39,12 +39,18 @@ require ROOT . '/vendor/cakephp/cakephp/src/functions.php';
 require ROOT . '/vendor/autoload.php';
 
 Cake\Core\Configure::write('App', ['namespace' => 'PlumSearch\Test\App']);
-// Cake\Core\Configure::write('Error', ['errorLevel' => E_ALL ^ E_USER_DEPRECATED]);
 Cake\Core\Configure::write('debug', true);
 
-@mkdir(TMP . 'cache/models', 0777);
-@mkdir(TMP . 'cache/persistent', 0777);
-@mkdir(TMP . 'cache/views', 0777);
+function ensureDirectoryExists(string $path): void
+{
+    if (!is_dir($path)) {
+        mkdir($path, 0777, true);
+    }
+}
+
+ensureDirectoryExists(TMP . 'cache/models');
+ensureDirectoryExists(TMP . 'cache/persistent');
+ensureDirectoryExists(TMP . 'cache/views');
 
 $cache = [
     'default' => [

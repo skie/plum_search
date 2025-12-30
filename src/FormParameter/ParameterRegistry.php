@@ -114,6 +114,7 @@ class ParameterRegistry extends ObjectRegistry
             $config['name'] = $alias;
         }
 
+        /** @var class-string<\PlumSearch\FormParameter\BaseParameter> $class */
         return new $class($this, $config);
     }
 
@@ -139,7 +140,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param string $name Parameter name.
      * @return mixed
      */
-    public function data(?string $name = null)
+    public function data(?string $name = null): mixed
     {
         if ($this->_Controller->getRequest()->is('get')) {
             if (empty($name)) {

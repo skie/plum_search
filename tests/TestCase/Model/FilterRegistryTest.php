@@ -69,7 +69,7 @@ class FilterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $type = $this->FilterRegistry->load('id', ['className' => 'Value']);
         $this->assertTrue($type instanceof ValueFilter);
@@ -82,7 +82,7 @@ class FilterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoadWrongClass()
+    public function testLoadWrongClass(): void
     {
         $this->expectException(MissingFilterException::class);
         $this->FilterRegistry->load('name1', ['className' => 'Value2']);
@@ -93,7 +93,7 @@ class FilterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoadTwice()
+    public function testLoadTwice(): void
     {
         $this->FilterRegistry->load('name', ['className' => 'Value']);
         $this->expectException(RuntimeException::class);

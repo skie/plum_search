@@ -66,7 +66,7 @@ class RangeFilterTest extends TestCase
      *
      * @return void
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $this->expectException(MissingFilterException::class);
         $this->RangeFilter = new RangeFilter($this->FilterRegistry, ['field' => 'created']);
@@ -77,13 +77,13 @@ class RangeFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApply()
+    public function testApply(): void
     {
         $query = $this->Table->find('all');
         $date = new \DateTime('2001-01-01');
         $this->RangeFilter->apply($query, ['created' => $date, 'created_to' => null]);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 
@@ -99,13 +99,13 @@ class RangeFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApplyTo()
+    public function testApplyTo(): void
     {
         $query = $this->Table->find('all');
         $date = new \DateTime('2001-01-01');
         $this->RangeFilter->apply($query, ['created' => null, 'created_to' => $date]);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 
@@ -121,13 +121,13 @@ class RangeFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApplyBoth()
+    public function testApplyBoth(): void
     {
         $query = $this->Table->find('all');
         $date = new \DateTime('2001-01-01');
         $this->RangeFilter->apply($query, ['created' => $date, 'created_to' => $date]);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 
@@ -144,7 +144,7 @@ class RangeFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApplyBothWithParam()
+    public function testApplyBothWithParam(): void
     {
         $this->RangeFilter = new RangeFilter($this->FilterRegistry, [
             'name' => 'created',
@@ -155,7 +155,7 @@ class RangeFilterTest extends TestCase
         $date = new \DateTime('2001-01-01');
         $this->RangeFilter->apply($query, ['created' => $date, 'created_end' => $date]);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 

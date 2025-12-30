@@ -64,7 +64,7 @@ class ExtArticlesController extends AppController
      *
      * @return void
      */
-    public function index()
+    public function index(): void
     {
         $Articles = TableRegistry::getTableLocator()->get('Articles');
         $this->set('articles', $this->paginate($this->Filter->prg($Articles)));

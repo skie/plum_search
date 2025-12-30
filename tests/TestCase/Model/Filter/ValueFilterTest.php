@@ -66,7 +66,7 @@ class ValueFilterTest extends TestCase
      *
      * @return void
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $this->expectException(MissingFilterException::class);
         $this->ValueFilter = new ValueFilter($this->FilterRegistry, ['field' => 'id']);
@@ -77,12 +77,12 @@ class ValueFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApply()
+    public function testApply(): void
     {
         $query = $this->Table->find('all');
         $this->ValueFilter->apply($query, ['id' => 1]);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 
@@ -98,7 +98,7 @@ class ValueFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApplyWithFieldDefined()
+    public function testApplyWithFieldDefined(): void
     {
         $query = $this->Table->find('withAuthors');
 
@@ -112,7 +112,7 @@ class ValueFilterTest extends TestCase
             'author_name' => 'larry',
         ]);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 
@@ -126,13 +126,13 @@ class ValueFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApplyArray()
+    public function testApplyArray(): void
     {
         $query = $this->Table->find('all');
         $this->ValueFilter->apply($query, ['id' => [1, 2]]);
         $store = null;
 
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
         $binder = $query->getValueBinder();

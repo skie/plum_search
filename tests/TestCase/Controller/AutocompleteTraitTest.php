@@ -64,7 +64,7 @@ class AutocompleteTraitTest extends TestCase
      *
      * @return void
      */
-    public function testAutocompleteSuccess()
+    public function testAutocompleteSuccess(): void
     {
         $this->get('/ExtArticles/autocomplete?query=r&parameter=author_id');
         $response = json_decode((string)$this->_response->getBody(), true, 512, JSON_THROW_ON_ERROR);
@@ -80,7 +80,7 @@ class AutocompleteTraitTest extends TestCase
      *
      * @return void
      */
-    public function testAutocompleteFail()
+    public function testAutocompleteFail(): void
     {
         $this->get('/ExtArticles/autocomplete?query=%');
         $response = json_decode((string)$this->_response->getBody(), true, 512, JSON_THROW_ON_ERROR);

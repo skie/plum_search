@@ -63,7 +63,7 @@ class MultipleFilterTest extends TestCase
      *
      * @return array
      */
-    public static function applyDataProvider()
+    public static function applyDataProvider(): array
     {
         return [
             [false, 'OR'],
@@ -78,7 +78,7 @@ class MultipleFilterTest extends TestCase
      * @dataProvider applyDataProvider
      * @return void
      */
-    public function testApply($type, $operator)
+    public function testApply($type, $operator): void
     {
         $options = [
             'name' => 'name',
@@ -94,7 +94,7 @@ class MultipleFilterTest extends TestCase
         $query = $this->Table->find('all');
         $this->MultipleFilter->apply($query, ['name' => 'test']);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 

@@ -159,7 +159,7 @@ abstract class BaseParameter
      *
      * @return mixed
      */
-    public function value()
+    public function value(): mixed
     {
         if (!$this->_processed) {
             $this->_process();

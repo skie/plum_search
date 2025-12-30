@@ -67,7 +67,7 @@ class CustomFilterTest extends TestCase
      *
      * @return void
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $this->expectException(MissingFilterException::class);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, ['name' => 'id']);
@@ -78,7 +78,7 @@ class CustomFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApply()
+    public function testApply(): void
     {
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',

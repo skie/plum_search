@@ -78,7 +78,7 @@ class SearchHelperTest extends TestCase
      *
      * @return void
      */
-    public function testInputs()
+    public function testInputs(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = new ServerRequest([
@@ -129,7 +129,7 @@ class SearchHelperTest extends TestCase
      *
      * @return void
      */
-    public function testPostRender()
+    public function testPostRender(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = new ServerRequest([
@@ -175,7 +175,7 @@ class SearchHelperTest extends TestCase
      *
      * @return void
      */
-    public function testInput()
+    public function testInput(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = new ServerRequest([
@@ -208,13 +208,13 @@ class SearchHelperTest extends TestCase
      *
      * @return void
      */
-    public function testInputsExt()
+    public function testInputsExt(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         Router::reload();
         $builder = Router::createRouteBuilder('/');
-        $builder->scope('/', function ($routes) {
+        $builder->scope('/', function ($routes): void {
             $routes->connect(
                 '/articles/autocomplete',
                 ['controller' => 'Articles', 'action' => 'autocomplete']

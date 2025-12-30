@@ -65,13 +65,13 @@ class LikeFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApply()
+    public function testApply(): void
     {
         $query = $this->Table->find('all');
         $this->LikeFilter->apply($query, ['name' => 'test']);
         $store = null;
 
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
         $binder = $query->getValueBinder();

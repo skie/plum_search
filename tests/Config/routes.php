@@ -11,6 +11,6 @@ $routes->connect(
     ['controller' => 'Articles', 'action' => 'autocomplete']
 );
 
-$routes->scope('/', function (RouteBuilder $routes) {
+$routes->scope('/', function (RouteBuilder $routes): void {
     $routes->fallbacks();
 });

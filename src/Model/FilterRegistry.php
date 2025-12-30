@@ -97,6 +97,7 @@ class FilterRegistry extends ObjectRegistry
             $config['name'] = $alias;
         }
 
+        /** @var class-string<\PlumSearch\Model\Filter\AbstractFilter> $class */
         return new $class($this, $config);
     }
 

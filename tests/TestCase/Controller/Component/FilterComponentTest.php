@@ -87,7 +87,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testParameters()
+    public function testParameters(): void
     {
         $input = $this->Component->parameters();
         $this->assertTrue($input instanceof ParameterRegistry);
@@ -98,7 +98,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testAddParam()
+    public function testAddParam(): void
     {
         $this->Component->addParam('name', ['className' => 'Input']);
         $input = $this->Component->parameters()->get('name');
@@ -110,7 +110,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testRemoveParam()
+    public function testRemoveParam(): void
     {
         $this->Component->addParam('name', ['className' => 'Input']);
         $this->Component->removeParam('name');
@@ -125,7 +125,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testPrgPost()
+    public function testPrgPost(): void
     {
         $request = new ServerRequest([
             'environment' => [
@@ -170,7 +170,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testPrgPostWithOtherFormName()
+    public function testPrgPostWithOtherFormName(): void
     {
         unset($this->Controller);
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -214,7 +214,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testPrgGet()
+    public function testPrgGet(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = new ServerRequest([
@@ -244,7 +244,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals($this->Component->values(), []);
 
@@ -276,7 +276,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testController()
+    public function testController(): void
     {
         $this->assertEquals($this->Component->controller(), $this->Controller);
     }

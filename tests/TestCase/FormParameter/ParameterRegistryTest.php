@@ -62,7 +62,7 @@ class ParameterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $type = $this->ParameterRegistry->load('id', ['className' => 'Input']);
         $this->assertTrue($type instanceof InputParameter);
@@ -75,7 +75,7 @@ class ParameterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoadWrongClass()
+    public function testLoadWrongClass(): void
     {
         $this->expectException(MissingParameterException::class);
         $this->ParameterRegistry->load('name1', ['className' => 'Input2']);
@@ -86,7 +86,7 @@ class ParameterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoadTwice()
+    public function testLoadTwice(): void
     {
         $this->ParameterRegistry->load('name', ['className' => 'Input']);
         $this->expectException(RuntimeException::class);

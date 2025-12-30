@@ -72,7 +72,7 @@ class RangeParameterTest extends TestCase
      *
      * @return void
      */
-    public function testFormInputConfig()
+    public function testFormInputConfig(): void
     {
         $this->assertEquals($this->RangeParam->formInputConfig(), ['label' => 'Created From']);
     }
@@ -82,7 +82,7 @@ class RangeParameterTest extends TestCase
      *
      * @return void
      */
-    public function testViewValues()
+    public function testViewValues(): void
     {
         $values = $this->RangeParam->viewValues();
         $this->assertEquals(array_keys($values), ['created', 'created_to']);
@@ -93,7 +93,7 @@ class RangeParameterTest extends TestCase
      *
      * @return void
      */
-    public function testVisible()
+    public function testVisible(): void
     {
         $values = $this->RangeParam->viewValues();
         $this->assertTrue($values['created_to']->visible());
@@ -105,7 +105,7 @@ class RangeParameterTest extends TestCase
      *
      * @return void
      */
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals($this->RangeParam->values(), [
             'created' => '2001-01-01',
@@ -118,7 +118,7 @@ class RangeParameterTest extends TestCase
      *
      * @return void
      */
-    public function testValue()
+    public function testValue(): void
     {
         $this->assertEquals($this->RangeParam->value(), '2001-01-01');
     }
@@ -128,7 +128,7 @@ class RangeParameterTest extends TestCase
      *
      * @return void
      */
-    public function testHasOptions()
+    public function testHasOptions(): void
     {
         $this->assertFalse($this->RangeParam->hasOptions());
     }
