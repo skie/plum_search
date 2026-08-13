@@ -36,8 +36,8 @@ class ExtArticlesController extends AppController
     {
         $Articles = TableRegistry::getTableLocator()->get('Articles');
         $author = $Articles->Authors;
-        $this->loadComponent('Paginator');
-        $this->viewBuilder()->setHelpers([
+        // $this->loadComponent('Paginator');
+        $this->viewBuilder()->addHelpers([
             'PlumSearch.Search',
         ]);
         $this->loadComponent('PlumSearch.Filter', [
@@ -47,19 +47,13 @@ class ExtArticlesController extends AppController
                 [
                     'name' => 'author_id',
                     'className' => 'Autocomplete',
-                    'autocompleteAction' => function ($query) use ($author) {
-                        return $author
-                            ->find('all')
-                            ->where(['name like' => '%' . $query . '%'])
-                            ->formatResults(function ($authors) {
-                                return $authors->map(function ($author) {
-                                    return [
-                                        'id' => $author['id'],
-                                        'value' => $author['name'],
-                                    ];
-                                });
-                            });
-                    },
+                    'autocompleteAction' => fn($query) => $author
+                        ->find('all')
+                        ->where(['name like' => '%' . $query . '%'])
+                        ->formatResults(fn($authors) => $authors->map(fn($author) => [
+                            'id' => $author['id'],
+                            'value' => $author['name'],
+                        ])),
                 ],
             ],
         ]);
@@ -70,9 +64,9 @@ class ExtArticlesController extends AppController
      *
      * @return void
      */
-    public function index()
+    public function index(): void
     {
         $Articles = TableRegistry::getTableLocator()->get('Articles');
-        $this->set('articles', $this->Paginator->paginate($this->Filter->prg($Articles)));
+        $this->set('articles', $this->paginate($this->Filter->prg($Articles)));
     }
 }

@@ -24,24 +24,15 @@ use PlumSearch\Model\FilterRegistry;
  */
 class MultipleFilterTest extends TestCase
 {
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
     ];
 
-    /**
-     * @var \Cake\ORM\Table
-     */
-    protected $Table;
+    protected \Cake\ORM\Table $Table;
 
-    /**
-     * @var FilterRegistry
-     */
-    protected $FilterRegistry;
+    protected \PlumSearch\Model\FilterRegistry $FilterRegistry;
 
-    /**
-     * @var \PlumSearch\Model\Filter\AbstractFilter
-     */
-    protected $MultipleFilter;
+    protected ?\PlumSearch\Model\Filter\MultipleFilter $MultipleFilter = null;
 
     /**
      * setUp method
@@ -72,7 +63,7 @@ class MultipleFilterTest extends TestCase
      *
      * @return array
      */
-    public function applyDataProvider()
+    public static function applyDataProvider(): array
     {
         return [
             [false, 'OR'],
@@ -87,7 +78,7 @@ class MultipleFilterTest extends TestCase
      * @dataProvider applyDataProvider
      * @return void
      */
-    public function testApply($type, $operator)
+    public function testApply($type, $operator): void
     {
         $options = [
             'name' => 'name',
@@ -103,7 +94,7 @@ class MultipleFilterTest extends TestCase
         $query = $this->Table->find('all');
         $this->MultipleFilter->apply($query, ['name' => 'test']);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 

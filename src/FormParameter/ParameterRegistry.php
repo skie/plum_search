@@ -23,20 +23,20 @@ use PlumSearch\FormParameter\Exception\MissingParameterException;
  * ParameterRegistry is a registry for loaded parameters
  *
  * Handles loading, constructing  for param class objects.
+ *
+ * @extends \Cake\Core\ObjectRegistry<\PlumSearch\FormParameter\BaseParameter>
  */
 class ParameterRegistry extends ObjectRegistry
 {
     /**
      * The table that this collection was initialized with.
-     *
-     * @var \Cake\Controller\Controller
      */
-    protected $_Controller;
+    protected \Cake\Controller\Controller $_Controller;
 
     /**
      * Form name
      *
-     * @var string
+     * @var string|null
      */
     protected $formName;
 
@@ -113,9 +113,9 @@ class ParameterRegistry extends ObjectRegistry
         if (empty($config['name'])) {
             $config['name'] = $alias;
         }
-        $instance = new $class($this, $config);
 
-        return $instance;
+        /** @var class-string<\PlumSearch\FormParameter\BaseParameter> $class */
+        return new $class($this, $config);
     }
 
     /**
@@ -140,7 +140,7 @@ class ParameterRegistry extends ObjectRegistry
      * @param string $name Parameter name.
      * @return mixed
      */
-    public function data(?string $name = null)
+    public function data(?string $name = null): mixed
     {
         if ($this->_Controller->getRequest()->is('get')) {
             if (empty($name)) {
@@ -168,7 +168,7 @@ class ParameterRegistry extends ObjectRegistry
     {
         $result = [];
         foreach ($this->collection() as $param) {
-            $result = $result + (array)$param->values();
+            $result += (array)$param->values();
         }
 
         return $result;
@@ -183,7 +183,7 @@ class ParameterRegistry extends ObjectRegistry
     {
         $result = [];
         foreach ($this->collection() as $param) {
-            $result = $result + (array)$param->viewValues();
+            $result += (array)$param->viewValues();
         }
 
         return $result;
@@ -240,6 +240,7 @@ class ParameterRegistry extends ObjectRegistry
 
     /**
      * Override to allow serialization
+     *
      * @return array
      */
     public function __sleep(): array

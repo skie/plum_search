@@ -3,25 +3,15 @@
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
-Put the files in `ROOT/plugins/PlumSearch`, using Packagist/Composer:
+```bash
+    composer require skie/cakephp-search
 ```
-"require": {
-    "skie/cakephp-search": "dev-master"
-}
-```
-and
-
-    composer update
 
 Details @ https://packagist.org/packages/skie/plum-search
 
-This will load the plugin (within your boostrap file):
+This will load the plugin (within your Applicaion class):
 ```php
-Plugin::load('PlumSearch');
-```
-or
-```php
-Plugin::loadAll(...);
+$this->addPlugin('PlumSearch');
 ```
 
 ### Internal handling via plugin dot notation
@@ -32,4 +22,9 @@ $this->addBehavior('PlumSearch.Filterable');
 
 // In a Controller
 public $helpers = ['PlumSearch.Search'];
+```
+
+or inside AppView::initialize method you can load it globally
+```php
+    $this->loadHelper('PlumSearch.Search');
 ```

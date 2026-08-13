@@ -13,13 +13,13 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\TestCase\View\Helper;
 
-use Cake\Http\Response;
 use Cake\Http\ServerRequest;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use PlumSearch\Test\App\Controller\ArticlesController;
+use PlumSearch\Test\App\Controller\ArticlesRangeController;
 use PlumSearch\Test\App\Controller\ExtArticlesController;
 use PlumSearch\View\Helper\SearchHelper;
 
@@ -33,7 +33,7 @@ class SearchHelperTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
@@ -45,15 +45,9 @@ class SearchHelperTest extends TestCase
      */
     protected $Controller;
 
-    /**
-     * @var \Cake\View\View
-     */
-    protected $View;
+    protected \Cake\View\View $View;
 
-    /**
-     * @var SearchHelper
-     */
-    protected $Search;
+    protected \PlumSearch\View\Helper\SearchHelper $Search;
 
     /**
      * setUp method
@@ -84,7 +78,7 @@ class SearchHelperTest extends TestCase
      *
      * @return void
      */
-    public function testInputs()
+    public function testInputs(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = new ServerRequest([
@@ -99,13 +93,13 @@ class SearchHelperTest extends TestCase
             ],
         ]);
 
-        $this->Controller = new ArticlesController($request, new Response());
+        $this->Controller = new ArticlesController($request);
         $this->Controller->index();
         $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
 
         $inputs = $this->Search->controls($parameters);
         $this->assertEquals(count($inputs), 2);
-        $this->assertTrue($inputs['Article.author_id']['options'] instanceof Query);
+        $this->assertTrue($inputs['Article.author_id']['options'] instanceof SelectQuery);
         $inputs['Article.author_id']['options'] = $inputs['Article.author_id']['options']->toArray();
         $expected = [
             'Article.title' => [
@@ -131,11 +125,11 @@ class SearchHelperTest extends TestCase
     }
 
     /**
-     * Test input method
+     * Test post render method
      *
      * @return void
      */
-    public function testInput()
+    public function testPostRender(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = new ServerRequest([
@@ -150,10 +144,56 @@ class SearchHelperTest extends TestCase
             ],
         ]);
 
-        $this->Controller = new ArticlesController($request, new Response());
+        $this->Controller = new ArticlesRangeController($request);
         $this->Controller->index();
         $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
-        $input = $this->Search->input($parameters->get('title'));
+
+        $inputs = $this->Search->controls($parameters);
+        $expected = [
+            'Article.created' => [
+                'type' => 'text',
+                'required' => false,
+                'label' => 'Created From',
+                'value' => '',
+            ],
+            'Article.created_to' => [
+                'type' => 'text',
+                'required' => false,
+                'label' => 'Created To',
+                'value' => '',
+            ],
+        ];
+        $this->assertEquals($inputs, $expected);
+
+        $script = $this->Search->postRender($parameters);
+        $expectedScript = '<script>var a = 1;</script>';
+        $this->assertEquals($script, $expectedScript);
+    }
+
+    /**
+     * Test input method
+     *
+     * @return void
+     */
+    public function testInput(): void
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $request = new ServerRequest([
+            'webroot' => '/articles/',
+            'params' => [
+                'controller' => 'Articles',
+                'action' => 'index',
+                'pass' => [],
+            ],
+            'query' => [
+                'title' => 'Third',
+            ],
+        ]);
+
+        $this->Controller = new ArticlesController($request);
+        $this->Controller->index();
+        $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
+        $input = $this->Search->control($parameters->get('title'));
         $expected = [
             'type' => 'text',
             'required' => false,
@@ -168,11 +208,13 @@ class SearchHelperTest extends TestCase
      *
      * @return void
      */
-    public function testInputsExt()
+    public function testInputsExt(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        Router::scope('/', function ($routes) {
+        Router::reload();
+        $builder = Router::createRouteBuilder('/');
+        $builder->scope('/', function ($routes): void {
             $routes->connect(
                 '/articles/autocomplete',
                 ['controller' => 'Articles', 'action' => 'autocomplete']
@@ -191,10 +233,10 @@ class SearchHelperTest extends TestCase
             ],
         ]);
 
-        $this->Controller = new ExtArticlesController($request, new Response());
+        $this->Controller = new ExtArticlesController($request);
         $this->Controller->index();
         $parameters = $this->Controller->viewBuilder()->getVar('searchParameters');
-        $input = $this->Search->input($parameters->get('title'));
+        $input = $this->Search->control($parameters->get('title'));
         $expected = [
             'type' => 'text',
             'required' => false,

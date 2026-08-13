@@ -29,17 +29,14 @@ class FilterBehaviorTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
         'plugin.PlumSearch.Authors',
     ];
 
-    /**
-     * @var ArticlesTable
-     */
-    public $Articles;
+    public \Cake\ORM\Table $Articles;
 
     /**
      * setUp method
@@ -49,7 +46,7 @@ class FilterBehaviorTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->Articles = TableRegistry::get('Articles');
+        $this->Articles = TableRegistry::getTableLocator()->get('Articles');
     }
 
     /**
@@ -60,7 +57,7 @@ class FilterBehaviorTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        TableRegistry::clear();
+        TableRegistry::getTableLocator()->clear();
     }
 
     /**
@@ -68,7 +65,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function testFilters()
+    public function testFilters(): void
     {
         $filter = $this->Articles->filters();
         $this->assertTrue($filter instanceof FilterRegistry);
@@ -79,7 +76,7 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function testAddFilter()
+    public function testAddFilter(): void
     {
         $this->Articles->addFilter('name', ['className' => 'Value']);
         $input = $this->Articles->filters()->get('name');
@@ -91,12 +88,12 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function testRemoveFilter()
+    public function testRemoveFilter(): void
     {
         $this->Articles->addFilter('name', ['className' => 'Value']);
         $this->Articles->removeFilter('name');
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unknown object "name"');
+        $this->expectExceptionMessage('Unknown object `name`');
         $input = $this->Articles->filters()->get('name');
         $this->assertNull($input);
     }
@@ -106,16 +103,16 @@ class FilterBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function testFindFilter()
+    public function testFindFilter(): void
     {
-        $result = $this->Articles->find('filters', [])->enableHydration(false)->toArray();
-        $this->assertEquals(count($result), 3);
+        $result = $this->Articles->find('filters', params: [])->enableHydration(false)->toArray();
+        $this->assertEquals(is_countable($result) ? count($result) : 0, 3);
 
         $filterParameters = [
             'title' => 'First',
             'tag' => 'tag1',
         ];
-        $result = $this->Articles->find('filters', $filterParameters)->enableHydration(false)->toArray();
+        $result = $this->Articles->find('filters', params: $filterParameters)->enableHydration(false)->toArray();
         $expected = [[
             'id' => 1,
             'author_id' => 1,
@@ -129,7 +126,7 @@ class FilterBehaviorTest extends TestCase
             'title' => 'First',
             'tag' => 'tag3',
         ];
-        $result = $this->Articles->find('filters', $filterParameters)->enableHydration(false)->toArray();
+        $result = $this->Articles->find('filters', params: $filterParameters)->enableHydration(false)->toArray();
         $expected = [];
         $this->assertEquals($expected, $result);
 
@@ -141,7 +138,7 @@ class FilterBehaviorTest extends TestCase
             'author_name' => 'larry',
             'tag' => 'tag3',
         ];
-        $result = $this->Articles->find('withAuthors')->find('filters', $filterParameters)->enableHydration(false)->toArray();
+        $result = $this->Articles->find('withAuthors')->find('filters', params: $filterParameters)->enableHydration(false)->toArray();
         $expected = [[
             'id' => 2,
             'author_id' => 3,

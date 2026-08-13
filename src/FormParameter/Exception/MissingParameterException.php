@@ -13,22 +13,21 @@ declare(strict_types=1);
  */
 namespace PlumSearch\FormParameter\Exception;
 
-use Cake\Core\Exception\Exception;
+use Cake\Core\Exception\CakeException;
 
 /**
  * Missing Param exception - used when a form parameter
  * cannot be found.
- *
  */
-class MissingParameterException extends Exception
+class MissingParameterException extends CakeException
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected $_messageTemplate = 'Filter %s::%s() could not be found.';
+    protected string $_messageTemplate = 'Filter %s::%s() could not be found.';
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function __construct($message, int $code = 404)
     {

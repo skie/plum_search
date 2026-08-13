@@ -33,7 +33,7 @@ class SelectParameterTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
@@ -42,17 +42,13 @@ class SelectParameterTest extends TestCase
 
     /**
      * Parameter
-     *
-     * @var \PlumSearch\FormParameter\SelectParameter
      */
-    public $SelectParam;
+    public \PlumSearch\FormParameter\SelectParameter $SelectParam;
 
     /**
      * Parameter Registry
-     *
-     * @var \PlumSearch\FormParameter\ParameterRegistry
      */
-    public $ParameterRegistry;
+    public \PlumSearch\FormParameter\ParameterRegistry $ParameterRegistry;
 
     /**
      * setUp method
@@ -62,15 +58,16 @@ class SelectParameterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder('Cake\Controller\Controller')
-            ->setMethods(['redirect'])
-            ->getMock();
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $controller->setRequest(new ServerRequest([
+        $request = new ServerRequest([
             'webroot' => '/dir/',
             'query' => ['username' => 'admin'],
-        ]));
-        $articles = TableRegistry::get('Articles');
+        ]);
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->onlyMethods(['redirect'])
+            ->setConstructorArgs([$request])
+            ->getMock();
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $articles = TableRegistry::getTableLocator()->get('Articles');
         $this->ParameterRegistry = new ParameterRegistry($controller);
         $this->SelectParam = new SelectParameter($this->ParameterRegistry, [
             'name' => 'username',
@@ -94,7 +91,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $this->expectException(MissingParameterException::class);
         $this->SelectParam = new SelectParameter($this->ParameterRegistry, [
@@ -107,7 +104,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function testVisible()
+    public function testVisible(): void
     {
         $this->assertTrue($this->SelectParam->visible());
     }
@@ -117,7 +114,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function testFormInputConfig()
+    public function testFormInputConfig(): void
     {
         $formParams = $this->SelectParam->formInputConfig();
         $this->assertEquals($formParams['type'], 'select');
@@ -128,7 +125,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function testViewValues()
+    public function testViewValues(): void
     {
         $this->assertEquals($this->SelectParam->viewValues(), ['username' => $this->SelectParam]);
     }
@@ -138,7 +135,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals($this->SelectParam->values(), ['username' => 'admin']);
     }
@@ -148,7 +145,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function testValue()
+    public function testValue(): void
     {
         $this->assertEquals($this->SelectParam->value(), 'admin');
     }
@@ -158,7 +155,7 @@ class SelectParameterTest extends TestCase
      *
      * @return void
      */
-    public function testHasOptions()
+    public function testHasOptions(): void
     {
         $this->assertTrue($this->SelectParam->hasOptions());
     }

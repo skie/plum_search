@@ -13,22 +13,21 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Model\Filter\Exception;
 
-use Cake\Core\Exception\Exception;
+use Cake\Core\Exception\CakeException;
 
 /**
  * Missing Filter exception - used when a search filter
  * cannot be found.
- *
  */
-class MissingFilterException extends Exception
+class MissingFilterException extends CakeException
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected $_messageTemplate = 'Filter %s::%s() could not be found.';
+    protected string $_messageTemplate = 'Filter %s::%s() could not be found.';
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function __construct($message, int $code = 404)
     {

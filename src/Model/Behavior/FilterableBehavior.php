@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace PlumSearch\Model\Behavior;
 
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use PlumSearch\Model\FilterRegistry;
 
@@ -27,26 +27,24 @@ class FilterableBehavior extends Behavior
 {
     /**
      * FilterRegistry for this table
-     *
-     * @var \PlumSearch\Model\FilterRegistry
      */
-    protected $_searchFilters;
+    protected \PlumSearch\Model\FilterRegistry $_searchFilters;
 
     /**
      * Table instance
      *
      * @var \Cake\ORM\Table
      */
-    protected $_table;
+    protected \Cake\ORM\Table $_table;
 
     /**
      * Default config
      *
      * These are merged with user-provided configuration when the behavior is used.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'implementedFinders' => [
             'filters' => 'findFilter',
         ],
@@ -97,12 +95,12 @@ class FilterableBehavior extends Behavior
      * Filters are generally loaded during Table::initialize().
      *
      * @param string $name The name of the filter.
-     * @param array $options The options for the filter to use.
+     * @param array $params The options for the filter to use.
      * @return \Cake\ORM\Table
      */
-    public function addFilter(string $name, array $options = []): Table
+    public function addFilter(string $name, array $params = []): Table
     {
-        $this->filters()->load($name, $options);
+        $this->filters()->load($name, $params);
 
         return $this->_table;
     }
@@ -131,14 +129,14 @@ class FilterableBehavior extends Behavior
     /**
      * Results for this finder will be query filtered by search parameters
      *
-     * @param \Cake\ORM\Query $query   Query.
-     * @param array $options Array of options as described above.
-     * @return \Cake\ORM\Query
+     * @param \Cake\ORM\Query\SelectQuery $query   Query.
+     * @param array $params Array of options as described above.
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function findFilter(Query $query, array $options): Query
+    public function findFilter(SelectQuery $query, array $params): SelectQuery
     {
         foreach ($this->filters()->collection() as $name => $filter) {
-            $filter->apply($query, $options);
+            $filter->apply($query, $params);
         }
 
         return $query;

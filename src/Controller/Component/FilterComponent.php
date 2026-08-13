@@ -26,26 +26,22 @@ class FilterComponent extends Component
 {
     /**
      * Parameters Registry
-     *
-     * @var \PlumSearch\FormParameter\ParameterRegistry
      */
-    protected $_searchParameters;
+    protected \PlumSearch\FormParameter\ParameterRegistry $_searchParameters;
 
     /**
      * Controller instance
-     *
-     * @var \Cake\Controller\Controller
      */
-    protected $_controller;
+    protected \Cake\Controller\Controller $_controller;
 
     /**
      * Default config
      *
      * These are merged with user-provided configuration when the behavior is used.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'formName' => null,
         'action' => null,
         'filterEmptyParams' => true,
@@ -139,7 +135,7 @@ class FilterComponent extends Component
      * For POST requests builds redirection url and perform redirect to get action.
      * For GET requests add filters finder to passed into the method query and returns it.
      *
-     * @param \Cake\ORM\Table|\Cake\ORM\Query $table Table instance.
+     * @param \Cake\ORM\Table|\Cake\ORM\Query\SelectQuery $table Table instance.
      * @param array $options Search parameters.
      * @return mixed
      */
@@ -158,7 +154,7 @@ class FilterComponent extends Component
         } elseif ($this->_controller->getRequest()->is('get')) {
             $this->_setViewData($formName);
 
-            return $table->find('filters', $this->values());
+            return $table->find('filters', params: $this->values());
         }
 
         return $table;

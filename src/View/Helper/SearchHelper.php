@@ -18,6 +18,7 @@ use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use PlumSearch\FormParameter\AutocompleteParameter;
 use PlumSearch\FormParameter\BaseParameter;
+use PlumSearch\FormParameter\LookupParameter;
 use PlumSearch\FormParameter\ParameterRegistry;
 
 /**
@@ -43,7 +44,7 @@ class SearchHelper extends Helper
             foreach ($primaryParameter->viewValues() as $param) {
                 $name = $param->getConfig('name');
                 $inputOptions = array_key_exists($name, $options) ? $options[$name] : [];
-                $input = $this->input($param, $inputOptions);
+                $input = $this->control($param, $inputOptions);
                 $field = $param->getConfig('field');
                 if (!empty($entityName)) {
                     $field = "$entityName.$field";
@@ -56,48 +57,50 @@ class SearchHelper extends Helper
     }
 
     /**
-     * Builds Form::controls structure.
+     * Executes Parameter::postRender callbacks if presents.
      *
      * @param \PlumSearch\FormParameter\ParameterRegistry $parameters Form parameters collection.
      * @param array $options Additional input options.
-     * @return array
-     * @deprecated 3.6.0 Use SearchHelper::controls() instead.
+     * @return string
      */
-    public function inputs(ParameterRegistry $parameters, array $options = []): array
+    public function postRender(ParameterRegistry $parameters, array $options = []): string
     {
-        deprecationWarning(
-            'SearchHelper::inputs() is deprecated. ' .
-            'Use SearchHelper::controls() instead.'
-        );
+        $result = '';
+        $collection = $parameters->collection($options['collectionMethod'] ?? null);
+        foreach ($collection as $primaryParameter) {
+            $callback = $primaryParameter->getConfig('postRenderCallback');
+            if (is_callable($callback)) {
+                $result .= $callback($primaryParameter, $this->_View);
+            }
+        }
 
-        return $this->controls($parameters, $options);
+        return $result;
     }
 
     /**
-     * Generates input for parameter
+     * Generates control for parameter
      *
      * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @param array $options Additional input options.
      * @return array
      */
-    public function input(BaseParameter $param, array $options = []): array
+    public function control(BaseParameter $param, array $options = []): array
     {
-        $input = $this->_defaultInput($param);
+        $input = $this->_defaultControl($param);
         $this->_setValue($input, $param);
         $this->_setOptions($input, $param);
         $this->_applyAutocompleteOptions($input, $param);
-        $input = Hash::merge($input, $options);
 
-        return $input;
+        return Hash::merge($input, $options);
     }
 
     /**
-     * Generates default input for parameter
+     * Generates default control for parameter
      *
      * @param \PlumSearch\FormParameter\BaseParameter $param Form parameter.
      * @return array
      */
-    protected function _defaultInput(BaseParameter $param): array
+    protected function _defaultControl(BaseParameter $param): array
     {
         $input = $param->formInputConfig();
         $name = (string)$param->getConfig('name');
@@ -123,11 +126,7 @@ class SearchHelper extends Helper
     protected function _setValue(array &$input, BaseParameter $param): array
     {
         $value = $param->value();
-        if (!$param->isEmpty()) {
-            $input['value'] = $value;
-        } else {
-            $input['value'] = '';
-        }
+        $input['value'] = $param->isEmpty() ? '' : $value;
 
         return $input;
     }
@@ -161,6 +160,16 @@ class SearchHelper extends Helper
             $input['data-url'] = $param->autocompleteUrl();
             $input['class'] = 'autocomplete';
             $input['data-name'] = $param->getConfig('name');
+        }
+        if ($param instanceof LookupParameter) {
+            $input['data-url'] = $param->autocompleteUrl();
+            $input['data-id-name'] = $param->getConfig('idName');
+            $input['data-value-name'] = $param->getConfig('valueName');
+            $input['data-query'] = $param->getConfig('query');
+            $input['data-wildcard'] = $param->getConfig('wildcard');
+            $input['data-min-length'] = $param->getConfig('minLength');
+            $input['data-delay'] = $param->getConfig('delay');
+            $input['class'] = 'lookup-autocomplete';
         }
 
         return $input;

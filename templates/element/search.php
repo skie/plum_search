@@ -14,3 +14,4 @@ if (empty($formOptions['id'])) {
     <?= $this->Form->button('Search', ['type' => 'submit', 'class' => 'btn btn-primary']); ?>
     <?= $this->Form->end(); ?>
 </div>
+<?= $this->Search->postRender($searchParameters, $inputOptions); ?>

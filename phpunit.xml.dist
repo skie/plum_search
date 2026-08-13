@@ -1,27 +1,36 @@
-<phpunit
-	colors="true"
-	processIsolation="false"
-	stopOnFailure="false"
-	bootstrap="./tests/bootstrap.php">
-
-	<testsuites>
-		<testsuite name="PlumSearch">
-			<directory>./tests/</directory>
-		</testsuite>
-	</testsuites>
-
-	<listeners>
-		<listener class="\Cake\TestSuite\Fixture\FixtureInjector">
-			<arguments>
-				<object class="\Cake\TestSuite\Fixture\FixtureManager" />
-			</arguments>
-		</listener>
-	</listeners>
-
-	<filter>
-		<whitelist>
-			<directory suffix=".php">./src</directory>
-		</whitelist>
-	</filter>
-
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" processIsolation="false" stopOnFailure="false" bootstrap="./tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd" cacheDirectory=".phpunit.cache">
+  <coverage/>
+  <testsuites>
+    <testsuite name="PlumSearch">
+      <directory>./tests/</directory>
+    </testsuite>
+  </testsuites>
+  <extensions>
+	<bootstrap class="Cake\TestSuite\Fixture\Extension\PHPUnitExtension"/>
+  </extensions>
+  <php>
+    <ini name="memory_limit" value="-1"/>
+    <!-- E_ALL & ~E_USER_DEPRECATED (16383)-->
+    <!-- E_ALL (32767) -->
+    <ini name="error_reporting" value="32767"/>
+    <env name="FIXTURE_SCHEMA_METADATA" value="./tests/schema.php"/>
+    <!-- SQLite
+        <env name="DB_URL" value="sqlite:///:memory:"/>
+        -->
+    <!-- Postgres
+        <env name="DB_URL" value="postgres://localhost/cake_test?timezone=UTC"/>
+        -->
+    <!-- MySQL
+        <env name="DB_URL" value="mysql://localhost/cake_test?timezone=UTC"/>
+        -->
+    <!-- SQL Server
+        <env name="DB_URL" value="sqlserver://localhost/cake_test?timezone=UTC"/>
+        -->
+  </php>
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+  </source>
 </phpunit>

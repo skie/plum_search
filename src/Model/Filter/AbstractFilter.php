@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace PlumSearch\Model\Filter;
 
 use Cake\Core\InstanceConfigTrait;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use PlumSearch\Model\Filter\Exception\MissingFilterException;
 use PlumSearch\Model\FilterRegistry;
 
@@ -30,17 +30,13 @@ abstract class AbstractFilter
     /**
      * Default configuration
      * These are merged with user-provided configuration when the behavior is used.
-     *
-     * @var array
      */
-    protected $_defaultConfig = [];
+    protected array $_defaultConfig = [];
 
     /**
      * FilterRegistry storage.
-     *
-     * @var \PlumSearch\Model\FilterRegistry
      */
-    protected $registry;
+    protected \PlumSearch\Model\FilterRegistry $registry;
 
     /**
      * Filter constructor
@@ -66,11 +62,11 @@ abstract class AbstractFilter
     /**
      * Apply filter to query based on filter data
      *
-     * @param  \Cake\ORM\Query $query Query.
+     * @param  \Cake\ORM\Query\SelectQuery $query Query.
      * @param array $data Filters values.
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    public function apply(Query $query, array $data): Query
+    public function apply(SelectQuery $query, array $data): SelectQuery
     {
         if ($this->_applicable($data)) {
             $field = $this->getConfig('field');
@@ -116,13 +112,13 @@ abstract class AbstractFilter
     /**
      * Returns query with applied filter
      *
-     * @param  \Cake\ORM\Query $query Query.
+     * @param  \Cake\ORM\Query\SelectQuery $query Query.
      * @param string $field Field name.
      * @param string|array $value Field value.
      * @param array $data Filters values.
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query\SelectQuery
      */
-    abstract protected function _buildQuery(Query $query, string $field, $value, array $data = []): Query;
+    abstract protected function _buildQuery(SelectQuery $query, string $field, $value, array $data = []): SelectQuery;
 
     /**
      * Evaluate value of filter parameter
@@ -130,7 +126,7 @@ abstract class AbstractFilter
      * @param array $data Array of options as described above.
      * @return mixed
      */
-    protected function _value(array $data)
+    protected function _value(array $data): mixed
     {
         $field = $this->getConfig('name');
         $value = $data[$field];

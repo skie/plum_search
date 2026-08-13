@@ -14,19 +14,23 @@ declare(strict_types=1);
 namespace PlumSearch\Test\TestCase\Controller;
 
 use Cake\Routing\Router;
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 
 /**
  * PlumSearch\Controller\AutocompleteTrait Test Case
  */
-class AutocompleteTraitTest extends IntegrationTestCase
+class AutocompleteTraitTest extends TestCase
 {
+    use IntegrationTestTrait;
+
+    public $Controller;
     /**
      * Test fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
@@ -60,11 +64,10 @@ class AutocompleteTraitTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testAutocompleteSuccess()
+    public function testAutocompleteSuccess(): void
     {
-        $this->useHttpServer(true);
         $this->get('/ExtArticles/autocomplete?query=r&parameter=author_id');
-        $response = json_decode((string)$this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('success', $response['status']);
         $this->assertEquals([
             ['id' => 2, 'value' => 'mark'],
@@ -77,11 +80,10 @@ class AutocompleteTraitTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testAutocompleteFail()
+    public function testAutocompleteFail(): void
     {
-        $this->useHttpServer(true);
         $this->get('/ExtArticles/autocomplete?query=%');
-        $response = json_decode((string)$this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals([], $response['data']);
         $this->assertEquals('error', $response['status']);
         $this->assertEquals('Field not found', $response['message']);

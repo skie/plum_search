@@ -7,12 +7,12 @@ $findRoot = function () {
         return $root;
     }
 
-    $root = dirname(dirname(__DIR__));
+    $root = dirname(__DIR__, 2);
     if (is_dir($root . '/vendor/cakephp/cakephp')) {
         return $root;
     }
 
-    $root = dirname(dirname(dirname(__DIR__)));
+    $root = dirname(__DIR__, 3);
     if (is_dir($root . '/vendor/cakephp/cakephp')) {
         return $root;
     }
@@ -35,23 +35,28 @@ define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
 
-require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
+require ROOT . '/vendor/cakephp/cakephp/src/functions.php';
 require ROOT . '/vendor/autoload.php';
 
 Cake\Core\Configure::write('App', ['namespace' => 'PlumSearch\Test\App']);
-// Cake\Core\Configure::write('Error', ['errorLevel' => E_ALL ^ E_USER_DEPRECATED]);
 Cake\Core\Configure::write('debug', true);
 
-$TMP = new \Cake\Filesystem\Folder(TMP);
-$TMP->create(TMP . 'cache/models', 0777);
-$TMP->create(TMP . 'cache/persistent', 0777);
-$TMP->create(TMP . 'cache/views', 0777);
+function ensureDirectoryExists(string $path): void
+{
+    if (!is_dir($path)) {
+        mkdir($path, 0777, true);
+    }
+}
+
+ensureDirectoryExists(TMP . 'cache/models');
+ensureDirectoryExists(TMP . 'cache/persistent');
+ensureDirectoryExists(TMP . 'cache/views');
 
 $cache = [
     'default' => [
         'engine' => 'File',
     ],
-    '_cake_core_' => [
+    '_cake_translations_' => [
         'className' => 'File',
         'prefix' => 'search_myapp_cake_core_',
         'path' => CACHE . 'persistent/',
@@ -83,3 +88,21 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
     'url' => getenv('db_dsn'),
     'timezone' => 'UTC',
 ]);
+
+// Create test database schema
+use Cake\TestSuite\Fixture\SchemaLoader;
+
+if (env('FIXTURE_SCHEMA_METADATA')) {
+    $loader = new SchemaLoader();
+    $loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
+}
+
+$error = [
+    'errorLevel' => E_ALL,
+    'skipLog' => [],
+    'log' => true,
+    'trace' => true,
+    'ignoredDeprecationPaths' => [],
+];
+(new Cake\Error\ErrorTrap($error))->register();
+// (new Cake\Error\ExceptionTrap($error))->register();

@@ -34,7 +34,7 @@ class FilterComponentTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
         'plugin.PlumSearch.Tags',
         'plugin.PlumSearch.ArticlesTags',
@@ -50,10 +50,8 @@ class FilterComponentTest extends TestCase
 
     /**
      * Component
-     *
-     * @var \PlumSearch\Controller\Component\FilterComponent
      */
-    public $Component;
+    public \PlumSearch\Controller\Component\FilterComponent $Component;
 
     /**
      * setUp method
@@ -63,8 +61,10 @@ class FilterComponentTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
-            ->setMethods(['redirect'])
+        $request = new ServerRequest();
+        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->onlyMethods(['redirect'])
+            ->setConstructorArgs([$request])
             ->getMock();
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
@@ -87,7 +87,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testParameters()
+    public function testParameters(): void
     {
         $input = $this->Component->parameters();
         $this->assertTrue($input instanceof ParameterRegistry);
@@ -98,7 +98,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testAddParam()
+    public function testAddParam(): void
     {
         $this->Component->addParam('name', ['className' => 'Input']);
         $input = $this->Component->parameters()->get('name');
@@ -110,12 +110,12 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testRemoveParam()
+    public function testRemoveParam(): void
     {
         $this->Component->addParam('name', ['className' => 'Input']);
         $this->Component->removeParam('name');
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unknown object "name"');
+        $this->expectExceptionMessage('Unknown object `name`');
         $input = $this->Component->parameters()->get('name');
         $this->assertNull($input);
     }
@@ -125,13 +125,12 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testPrgPost()
+    public function testPrgPost(): void
     {
-        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
-            ->setMethods(['redirect'])
-            ->getMock();
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->Controller->setRequest(new ServerRequest([
+        $request = new ServerRequest([
+            'environment' => [
+                'REQUEST_METHOD' => 'POST',
+            ],
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -140,7 +139,12 @@ class FilterComponentTest extends TestCase
             'post' => [
                 'username' => 'admin',
             ],
-        ]));
+        ]);
+        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->onlyMethods(['redirect'])
+            ->setConstructorArgs([$request])
+            ->getMock();
+        $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->Controller->setResponse(new Response());
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
@@ -157,7 +161,7 @@ class FilterComponentTest extends TestCase
             ->method('redirect')
             ->with($redirectExpectation)
             ->will($this->returnValue($this->Controller->getResponse()));
-        $table = TableRegistry::get('Articles');
+        $table = TableRegistry::getTableLocator()->get('Articles');
         $this->Component->prg($table);
     }
 
@@ -166,11 +170,14 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testPrgPostWithOtherFormName()
+    public function testPrgPostWithOtherFormName(): void
     {
         unset($this->Controller);
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $request = new ServerRequest([
+            'environment' => [
+                'REQUEST_METHOD' => 'POST',
+            ],
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -183,9 +190,9 @@ class FilterComponentTest extends TestCase
             ],
         ]);
         $response = new Response();
-        $this->Controller = $this->getMockBuilder('PlumSearch\Test\App\Controller\ArticlesController')
-            ->setMethods(['redirect'])
-            ->setConstructorArgs([$request, $response, 'Articles'])
+        $this->Controller = $this->getMockBuilder(\PlumSearch\Test\App\Controller\ArticlesController::class)
+            ->onlyMethods(['redirect'])
+            ->setConstructorArgs([$request, 'Articles'])
             ->getMock();
 
         $redirectExpectation = [
@@ -207,10 +214,13 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testPrgGet()
+    public function testPrgGet(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = new ServerRequest([
+            'environment' => [
+                'REQUEST_METHOD' => 'GET',
+            ],
             'webroot' => '/dir/',
             'params' => [
                 'action' => 'index',
@@ -221,10 +231,10 @@ class FilterComponentTest extends TestCase
             ],
         ]);
         $this->Controller->setRequest($request);
-        $this->Controller = new ArticlesController($request, new Response());
+        $this->Controller = new ArticlesController($request);
         $this->Controller->index();
 
-        $this->assertEquals(count($this->Controller->viewBuilder()->getVar('articles')), 1);
+        $this->assertEquals(is_countable($this->Controller->viewBuilder()->getVar('articles')) ? count($this->Controller->viewBuilder()->getVar('articles')) : 0, 1);
         $article = $this->Controller->viewBuilder()->getVar('articles')->toArray()[0];
         $this->assertEquals($article->id, 3);
     }
@@ -234,20 +244,26 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testValues()
+    public function testValues(): void
     {
         $this->assertEquals($this->Component->values(), []);
 
-        $this->Controller = $this->getMockBuilder('Cake\Controller\Controller')
-            ->setMethods(['redirect'])
-            ->getMock();
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $this->Controller->setRequest(new ServerRequest([
+        $request = new ServerRequest([
+            'environment' => [
+                'REQUEST_METHOD' => 'GET',
+            ],
             'webroot' => '/dir/',
             'query' => [
                 'username' => 'admin',
             ],
-        ]));
+        ]);
+        // $command = $this->createPartialMock(\Cake\Controller\Controller::class, ['redirect']);
+
+        $this->Controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->onlyMethods(['redirect'])
+            ->setConstructorArgs([$request])
+            ->getMock();
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $registry = new ComponentRegistry($this->Controller);
         $this->Component = new FilterComponent($registry);
         $this->Component->addParam('username', ['className' => 'Input']);
@@ -260,7 +276,7 @@ class FilterComponentTest extends TestCase
      *
      * @return void
      */
-    public function testController()
+    public function testController(): void
     {
         $this->assertEquals($this->Component->controller(), $this->Controller);
     }

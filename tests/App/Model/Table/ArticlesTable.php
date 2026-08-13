@@ -13,7 +13,8 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
+use PlumSearch\Model\Behavior\FilterableTrait;
 
 /**
  * Articles Table
@@ -25,6 +26,8 @@ use Cake\ORM\Query;
  */
 class ArticlesTable extends \Cake\ORM\Table
 {
+    use FilterableTrait;
+
     /**
      * Initialize method
      *
@@ -43,9 +46,7 @@ class ArticlesTable extends \Cake\ORM\Table
         // $this->addFilter('language', ['className' => 'Value']);
         $this->addFilter('author_id', ['className' => 'Value']);
 
-        $this->belongsTo('Authors', [
-            'foreignKey' => 'author_id',
-        ]);
+        $this->belongsTo('Authors')->setForeignKey('author_id');
     }
 
     /**
@@ -54,7 +55,7 @@ class ArticlesTable extends \Cake\ORM\Table
      * @param  Query $query query object instance
      * @return $this
      */
-    public function findWithAuthors(Query $query)
+    public function findWithAuthors(SelectQuery $query)
     {
         return $query->matching('Authors');
     }

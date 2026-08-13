@@ -27,11 +27,7 @@ class ArticlesTagsTable extends \Cake\ORM\Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Articles', [
-            'foreignKey' => 'article_id',
-        ]);
-        $this->belongsTo('Tags', [
-            'foreignKey' => 'tag_id',
-        ]);
+        $this->belongsTo('Articles')->setForeignKey('article_id');
+        $this->belongsTo('Tags')->setForeignKey('tag_id');
     }
 }

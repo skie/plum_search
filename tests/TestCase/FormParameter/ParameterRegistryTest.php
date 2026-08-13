@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\TestCase\FormParameter;
 
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use PlumSearch\FormParameter\Exception\MissingParameterException;
 use PlumSearch\FormParameter\InputParameter;
@@ -27,10 +28,7 @@ use RuntimeException;
  */
 class ParameterRegistryTest extends TestCase
 {
-    /**
-     * @var \PlumSearch\FormParameter\ParameterRegistry
-     */
-    protected $ParameterRegistry;
+    protected \PlumSearch\FormParameter\ParameterRegistry $ParameterRegistry;
 
     /**
      * setUp method
@@ -40,8 +38,10 @@ class ParameterRegistryTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $controller = $this->getMockBuilder('Cake\Controller\Controller')
-            ->setMethods(['redirect'])
+        $request = new ServerRequest();
+        $controller = $this->getMockBuilder(\Cake\Controller\Controller::class)
+            ->onlyMethods(['redirect'])
+            ->setConstructorArgs([$request])
             ->getMock();
         $this->ParameterRegistry = new ParameterRegistry($controller);
     }
@@ -62,7 +62,7 @@ class ParameterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoad()
+    public function testLoad(): void
     {
         $type = $this->ParameterRegistry->load('id', ['className' => 'Input']);
         $this->assertTrue($type instanceof InputParameter);
@@ -75,7 +75,7 @@ class ParameterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoadWrongClass()
+    public function testLoadWrongClass(): void
     {
         $this->expectException(MissingParameterException::class);
         $this->ParameterRegistry->load('name1', ['className' => 'Input2']);
@@ -86,7 +86,7 @@ class ParameterRegistryTest extends TestCase
      *
      * @return void
      */
-    public function testLoadTwice()
+    public function testLoadTwice(): void
     {
         $this->ParameterRegistry->load('name', ['className' => 'Input']);
         $this->expectException(RuntimeException::class);

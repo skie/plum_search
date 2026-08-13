@@ -10,7 +10,7 @@ Plugin implements highly configurable search strategy.
 
 ### What is this plugin for?
 
-This plugin implements custom, flexible search with multiple ways of search configuration for cakephp 3.*
+This plugin implements custom, flexible search with multiple ways of search configuration.
 Plugin provides search support on tables, controllers and templates layers.
 
 ### Provided features
@@ -19,6 +19,16 @@ Plugin provides search support on tables, controllers and templates layers.
 - Pre-build logic for autocomplete generation.
 - Easy to inject into your project.
 
-## Installation & Docs
 
-- [Documentation](docs/README.md)
+## Requirements
+
+* PHP 8.2+
+
+## Documentation
+
+For documentation, as well as tutorials, see the [docs](docs/index.md) directory of this repository.
+
+## License
+
+Licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php) License. Redistributions of the source code included in this repository must retain the copyright notice found in each file.
+

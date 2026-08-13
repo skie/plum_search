@@ -1,11 +1,11 @@
 ## Filter Registry
 
-FilterRegistry implements filters collection management. FilterRegistry class extends CakePHP ObjectRegistry class.
+FilterRegistry implements filter’s collection management. FilterRegistry class extends CakePHP ObjectRegistry class.
 
 ## FilterableBehavior
 
 Behavior provides search filters collection management and building final search query based on search data.
-Collection management done based on FilterRegistry class that extends CakePHP ObjectRegistry class.
+Collection management done based on the FilterRegistry class that extends CakePHP ObjectRegistry class.
 
 ### Provided methods
 
@@ -48,39 +48,45 @@ Example:
 
 ## Filters
 
-Each filter implements logic how search data transformed into database query.
-Plugin provides some default filters and allow to implements user defined filters.
+Each filter implements logic on how search data is transformed into database query.
+Plugin provides some default filters and allows you to implement user defined filters.
 
-Each filter have next configuration parameters.
+Each filter has the following configuration parameters.
 
-* **name** - required parameter that define filter name, and used as key for search data.
-* **field** - optional parameter that define query tables field for searching. Default equal to filter's **name** parameter.
+* **name** — the required parameter that defines the filter name, and used as key for search data.
+* **field** -the optional parameter that defines the query tables field for searching. Default equal to filter's **name** parameter.
 
 ###  Naming conventions
 
-Filter classes should located in Model/Filter folder and has Filter as a suffix of class name.
+Filter classes should be located in the Model/Filter folder and have Filter as a suffix of class name.
 
 ### Value Filter
 
-Value filter is most simple filter that provide exact comparison of input data.
+Value filter is the most simple filter that provides exact comparison of input data.
 
 ### Like Filter
 
-Like filter use LIKE operation comparison for input data.
+The Like filter use LIKE operation comparison for input data.
+
+### Range Filter
+
+The Range filter uses a pair of values to build range operation comparison for input data.
 
 ### Multiple Filter
 
-Multiple filter allow to search against multiple fields for same input.
+The Multiple filter allows searching against multiple fields for the same input.
 
 ### Custom Filter
 
-Like filter provides easy way to inject custom query filters.
+The Like filter provides an easy way to inject custom query filters.
 
 ### User's filter creation
 
-It is possible to implements filters that incorporate application-wide logic.
-Additionally it is possible to define additional configuration parameters passed to such filter.
+It is possible to implement filters that incorporate application-wide logic.
+Additionally it is possible to define additional configuration parameters passed to the such filter.
 
-One can think that such filters is same as Custom Filters described in previous paragraph, but there is important difference. Custom filters allow to easily define table's level finder, and User's generic filter allow o define filters application wide, and also define own parameters that passed to filters during initialization.
+One can think that such filters are the same as Custom Filters described in the previous paragraph, but there is an important difference. Custom filters allow to easily define table's level finder, and User's generic filter allow to define filters application wide, and also define own parameters that passed to filters during initialization.
 
-For example if we have ```tags``` an ```taggable``` tables in the application and have multiple models that could be tagged then we can implement custom class TagsFilters with defined **\_apply** method that implements custom logic how query should generated.
+For example if we have ```tags``` an ```taggable``` tables in the application and have multiple models that could be tagged then we can implement custom class TagsFilters with defined **\_apply** method that implements custom logic for how a query should be generated.
+
+

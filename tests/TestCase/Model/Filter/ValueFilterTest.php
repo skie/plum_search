@@ -25,24 +25,15 @@ use PlumSearch\Model\FilterRegistry;
  */
 class ValueFilterTest extends TestCase
 {
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
     ];
 
-    /**
-     * @var \Cake\ORM\Table
-     */
-    protected $Table;
+    protected \Cake\ORM\Table $Table;
 
-    /**
-     * @var FilterRegistry
-     */
-    protected $FilterRegistry;
+    protected \PlumSearch\Model\FilterRegistry $FilterRegistry;
 
-    /**
-     * @var \PlumSearch\Model\Filter\AbstractFilter
-     */
-    protected $ValueFilter;
+    protected \PlumSearch\Model\Filter\ValueFilter $ValueFilter;
 
     /**
      * setUp method
@@ -75,7 +66,7 @@ class ValueFilterTest extends TestCase
      *
      * @return void
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $this->expectException(MissingFilterException::class);
         $this->ValueFilter = new ValueFilter($this->FilterRegistry, ['field' => 'id']);
@@ -86,12 +77,12 @@ class ValueFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApply()
+    public function testApply(): void
     {
         $query = $this->Table->find('all');
         $this->ValueFilter->apply($query, ['id' => 1]);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 
@@ -107,7 +98,7 @@ class ValueFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApplyWithFieldDefined()
+    public function testApplyWithFieldDefined(): void
     {
         $query = $this->Table->find('withAuthors');
 
@@ -121,7 +112,7 @@ class ValueFilterTest extends TestCase
             'author_name' => 'larry',
         ]);
         $store = null;
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
 
@@ -135,17 +126,17 @@ class ValueFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApplyArray()
+    public function testApplyArray(): void
     {
         $query = $this->Table->find('all');
         $this->ValueFilter->apply($query, ['id' => [1, 2]]);
         $store = null;
 
-        $query->traverseParts(function ($d, $type) use (&$store) {
+        $query->traverseParts(function ($d, $type) use (&$store): void {
             $store = $d;
         }, ['where']);
         $binder = $query->getValueBinder();
-        $this->assertEquals($store->sql($binder), 'Articles.id in (:c0,:c1)');
+        $this->assertEquals($store->sql($binder), 'Articles.id IN (:c0,:c1)');
         $this->assertEquals(Hash::get($binder->bindings(), ':c0.value'), '1');
         $this->assertEquals(Hash::get($binder->bindings(), ':c1.value'), '2');
     }

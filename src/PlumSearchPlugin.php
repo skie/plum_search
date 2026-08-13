@@ -9,10 +9,10 @@ use Cake\Core\PluginApplicationInterface;
 /**
  * Plugin for PlumSearch
  */
-class Plugin extends BasePlugin
+class PlumSearchPlugin extends BasePlugin
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function bootstrap(PluginApplicationInterface $app): void
     {

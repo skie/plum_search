@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 namespace PlumSearch\Test\TestCase\Model\Filter;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use PlumSearch\Model\Filter\CustomFilter;
@@ -25,19 +25,13 @@ use PlumSearch\Model\FilterRegistry;
  */
 class CustomFilterTest extends TestCase
 {
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.PlumSearch.Articles',
     ];
 
-    /**
-     * @var Table
-     */
-    protected $Table;
+    protected \Cake\ORM\Table $Table;
 
-    /**
-     * @var FilterRegistry
-     */
-    protected $FilterRegistry;
+    protected \PlumSearch\Model\FilterRegistry $FilterRegistry;
 
     /**
      * setUp method
@@ -47,20 +41,15 @@ class CustomFilterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->Table = TableRegistry::get('Articles');
+        $this->Table = TableRegistry::getTableLocator()->get('Articles');
         $this->FilterRegistry = new FilterRegistry($this->Table);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => function ($query, $data): Query {
-                return $query;
-            },
+            'method' => fn($query, $data): SelectQuery => $query,
         ]);
     }
 
-    /**
-     * @var CustomFilter
-     */
-    protected $CustomFilter;
+    protected \PlumSearch\Model\Filter\CustomFilter $CustomFilter;
 
     /**
      * tearDown method
@@ -78,7 +67,7 @@ class CustomFilterTest extends TestCase
      *
      * @return void
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $this->expectException(MissingFilterException::class);
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, ['name' => 'id']);
@@ -89,24 +78,22 @@ class CustomFilterTest extends TestCase
      *
      * @return void
      */
-    public function testApply()
+    public function testApply(): void
     {
         $this->CustomFilter = new CustomFilter($this->FilterRegistry, [
             'name' => 'id',
-            'method' => function ($query, $field, $value, $data, $config): Query {
-                return $query
-                    ->where([
-                        'OR' => [
-                            'title LIKE' => $value,
-                            'decription LIKE ' => $value,
-                        ],
-                    ]);
-            },
+            'method' => fn($query, $field, $value, $data, $config): SelectQuery => $query
+                ->where([
+                    'OR' => [
+                        'title LIKE' => $value,
+                        'decription LIKE ' => $value,
+                    ],
+                ]),
         ]);
 
         $query = $this->Table->find('all');
         $this->CustomFilter->apply($query, ['id' => 1]);
 
-        $this->assertRegExp('/WHERE \(title like :c0 OR decription like :c1\)/', $query->sql());
+        $this->assertMatchesRegularExpression('/WHERE \(title LIKE :c0 OR decription LIKE :c1\)/', $query->sql());
     }
 }

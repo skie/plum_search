@@ -1,4 +1,12 @@
 parameters:
-    level: 5
-    autoload_files:
+    level: 8
+    bootstrapFiles:
         - tests/bootstrap.php
+    ignoreErrors:
+        -
+            identifier: missingType.generics
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: trait.unused
+            path: src/Controller/AutocompleteTrait.php
